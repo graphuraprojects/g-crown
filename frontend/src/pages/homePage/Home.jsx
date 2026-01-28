@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Updated
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify"; // Added
 import "react-toastify/dist/ReactToastify.css"; // Added
-import { allProducts } from "../../assets/MockData";
+// import { allProducts } from "../../assets/MockData";
 import ProductCard from "../../components/products/ProductCard";
 import { useSearchParams } from "react-router-dom";
 // Assets
@@ -19,6 +19,7 @@ import WomenImg from "../../assets/homePage/Women.png";
 import MenImg from "../../assets/homePage/Men.png";
 import KidImg from "../../assets/homePage/Kids.png";
 import Necklace from "../../assets/homePage/necklace.png";
+import { ProductContext } from "../../context/ProductContext.jsx"; 
 
 import gridImg from '../../assets/homePage/homeGrid.png'
 
@@ -131,15 +132,25 @@ const SectionHeader = ({ title, subtitle }) => (
 );
 
 // Featured products - bestsellers
-const featuredProducts = allProducts.filter((p) => p.bestseller).slice(0, 6);
+
 
 export default function HomeMain() {
-const [searchParams, setSearchParams] = useSearchParams();
+
+   const { products } = useContext(ProductContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // const featuredProducts = products
+  //   .filter(p => p.bestseller)
+  //   .slice(0, 6);
+
+  const featuredProducts = products ? products.slice(0, 6) : [];
+
+
 
   useEffect(() => {
     // Check if the URL has ?welcome=true
     if (searchParams.get("welcome") === "true") {
-      
+
       // Trigger the welcome notification
       toast("Welcome to G-Crown websit", {
         duration: 5000,
@@ -150,8 +161,8 @@ const [searchParams, setSearchParams] = useSearchParams();
         draggable: true,
         progress: undefined,
         theme: "colored",
-        
-        style: { 
+
+        style: {
           backgroundColor: '#08221B', // Your Brand Green
           color: '#CBA135', // Your Brand Gold
           fontFamily: 'Cormorant Garamond, serif'
@@ -178,13 +189,13 @@ const [searchParams, setSearchParams] = useSearchParams();
         draggable: true,
         // progress: undefined,
         theme: "colored",
-        style: { 
+        style: {
           backgroundColor: '#08221B', // Your Brand Green
           color: '#CBA135', // Your Brand Gold
           fontFamily: 'Cormorant Garamond, serif'
         },
       });
-      
+
       // Clear the state so the toast doesn't reappear on manual refresh
       window.history.replaceState({}, document.title);
     }
@@ -207,7 +218,7 @@ const [searchParams, setSearchParams] = useSearchParams();
 
   const goToPrevious = () => {
     setCurrentTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-    
+
   };
 
   const currentTestimonialData = TESTIMONIALS[currentTestimonial];
@@ -472,9 +483,9 @@ const [searchParams, setSearchParams] = useSearchParams();
             <h2 className="font-cormorant text-4xl md:text-5xl font-bold text-[#E6C36A] leading-tight mb-8">
               Elevate Your Elegance <br /> with G-Crown Jewellers
             </h2>
-            <button className="px-10 py-4 bg-gradient-to-r from-[#C9A14A] via-[#E6C36A] to-[#B8903D] text-[#08221B] font-bold text-xl rounded-lg hover:scale-105 transition-transform shadow-xl" onClick={()=>{
-                  navigate("/target");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+            <button className="px-10 py-4 bg-gradient-to-r from-[#C9A14A] via-[#E6C36A] to-[#B8903D] text-[#08221B] font-bold text-xl rounded-lg hover:scale-105 transition-transform shadow-xl" onClick={() => {
+              navigate("/target");
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}>
               Contact Us
             </button>

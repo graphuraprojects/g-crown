@@ -1,32 +1,68 @@
-import React, { useMemo } from "react";
-import { allProducts } from "../../assets/MockData";
+import React, { useMemo, useContext } from "react";
 import CollectionPage from "../../components/collections/CollectionPage";
+import { ProductContext } from "../../context/ProductContext";
 
 const EngagementRings = () => {
-  // Filter for Engagement Rings: Diamond rings, solitaire, halo, or engagement-style rings
+  const { products } = useContext(ProductContext);
+
+  const engagementKeys = [
+    "solitaire",
+    "halo",
+    "royal",
+    "crown",
+    "emerald",
+    "sapphire",
+    "princess",
+    "oval",
+    "pear",
+    "round",
+    "proposal",
+    "engagement"
+  ];
+
   const engagementRings = useMemo(() => {
-    return allProducts.filter((product) => {
-      if (product.category !== "Rings") return false;
-      
-      const name = product.name.toLowerCase();
-      const material = product.material?.toLowerCase() || "";
-      
-      // Engagement rings typically have:
-      // - Diamond in material or name
-      // - Solitaire, Halo, Royal, Crown in name
-      // - Higher price point (engagement rings are usually premium)
-      return (
+    if (!products) return [];
+
+    return products.filter(product => {
+      if (!product) return false;
+
+      const category = product.category?.toLowerCase() || "";
+      const collection = product.productCollection?.toLowerCase() || "";
+      const name = product.name?.toLowerCase() || "";
+
+      const gemstone = product.attributes?.gemstone?.toLowerCase() || "";
+      const material = product.attributes?.material?.toLowerCase() || "";
+      const purity = (product.attributes?.purity || [])
+        .join(",")
+        .toLowerCase();
+
+      // Backend collection match
+      if (collection.includes("engagement") || collection.includes("solitaire")) {
+        return true;
+      }
+
+      // Only rings for engagement category
+      if (category !== "rings") return false;
+
+      const hasGemstone =
+        gemstone.includes("diamond") ||
+        gemstone.includes("emerald") ||
+        gemstone.includes("sapphire") ||
+        gemstone.includes("ruby");
+
+      const hasMaterial =
+        material.includes("platinum") ||
+        material.includes("white gold") ||
         material.includes("diamond") ||
-        name.includes("solitaire") ||
-        name.includes("halo") ||
-        name.includes("royal") ||
-        name.includes("crown") ||
-        name.includes("emerald") ||
-        name.includes("sapphire") ||
-        (product.material === "Diamond Jewelry" || product.material === "Platinum" || product.material === "White Gold")
+        material.includes("rose gold");
+
+      const hasKeyword = engagementKeys.some(k =>
+        name.includes(k)
       );
+
+      return hasGemstone || hasMaterial || hasKeyword;
     });
-  }, []);
+  }, [products]);
 
   return (
     <CollectionPage

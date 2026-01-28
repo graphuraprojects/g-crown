@@ -17,7 +17,6 @@ const CollectionPage = ({
   products = [],
 }) => {
 
-  console.log(products)
   const MIN_LIMIT = 2500;
   const MAX_LIMIT = 600000;
 

@@ -63,8 +63,6 @@ const Users = () => {
   const fetchUsers = async () => {
     const apiResponse = await axiosGetService("/admin/auth/getemployee");
 
-    console.log("API:", apiResponse);
-
     // Correct logic
     if (!apiResponse.ok) {
       showToast(apiResponse.data.message || "Failed to load users", "error");

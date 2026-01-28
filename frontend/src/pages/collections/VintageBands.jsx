@@ -1,32 +1,39 @@
-import React, { useMemo } from "react";
-import { allProducts } from "../../assets/MockData";
+import React, { useMemo, useContext } from "react";
 import CollectionPage from "../../components/collections/CollectionPage";
+import { ProductContext } from "../../context/ProductContext";
 
 const VintageBands = () => {
-  // Filter for Vintage Bands: Antique, heritage, classic, vintage styles
+  const { products } = useContext(ProductContext);
+
+  const vintageKeys = [
+    "vintage",
+    "antique",
+    "heritage",
+    "classic",
+    "royal",
+    "temple",
+    "traditional"
+  ];
+
   const vintageBands = useMemo(() => {
-    return allProducts.filter((product) => {
-      if (product.category !== "Rings") return false;
-      
-      const name = product.name.toLowerCase();
-      
-      // Vintage bands typically have:
-      // - Vintage, Antique, Heritage, Classic in name
-      // - Traditional or timeless designs
+    if (!products) return [];
+
+    return products.filter(p => {
+      if (!p) return false;
+
+      const col = p.productCollection?.toLowerCase() || "";
+      const name = p.name?.toLowerCase() || "";
+      const category = p.category?.toLowerCase() || "";
+
       return (
-        name.includes("vintage") ||
-        name.includes("antique") ||
-        name.includes("heritage") ||
-        name.includes("classic") ||
-        name.includes("traditional") ||
-        name.includes("elegant") ||
-        name.includes("infinity") ||
-        name.includes("royal") ||
-        name.includes("mahal") ||
-        name.includes("temple")
+        vintageKeys.some(k => col.includes(k)) ||
+        (
+          category === "rings" &&
+          vintageKeys.some(k => name.includes(k))
+        )
       );
     });
-  }, []);
+  }, [products]);
 
   return (
     <CollectionPage

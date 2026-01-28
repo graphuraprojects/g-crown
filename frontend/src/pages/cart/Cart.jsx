@@ -3,43 +3,70 @@ import { useNavigate, Link } from "react-router-dom";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../../context/CartContext";
+import { axiosPostService } from "../../services/axios";
 
 export default function Cart() {
   const navigate = useNavigate();
   const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } = useCart();
 
   const [couponInput, setCouponInput] = useState("");
+  const [activeCoupon, setActiveCoupon] = useState(null);
   const [discountPercent, setDiscountPercent] = useState(0);
+  const [appliedCoupons, setAppliedCoupons] = useState([]);
   const [couponError, setCouponError] = useState("");
 
   const { subtotal, shipping, discountAmount, total, itemsCount } = useMemo(() => {
-    const sub = getCartTotal();
-    const ship = sub > 0 ? 12.00 : 0;
-    const disc = sub * (discountPercent / 100);
-    const count = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    const original = getCartTotal();
+    let discounted = original;
+
+    // Apply coupons sequentially
+    appliedCoupons.forEach(c => {
+      discounted = discounted - (discounted * (c.percent / 100));
+    });
+
+    const ship = discounted > 0 ? 12.00 : 0;
 
     return {
-      subtotal: sub,
+      subtotal: original,
       shipping: ship,
-      discountAmount: disc,
-      total: (sub + ship) - disc,
-      itemsCount: count
+      discountAmount: original - discounted,
+      total: discounted + ship,
+      itemsCount: cartItems.reduce((acc, item) => acc + item.quantity, 0)
     };
-  }, [cartItems, getCartTotal, discountPercent]);
+  }, [cartItems, appliedCoupons, getCartTotal]);
 
-  const handleApplyCoupon = () => {
-    if (couponInput.trim().toUpperCase() === "SALE10") {
-      setDiscountPercent(10);
-      setCouponError("");
-    } else {
-      setDiscountPercent(0);
-      setCouponError("Invalid Coupon Code");
+
+  const handleApplyCoupon = async () => {
+    const code = couponInput.trim().toUpperCase();
+    if (!code) return;
+
+    setCouponError("");
+
+    // Don't allow duplicate coupons
+    if (appliedCoupons.find(c => c.code === code)) {
+      setCouponError(`${code} already applied`);
+      return;
+    }
+
+    try {
+      const apiResponse = await axiosPostService("/customer/subscribe&coupon/useCoupon", { code });
+
+      if (!apiResponse.ok) {
+        setCouponError(apiResponse.data?.message || "Invalid Coupon");
+        return;
+      }
+
+      const percent = apiResponse.data.data;
+
+      setAppliedCoupons(prev => [...prev, { code, percent }]);
+      setCouponInput("");
+
+    } catch (err) {
+      setCouponError(err.response?.data?.message || "Coupon Error");
     }
   };
 
   const handleConfirmOrder = () => {
-
-    // ⛔ CHECK STOCK BEFORE CHECKOUT
     const invalidItem = cartItems.find(item => {
       const variant = item.product.variants.find(v => v.purity === item.purity);
       return item.quantity > (variant?.quantity || 0);
@@ -50,13 +77,12 @@ export default function Cart() {
       return;
     }
 
-
     const orderSnapshot = {
       items: cartItems.map(item => ({
         productId: item.product._id,
         name: item.product.name,
         purity: item.purity,
-        price: item.product.variants.price?.sale || 0,
+        price: item.product.variants.find(v => v.purity === item.purity)?.sale || 0,
         quantity: item.quantity,
         productImage: item.product.productImage?.[0],
         category: item.product.category
@@ -65,11 +91,13 @@ export default function Cart() {
       shipping,
       discountAmount,
       total,
-      discountPercent
+      discountPercent,
+      coupon: activeCoupon,
     };
 
     navigate("/checkout", { state: { order: orderSnapshot } });
   };
+
 
   // ---- EMPTY CART ----
   if (cartItems.length === 0) {

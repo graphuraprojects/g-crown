@@ -98,7 +98,7 @@ const getAllItem = async (req, res) => {
 
 const updateQuantity = async (req, res) => {
     try {
-        const { productId, variants } = req.body;
+        const { productId, variants, status } = req.body;
 
         if (!req.user.role) {
             return res.status(401).json(new ApiError(401, "Not Auth"));
@@ -118,6 +118,7 @@ const updateQuantity = async (req, res) => {
         }
 
         product.variants = variants;
+        product.status = status
 
         const totalQty = variants.reduce((sum, v) => sum + (v.quantity || 0), 0);
         product.stockStatus = totalQty > 0 ? "In Stock" : "Out of Stock";

@@ -77,7 +77,6 @@ const Products = () => {
     if (window.confirm("Delete this product permanently?")) {
       const apiResponse = await axiosDeleteService(`/admin/product/harddelete?productId=${productId}`);
       if (!apiResponse.ok) {
-        console.log(apiResponse)
         alert(apiResponse.data.message || "Product not delete.")
         return
       }

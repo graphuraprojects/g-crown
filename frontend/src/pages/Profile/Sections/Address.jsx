@@ -119,7 +119,6 @@ const handleDelete = async (id) => {
     <div className="flex gap-6 text-[13px] font-medium mt-1">
    <button
   onClick={() => {
-    console.log("Edit clicked", item._id);   // test
     setEditingId(item._id);
     setFirstName(item.firstName);
     setLastName(item.lastName);

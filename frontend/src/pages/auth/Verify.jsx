@@ -12,7 +12,7 @@ export default function Verify() {
 
   let location = useLocation();
 
-  let { path, client, otp} = location.state || {};
+  let { path, client, otp, role} = location.state || {};
 
   const navigate = useNavigate();
   const inputsRef = useRef([]);
@@ -21,6 +21,16 @@ export default function Verify() {
 
   const [emailOtp, setEmailOtp] = useState(otp);
   const [enterOtp, setEnterOtp] = useState()
+
+   const otpTimer = () => {
+    setTimeout(() => {
+      setEmailOtp("")
+    },5*60*1000)
+  }
+
+  useEffect(() => {
+    otpTimer();
+  })
 
 
   useEffect(() => {
@@ -52,6 +62,7 @@ export default function Verify() {
     setIsLoading(true);
 
     if (emailOtp !== enterOtp) {
+      setIsLoading(false);
       return alert("Incorrect Otp");
     }
     else {
@@ -67,7 +78,7 @@ export default function Verify() {
         setIsLoading(false);
         // REDIRECT TO COMING SOON
         if(role === "admin"){
-          navigate("/admin");
+          navigate("/admin/dashboard");
         }
         else{navigate("/coming-soon");}
       }, 1500);

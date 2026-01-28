@@ -90,8 +90,6 @@ const PersonalInfo = () => {
         else {
           let profileData = apiResponse.data.data;
 
-          console.log(profileData)
-
           setEmail(profileData.email);
           setContact(profileData.contact);
           setFirstName(profileData.firstName);

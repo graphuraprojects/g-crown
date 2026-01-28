@@ -111,15 +111,16 @@ const changePassword = async (req, res) => {
 const UpdateProfile = async (req, res) => {
     try {
         const { firstName, lastName, contact, gender } = req.body;
+        console.log(req.body)
         const { _id } = req.user;
 
         const updateData = {};
 
         let userDetail = await auth_Model.findById(_id);
 
-        if(userDetail.contact){
-            return res.status(401).json(new ApiError(401, "Duplicate Contact."));
-        }
+        // if(userDetail.contact){
+        //     return res.status(401).json(new ApiError(401, "Duplicate Contact."));
+        // }
 
         if (userDetail.profileImage) {
             await deleteFromCloudinary(userDetail.profileImage);

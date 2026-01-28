@@ -31,7 +31,6 @@ const SignIn = () => {
 
       const apiResponse = await axiosPostService("/customer/auth/googleLogin", { token });
 
-      console.log(apiResponse);
       if (!apiResponse.ok) {
         alert(apiResponse.data.message || "SignIn Failed");
       }

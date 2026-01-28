@@ -14,6 +14,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     description: "",
     price: { mrp: "", sale: "" },
     stockStatus: "In Stock",
+    status: false,
     attributes: {
       purity: [],
       gemstone: "",
@@ -155,6 +156,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
       const apiQuantityResponse = await axiosPutService("/admin/product/quantity", {
         productId: product._id,
         variants: cleanedVariants,
+        status: formData.status
       });
 
       if (!apiPriceResponse.ok) {
@@ -173,8 +175,9 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     fd.append("brand", formData.brand);
     fd.append("sku", formData.sku);
     fd.append("description", formData.description);
-    fd.append("additionalInfo", formData.additionalInfo)
+    fd.append("additionalInfo", formData.additionalInfo);
     fd.append("stockStatus", formData.stockStatus);
+    fd.append("status", formData.status);
     fd.append("price", JSON.stringify(formData.price));
     fd.append("attributes", JSON.stringify(formData.attributes));
     fd.append("variants", JSON.stringify(cleanedVariants));
@@ -522,6 +525,18 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={formData.status}
+              onChange={(e) =>
+                setFormData(prev => ({ ...prev, status: e.target.checked }))
+              }
+              className="w-4 h-4 cursor-pointer"
+            />
+            <label className="text-sm font-medium text-gray-700">Status</label>
           </div>
 
           {/* --- Actions --- */}

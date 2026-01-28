@@ -62,7 +62,6 @@ const AdminSignIn = () => {
       const apiResponse = await axiosPostService("/admin/auth/login", adminData);
 
       if (!apiResponse.ok) {
-        console.log(apiResponse)
         alert(apiResponse.data.message || "Invalid credentials provided.");
         return
       } else {
@@ -116,11 +115,9 @@ const AdminSignIn = () => {
           securityKey: formData.securityKey
         }
 
-        console.log(adminData)
         const apiResponse = await axiosPutService("/admin/auth/forgetPassword", adminData);
 
         if (!apiResponse.ok) {
-          console.log(apiResponse)
           alert(apiResponse.data.message || "Password Not Change.");
           return
         } else {

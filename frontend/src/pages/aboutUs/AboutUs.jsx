@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import heroImg from "../../assets/aboutUs/heroImage.png";
 import earRing from "../../assets/aboutUs/earRing.png";
+import { axiosPostService } from "../../services/axios";
 
 const GCrownJewellerySection = () => {
+
+  const [email, setEmail] = useState("");
+
+  const subscribe = async(e) => {
+    e.preventDefault();
+
+    try{
+      const apiResponse = await axiosPostService("/customer/subscribe&coupon/subscribe", {email});
+
+      if(!apiResponse.ok){
+        alert(apiResponse.data.message || "Failed");
+        return
+      }
+
+      alert(apiResponse.data.message);
+      setEmail("")
+    }
+    catch(err){
+      console.log(err.message);
+      return
+    }
+  }
+
   return (
     <div className="bg-[#fff8e8] font-cormorant selection:bg-[#0F241A] selection:text-[#EFDFB7] overflow-x-hidden">
       
@@ -112,10 +136,14 @@ const GCrownJewellerySection = () => {
               placeholder="Enter Email Address"
               required
               className="w-full bg-white px-8 py-4 text-lg text-[#0F241A] placeholder:text-[#8A8A8A] outline-none font-sans"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <button
               type="submit"
               className="bg-[#C9A24D] ml-2 border-y-2 border-x-2 border-amber-50 px-12 py-4 text-sm font-bold uppercase tracking-widest text-[#0F241A] transition-all hover:bg-[#D8B45A] hover:shadow-lg active:scale-[0.98]"
+              onClick={(e) => {
+                subscribe(e)
+              }}
             >
               Subscribe
             </button>

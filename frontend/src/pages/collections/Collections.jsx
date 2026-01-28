@@ -1,36 +1,13 @@
 import React from "react";
-// import { allProducts } from "../../assets/MockData";
 import CollectionPage from "../../components/collections/CollectionPage";
-import { axiosGetService } from "../../services/axios";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useContext } from "react";
+import { ProductContext } from "../../context/ProductContext";
 
 const Collections = () => {
-
-  const [allProducts, setAllProducts] = useState([]);
-
-  useEffect(() => {
-    ;(async () => {
-      const res = await axiosGetService("/customer/product/all");
-
-      if (!res.ok) {
-        console.log(res.data.message || "Failed to load products")
-        return;
-      }
-
-      // backend format: res.data.data = Array(products)
-      const productsArray = res.data.data;
-
-      if (Array.isArray(productsArray)) {
-        setAllProducts(productsArray);
-      } else {
-        setAllProducts([]);
-      }
-    })();
-  }, []);
+const { products } = useContext(ProductContext);
 
 
-  return <CollectionPage title="Collections" products={allProducts} />;
+  return <CollectionPage title="Collections" products={products || []} />;
 };
 
 export default Collections;

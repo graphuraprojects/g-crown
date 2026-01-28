@@ -68,14 +68,11 @@ const AdminSignUp = () => {
 
     setIsLoading(true);
     const email = formData.email
-    console.log(formData);
     
 
     const apiResponse = await axiosPostService("/admin/auth/signupOtp", {email});
 
     if (!apiResponse.ok) {
-      console.log(apiResponse);
-      
       alert(apiResponse.data.message || "Signup Failed");
       setIsLoading(false)
       return
@@ -92,7 +89,8 @@ const AdminSignUp = () => {
           state: {
             path: "/admin/auth/signup", 
             client: formData,           
-            otp: apiResponse.data.data,        
+            otp: apiResponse.data.data,
+            role:"admin"       
           }
         });
 

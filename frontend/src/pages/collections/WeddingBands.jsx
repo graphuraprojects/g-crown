@@ -1,28 +1,35 @@
-import React, { useMemo } from "react";
-import { allProducts } from "../../assets/MockData";
+import React, { useMemo, useContext } from "react";
 import CollectionPage from "../../components/collections/CollectionPage";
+import { ProductContext } from "../../context/ProductContext";
 
 const WeddingBands = () => {
-  // Filter for Wedding Bands: Simple bands, promise rings, or bands in name
+  const { products } = useContext(ProductContext);
+
   const weddingBands = useMemo(() => {
-    return allProducts.filter((product) => {
-      if (product.category !== "Rings") return false;
-      
-      const name = product.name.toLowerCase();
-      
-      // Wedding bands typically:
-      // - Have "Band" in the name
-      // - Are simpler designs (Promise, Infinity, Knot)
-      // - Can be any metal type
+    if (!products) return [];
+
+    return products.filter(product => {
+      if (!product) return false;
+
+      const category = product.category?.toLowerCase() || "";
+      const collection = product.productCollection?.toLowerCase() || "";
+      const name = product.name?.toLowerCase() || "";
+
       return (
-        name.includes("band") ||
-        name.includes("promise") ||
-        name.includes("infinity") ||
-        name.includes("knot") ||
-        name.includes("blush") // Simple band styles
+        collection.includes("wedding-bands") ||     // backend
+        (
+          category === "rings" &&
+          (
+            name.includes("band") ||
+            name.includes("promise") ||
+            name.includes("infinity") ||
+            name.includes("knot") ||
+            name.includes("blush")
+          )
+        )
       );
     });
-  }, []);
+  }, [products]);
 
   return (
     <CollectionPage
