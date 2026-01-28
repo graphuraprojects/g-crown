@@ -196,7 +196,7 @@ export default function Verify() {
             <button
               type="button"
               disabled={timer > 0}
-              onClick={() => {
+              onClick={(e) => {
                 resendOtp(e);
                 setTimer(30);
               }}

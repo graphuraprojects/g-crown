@@ -284,7 +284,7 @@ const ProductCard = ({ product }) => {
         <h3 className="text-[18px] sm:text-[28px] lg:text-[32px] font-bold font-cormorant text-white mb-0.5 sm:mb-1 leading-tight">{title}</h3>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-2">
           <button className="inline-flex items-center gap-1 sm:gap-2 text-[10px] sm:text-[13px] font-semibold font-montserrat text-[#CBA135] uppercase tracking-wider group-hover:gap-3 transition-all">
-            SHOP NOW <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+             
           </button>
           <span className="text-[12px] sm:text-[16px] font-semibold font-montserrat text-white">₹{price.toLocaleString()}</span>
         </div>

@@ -99,7 +99,7 @@ const handleDelete = async (id) => {
   return (
     <div className="font-serif max-w-4xl animate-fadeIn">
       {/* Saved Addresses Section */}
-      <div className="bg-white border border-gray-100 p-6 space-y-0 mb-10 shadow-sm">
+      <div className="  p-6 space-y-0 mb-0 ">
         {addresses.map((item) => (
   <div
     key={item._id}

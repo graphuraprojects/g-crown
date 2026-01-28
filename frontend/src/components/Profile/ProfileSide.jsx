@@ -4,7 +4,7 @@ const menu = [
   { id: "profile", label: "Personal Information" },
   { id: "orders", label: "My Orders" },
   { id: "address", label: "Manage Address" },
-  { id: "payment", label: "Payment Method" },
+  // { id: "payment", label: "Payment Method" },
   { id: "password", label: "Password Manager" },
   { id: "logout", label: "Logout" },
 ];

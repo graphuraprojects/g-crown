@@ -36,6 +36,10 @@ import PrivacyPolicy from "../pages/legal/Privacy";
 import Terms from "../pages/terms/Terms";
 import Faq from "../pages/faqs/Faqs";
 import SearchProducts from "../pages/searchProducts/SearchProducts";
+import Ring from "../pages/footerPages/Ring";
+import Bracelets from "../pages/footerPages/Bracelets";
+import Necklace from "../pages/footerPages/Necklace";
+import Earring from "../pages/footerPages/Earring";
 
 // Admin Pages
 import AdminLogin from "../pages/auth/AdminLogin";
@@ -89,6 +93,11 @@ export default function AppRoutes() {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/faqs" element={<Faq />} />
+
+        <Route path="/rings" element={<Ring />} />
+        <Route path="/necklaces" element={<Necklace />} />
+        <Route path="/earrings" element={<Earring />} />
+        <Route path="/bracelets" element={<Bracelets />} />
 
         <Route path="/track-order" element={<TrackingForm />} />
         <Route path="/track-order/:orderId" element={<TrackingOrder />} />

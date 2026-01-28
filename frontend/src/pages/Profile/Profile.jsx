@@ -43,7 +43,7 @@ const Profile = () => {
       case "profile": return <PersonalInfo />;
       case "orders": return <MyOrders />;
       case "address": return <Address />;
-      case "payment": return <Payment />;
+      // case "payment": return <Payment />;
       case "password": return <Password />;
       case "logout": return (
         <LogoutView

@@ -16,7 +16,7 @@ let upload = multer({storage});
 router.route("/signupOtp").post(duplicateEmail, otp);
 router.route("/signup").post(Signup);
 router.route("/login").post(customerEmail, Login);
-router.route("/googleLogin").post(isAuth, GoogleAuth);
+router.route("/googleLogin").post(duplicateEmail, GoogleAuth);
 router.route("/forgetPasswordOtp").post(customerEmail, otp);
 router.route("/forgetPassword").put(ForgotPassword);
 router.route("/changePassword").put(isAuth, changePassword)

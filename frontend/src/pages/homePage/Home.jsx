@@ -6,6 +6,15 @@ import "react-toastify/dist/ReactToastify.css"; // Added
 // import { allProducts } from "../../assets/MockData";
 import ProductCard from "../../components/products/ProductCard";
 import { useSearchParams } from "react-router-dom";
+
+
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 // Assets
 import gCrown from "../../assets/g-crown Image.jpeg";
 import kaashiRings1 from "../../assets/homePage/kaashRings.jpg";
@@ -22,6 +31,21 @@ import Necklace from "../../assets/homePage/necklace.png";
 import { ProductContext } from "../../context/ProductContext.jsx"; 
 
 import gridImg from '../../assets/homePage/homeGrid.png'
+
+const slides = [
+    {
+      id: 1,
+      image: "https://i0.wp.com/elegance-suisse.ch/wp-content/uploads/The-Rarest-and-Most-Precious-Luxury-Jewelry-of-All-Time.jpg?resize=1000%2C560&ssl=1",
+      title: "The Rarest Collection",
+      subtitle: "Timeless Elegance"
+    },
+    {
+      id: 2,
+      image: "https://media.istockphoto.com/id/1276740597/photo/indian-traditional-gold-necklace.jpg?s=612x612&w=0&k=20&c=OYp1k0OVJObYq9hqVK_r6NwYa_W54km4nya1R-ovIUY=", 
+      title: "Exquisite Rings",
+      subtitle: "Crafted for Perfection"
+    }
+  ];
 
 // --- Configuration Data ---
 const COLLECTIONS = [
@@ -295,18 +319,46 @@ export default function HomeMain() {
       </section>
 
       {/* Grid Image Section */}
-      <section className="w-full bg-[#FFF7E8] py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="relative overflow-hidden rounded-2xl lg:rounded-3xl shadow-lg">
-            <img
-              src="https://i0.wp.com/elegance-suisse.ch/wp-content/uploads/The-Rarest-and-Most-Precious-Luxury-Jewelry-of-All-Time.jpg?resize=1000%2C560&ssl=1"
-              alt="Luxury Jewelry Collection"
-              className="w-full h-auto object-cover"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
+<section className="w-full bg-[#FFF7E8] py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <Swiper
+          spaceBetween={30}
+          effect={"fade"}
+          loop={true}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          modules={[Autoplay, EffectFade, Navigation, Pagination]}
+          className="mySwiper rounded-2xl lg:rounded-3xl shadow-xl overflow-hidden h-[300px] sm:h-[450px] lg:h-[560px]"
+        >
+          {slides.map((slide) => (
+            <SwiperSlide key={slide.id} className="relative">
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              {/* Luxury Overlay */}
+              <div className="absolute inset-0 bg-black/20 flex flex-col justify-end p-8 sm:p-16">
+                <h2 className="text-white font-serif text-2xl sm:text-4xl lg:text-5xl mb-2 tracking-widest uppercase">
+                  {slide.title}
+                </h2>
+                <div className="h-[2px] w-24 bg-[#CBA135] mb-4"></div>
+                <p className="text-[#EFDFB7] font-sans text-sm sm:text-lg tracking-wide italic">
+                  {slide.subtitle}
+                </p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </section>
 
       {/* 3. TRUST & FEATURES BAR */}
       <section className="bg-[#0F2D2A] py-20 border-y-8 border-[#CBA135]">
@@ -321,7 +373,7 @@ export default function HomeMain() {
                   <img
                     src={f.icon}
                     alt={f.title}
-                    className="w-8 h-8 object-bottom-right"
+                    className="w-12 h-12 object-bottom-right"
                   />
                 </div>
                 <h3 className="text-white font-cormorant text-xl mb-3 font-semibold">

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom"; // Use Link for SPA navigation
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; 
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import FooterBg from "../assets/footerAssests/background.png";
-import {axiosGetService} from "../services/axios"
+import { axiosGetService } from "../services/axios";
 
-// 1. DATA CONFIGURATION (Easier to maintain or fetch from a CMS)
+// 1. DATA CONFIGURATION
 const FOOTER_DATA = {
   shop: {
     title: "Shop",
@@ -38,55 +38,56 @@ const FOOTER_DATA = {
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  // Helper function to scroll to top
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Change to "auto" for instant jump
+    });
+  };
+
   const [ringsList, setRing] = useState([]);
-const [necklacesList, setNecklace] = useState([]);
-const [earingList, setEaring] = useState([]);
-const [braceletList, setBracelet] = useState([]);
+  const [necklacesList, setNecklace] = useState([]);
+  const [earingList, setEaring] = useState([]);
+  const [braceletList, setBracelet] = useState([]);
 
-useEffect(() => {
-  ; (
-    async () => {
-
+  useEffect(() => {
+    (async () => {
       let earings = [];
       let rings = [];
       let necklaces = [];
       let bracelets = [];
 
-      const apiResponse = await axiosGetService("/customer/product/all");
+      try {
+        const apiResponse = await axiosGetService("/customer/product/all");
+        if (!apiResponse.ok) return;
 
-      if (!apiResponse.ok) {
-        console.log(res.data.message || "Failed to load products")
-        return;
+        let productList = apiResponse.data.data;
+        console.log(productList);
+        
+
+        productList.forEach((item) => {
+          const cat = item.category?.toLowerCase();
+          if (["earing", "earings", "earring", "earrings"].includes(cat)) {
+            earings.push(item);
+          } else if (["ring", "rings"].includes(cat)) {
+            rings.push(item);
+          } else if (["necklace", "necklaces"].includes(cat)) {
+            necklaces.push(item);
+          } else if (["bracelet", "bracelets"].includes(cat)) {
+            bracelets.push(item);
+          }
+        });
+
+        setEaring(earings);
+        setBracelet(bracelets);
+        setNecklace(necklaces);
+        setRing(rings);
+      } catch (error) {
+        console.error("Failed to load products", error);
       }
-
-      let productList = apiResponse.data.data;
-
-      productList.forEach(item => {
-        const cat = item.category?.toLowerCase();
-
-
-        if (cat === "earing" || cat === "earings" || cat === "earring" || cat === "earrings") {
-          earings.push(item);
-        }
-        else if (cat === "ring" || cat === "rings") {
-          rings.push(item);
-        }
-        else if (cat === "necklace" || cat === "necklaces") {
-          necklaces.push(item);
-        }
-        else if (cat === "bracelet" || cat === "bracelets") {
-          bracelets.push(item);
-        }
-      });
-
-
-      setEaring(earings);
-      setBracelet(bracelets);
-      setNecklace(necklaces);
-      setRing(rings);
-    }
-  )()
-}, [])
+    })();
+  }, []);
 
   return (
     <footer
@@ -110,7 +111,6 @@ useEffect(() => {
 
         {/* MAIN GRID */}
         <div className="grid grid-cols-1 gap-y-12 gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
-
           {/* BRAND SECTION */}
           <section className="flex flex-col">
             <h3 className="text-lg font-serif font-bold tracking-widest text-[#CBA135] mb-6">
@@ -132,9 +132,9 @@ useEffect(() => {
           </section>
 
           {/* DYNAMIC COLUMNS */}
-          <FooterColumn data={FOOTER_DATA.shop} />
-          <FooterColumn data={FOOTER_DATA.info} />
-          <FooterColumn data={FOOTER_DATA.customerCare} />
+          <FooterColumn data={FOOTER_DATA.shop} onLinkClick={scrollToTop} />
+          <FooterColumn data={FOOTER_DATA.info} onLinkClick={scrollToTop} />
+          <FooterColumn data={FOOTER_DATA.customerCare} onLinkClick={scrollToTop} />
         </div>
 
         {/* BOTTOM BAR */}
@@ -143,8 +143,12 @@ useEffect(() => {
             © {currentYear} Graphura India Private Limited. All Rights Reserved.
           </p>
           <div className="flex gap-6 text-[10px] uppercase tracking-widest text-[#EFDFB7]/40">
-            <Link to="/privacy" className="hover:text-[#CBA135] transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-[#CBA135] transition-colors">Terms of Service</Link>
+            <Link to="/privacy" onClick={scrollToTop} className="hover:text-[#CBA135] transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" onClick={scrollToTop} className="hover:text-[#CBA135] transition-colors">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>
@@ -154,11 +158,7 @@ useEffect(() => {
 
 /* ---------------- Sub-Components ---------------- */
 
-/**
- * FooterColumn Component
- * Uses semantic <nav> for better SEO and Accessibility
- */
-function FooterColumn({ data }) {
+function FooterColumn({ data, onLinkClick }) {
   return (
     <nav className="flex flex-col">
       <h3 className="mb-6 text-sm font-bold tracking-[0.2em] uppercase text-[#CBA135]">
@@ -169,6 +169,7 @@ function FooterColumn({ data }) {
           <li key={link.name}>
             <Link
               to={link.path}
+              onClick={onLinkClick}
               className="group text-sm text-[#EFDFB7] transition-all duration-300 hover:text-white flex items-center"
             >
               <span className="h-[1px] w-0 bg-[#CBA135] mr-0 transition-all duration-300 group-hover:w-3 group-hover:mr-2"></span>
@@ -181,16 +182,12 @@ function FooterColumn({ data }) {
   );
 }
 
-/**
- * SocialIcon Component
- * Includes security best practices for external links
- */
 function SocialIcon({ Icon, label, href }) {
   return (
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer" // Essential for security with target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className="flex h-10 w-10 items-center justify-center rounded-full
         bg-[#0F231C]/60 border border-[#CBA135]/20 text-[#FAF7F2]

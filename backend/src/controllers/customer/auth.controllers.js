@@ -111,7 +111,6 @@ const changePassword = async (req, res) => {
 const UpdateProfile = async (req, res) => {
     try {
         const { firstName, lastName, contact, gender } = req.body;
-        console.log(req.body)
         const { _id } = req.user;
 
         const updateData = {};
