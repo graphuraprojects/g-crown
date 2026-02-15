@@ -13,18 +13,18 @@ import express from "express";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({
-    path:"./.env"
+  path: "./.env",
 });
 
-app.use("/api/orders", orderRoutes);  
+app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/addresses", addressRoutes);
- app.use("/api/payment", paymentRoutes);
+app.use("/api/payment", paymentRoutes);
 app.use("/api/admin", adminOrderRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 DatabaseConnection();
 
-const PORT = process.env.PORT||3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Server Run on PORT: ${PORT}`));
