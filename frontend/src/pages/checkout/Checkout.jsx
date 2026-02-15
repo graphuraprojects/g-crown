@@ -65,7 +65,7 @@ export default function Checkout() {
       setIsProcessing(true);
 
       const { data } = await axios.post(
-        "http://localhost:3000/api/payment/create-order",
+        "/api/payment/create-order",
         { amount: total },
         { withCredentials: true }
       );
@@ -88,7 +88,7 @@ export default function Checkout() {
             pincode: selectedAddress.zip
           };
 
-          await axios.post("http://localhost:3000/api/payment/verify", {
+          await axios.post("/api/payment/verify", {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
@@ -134,7 +134,7 @@ export default function Checkout() {
 
       // 1) create PayPal order on backend
       const { data } = await axios.post(
-        "http://localhost:3000/api/payment/createPaypal",
+        "/api/payment/createPaypal",
         { amount: total },
         { withCredentials: true }
       );
@@ -153,7 +153,7 @@ export default function Checkout() {
 
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/addresses", {
+    axios.get("/api/addresses", {
       withCredentials: true
     })
       .then(res => setAddresses(res.data))
@@ -167,7 +167,7 @@ export default function Checkout() {
 
     const verify = async () => {
       const resp = await axios.post(
-        "http://localhost:3000/api/payment/verifyPaypal",
+        "/api/payment/verifyPaypal",
         { token },
         { withCredentials: true }
       );

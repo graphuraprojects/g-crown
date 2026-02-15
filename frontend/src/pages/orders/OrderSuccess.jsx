@@ -15,13 +15,13 @@ export default function OrderSuccess() {
   const location = useLocation();
   const [showCelebration, setShowCelebration] = useState(true);
   const openInvoice = () => {
-  window.open(`http://localhost:3000/api/orders/${order._id}/invoice`, "_blank");
+  window.open(`/api/orders/${order._id}/invoice`, "_blank");
 };
 
 const [order, setOrder] = useState(null);
 
 useEffect(() => {
-  axios.get("http://localhost:3000/api/orders",{withCredentials: true})
+  axios.get("/api/orders",{withCredentials: true})
     .then(res => {
       if (res.data.length > 0) {
         setOrder(res.data[res.data.length - 1]); // ✅ latest

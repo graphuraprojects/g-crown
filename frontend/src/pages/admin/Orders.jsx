@@ -62,7 +62,7 @@ const Orders = () => {
       const queryString = query.length ? `?${query.join("&")}` : "";
 
       const res = await axios.get(
-        `http://localhost:3000/gcrown/api/v1/admin/order${queryString}`,
+        `/api/v1/admin/order${queryString}`,
         { withCredentials: true }
       );
 
@@ -90,7 +90,7 @@ const Orders = () => {
       const encodedId = encodeURIComponent(orderId);
 
       const res = await axios.get(
-        `http://localhost:3000/gcrown/api/v1/admin/order/search/${encodedId}`,
+        `/api/v1/admin/order/search/${encodedId}`,
         { withCredentials: true }
       );
 
@@ -124,7 +124,7 @@ const Orders = () => {
         }
 
         await axios.post(
-          `http://localhost:3000/api/orders/process-refund/${id}`,
+          `/api/orders/process-refund/${id}`,
           {},
           { withCredentials: true }
         );

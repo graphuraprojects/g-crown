@@ -22,7 +22,7 @@ const [formData, setFormData] = useState({
 useEffect(() => {
   const fetchAddresses = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/addresses", {withCredentials: true});
+      const res = await axios.get("/api/addresses", {withCredentials: true});
       setAddresses(res.data);
     } catch (err) {
       console.log("Error fetching addresses", err);
@@ -62,13 +62,13 @@ const handleAddAddress = async () => {
 
     if (editingId) {
       // UPDATE
-      await axios.put(`http://localhost:3000/api/addresses/${editingId}`, payload, {withCredentials: true});
+      await axios.put(`/api/addresses/${editingId}`, payload, {withCredentials: true});
     } else {
       // ADD
-      await axios.post("http://localhost:3000/api/addresses", payload, {withCredentials: true});
+      await axios.post("/api/addresses", payload, {withCredentials: true});
     }
 
-    const res = await axios.get("http://localhost:3000/api/addresses", {withCredentials: true});
+    const res = await axios.get("/api/addresses", {withCredentials: true});
     setAddresses(res.data);
 
     setEditingId(null);
@@ -87,8 +87,8 @@ const handleDelete = async (id) => {
   if (!window.confirm("Are you sure you want to delete this address?")) return;
 
   try {
-    await axios.delete(`http://localhost:3000/api/addresses/${id}`, {withCredentials: true});
-    const res = await axios.get("http://localhost:3000/api/addresses", {withCredentials: true});
+    await axios.delete(`/api/addresses/${id}`, {withCredentials: true});
+    const res = await axios.get("/api/addresses", {withCredentials: true});
     setAddresses(res.data); // refresh list
   } catch (err) {
     alert("Error deleting address");

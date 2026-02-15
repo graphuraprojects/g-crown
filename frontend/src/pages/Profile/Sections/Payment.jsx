@@ -35,7 +35,7 @@ const Payment = () => {
   //     setIsProcessing(true);
 
   //     const { data } = await axios.post(
-  //       "http://localhost:3000/api/payment/create-order",
+  //       "/api/payment/create-order",
   //       { amount: total },        // request body
   //       { withCredentials: true } // config
   //     );
@@ -61,7 +61,7 @@ const Payment = () => {
 
 
 
-  //         await axios.post("http://localhost:3000/api/payment/verify", {
+  //         await axios.post("/api/payment/verify", {
   //           razorpay_order_id: response.razorpay_order_id,
   //           razorpay_payment_id: response.razorpay_payment_id,
   //           razorpay_signature: response.razorpay_signature,

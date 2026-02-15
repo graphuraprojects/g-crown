@@ -156,7 +156,7 @@ const ProductDetails = () => {
     const fetchReviews = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/gcrown/api/v1/customer/product/${product._id}/reviews`
+          `/api/v1/customer/product/${product._id}/reviews`
         );
 
         const data = Array.isArray(res.data) ? res.data : [];
@@ -183,7 +183,7 @@ const ProductDetails = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:3000/gcrown/api/v1/customer/product/review?productId=${product._id}`,
+        `/api/v1/customer/product/review?productId=${product._id}`,
         {
           name: reviewerName,
           email: reviewerEmail,

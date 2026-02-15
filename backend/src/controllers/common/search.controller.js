@@ -2,7 +2,7 @@ import Product from "../../models/common/product.models.js";
 
 /**
  * @desc    Search products by name / description / category
- * @route   GET /gcrown/api/v1/common/search?q=keyword
+ * @route   GET/api/v1/common/search?q=keyword
  * @access  Public
  */
 export const searchProducts = async (req, res) => {

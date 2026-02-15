@@ -81,7 +81,7 @@ export default function TrackOrder() {
  useEffect(() => {
   const fetchOrder = async () => {
     const res = await axios.get(
-      `http://localhost:3000/gcrown/api/v1/customer/order/track-order/${encodeURIComponent(displayOrderId)}`
+      `/api/v1/customer/order/track-order/${encodeURIComponent(displayOrderId)}`
     );
     setOrderData(res.data);
     console.log(res.data)

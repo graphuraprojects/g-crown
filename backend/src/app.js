@@ -33,21 +33,21 @@ app.use(cookieParser());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json({ limit: '100mb' }));
 
-app.use("/gcrown/api/v1/customer/auth", customerAuthRoutes);
-app.use("/gcrown/api/v1/customer/product", customerProductRoutes);
-app.use("/gcrown/api/v1/customer/wishlist", wishListRoutes);
-app.use("/gcrown/api/v1/customer/store", customerStoreRoutes);
-app.use("/gcrown/api/v1/customer/cart", cartRoutes);
-app.use("/gcrown/api/v1/customer/subscribe&coupon", subscribeRoutes)
+app.use("/api/v1/customer/auth", customerAuthRoutes);
+app.use("/api/v1/customer/product", customerProductRoutes);
+app.use("/api/v1/customer/wishlist", wishListRoutes);
+app.use("/api/v1/customer/store", customerStoreRoutes);
+app.use("/api/v1/customer/cart", cartRoutes);
+app.use("/api/v1/customer/subscribe&coupon", subscribeRoutes)
 
-app.use("/gcrown/api/v1/admin/auth", adminAuthRoutes);
-app.use("/gcrown/api/v1/admin/product", adminProductRoutes);
-app.use("/gcrown/api/v1/admin/store", adminStoreRoutes);
-app.use("/gcrown/api/v1/admin/order", adminOrderRoutes)
-app.use("/gcrown/api/v1/admin/prom", adminPromationRoutes);
+app.use("/api/v1/admin/auth", adminAuthRoutes);
+app.use("/api/v1/admin/product", adminProductRoutes);
+app.use("/api/v1/admin/store", adminStoreRoutes);
+app.use("/api/v1/admin/order", adminOrderRoutes)
+app.use("/api/v1/admin/prom", adminPromationRoutes);
 
-app.use("/gcrown/api/v1/customer/order", orderRoutes);
+app.use("/api/v1/customer/order", orderRoutes);
 
-app.use("/gcrown/api/v1/common", commonSearchRoutes);
+app.use("/api/v1/common", commonSearchRoutes);
 
 export default app;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/gcrown/api/v1";
+const API_URL = "/api/v1";
 
 export const axiosPostService = async (path, client) => {
     try {

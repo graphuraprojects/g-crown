@@ -1,4 +1,7 @@
+/node_modules/
+
 # Logs
+
 logs
 *.log
 npm-debug.log*
@@ -7,7 +10,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
 dist
 dist-ssr
 *.local
@@ -35,7 +37,7 @@ backend/node_modules/
 backend/dist/
 
 # env
-.env
+backend/.env
 *.env
 
 # general

@@ -21,14 +21,14 @@ const MyOrders = () => {
   const navigate = useNavigate();
 
   const openInvoice = (orderId) => {
-    window.open(`http://localhost:3000/api/orders/${orderId}/invoice`, "_blank");
+    window.open(`/api/orders/${orderId}/invoice`, "_blank");
   };
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/gcrown/api/v1/customer/order",
+          "/api/v1/customer/order",
           { withCredentials: true }
         );
         setOrderList(res.data);
@@ -50,7 +50,7 @@ const MyOrders = () => {
   const submitReview = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/gcrown/api/v1/customer/product/review?productId=${selectedProductId}`,
+        `/api/v1/customer/product/review?productId=${selectedProductId}`,
         {
           rating,
           title: "",
@@ -82,7 +82,7 @@ const MyOrders = () => {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/orders/refund/${refundOrderId}`,
+        `/api/orders/refund/${refundOrderId}`,
         {
           reason: refundReason,
         },

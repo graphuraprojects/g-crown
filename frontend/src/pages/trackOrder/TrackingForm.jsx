@@ -36,7 +36,7 @@ const OrderTracking = () => {
 
     try {
 
-      const res = await axios.get(`http://localhost:3000/gcrown/api/v1/customer/order/track-order/${encodeURIComponent(orderId)}`);
+      const res = await axios.get(`/api/v1/customer/order/track-order/${encodeURIComponent(orderId)}`);
       setOrderData(res.data);
 
       // await new Promise((resolve) => setTimeout(resolve, 800));
