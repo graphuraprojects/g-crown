@@ -19,6 +19,7 @@ const uploadNewProduct = async (req, res) => {
             description,
             additionalInfo,
             status,
+            productFor
         } = req.body;
 
         if (!req.user.role) {
@@ -56,7 +57,7 @@ const uploadNewProduct = async (req, res) => {
             slug,
             sku,
             category,
-            productCollection,
+            productCollection: productCollection.toLowerCase(),
             tags,
             brand,
             attributes,
@@ -68,6 +69,7 @@ const uploadNewProduct = async (req, res) => {
             description,
             additionalInfo,
             status,
+            productFor,
             productImage: imageUrls
         });
 

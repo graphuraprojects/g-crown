@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import ProfilePic from "../../assets/NewArrivalAssets/logos/ProfilePic.jpg";
 import {
   Star,
   ChevronLeft,
@@ -74,45 +75,45 @@ const ProductDetails = () => {
   //   };
 
 
-const handleAddToCart = () => {
-  if (!product) return;
+  const handleAddToCart = () => {
+    if (!product) return;
 
-  const selectedVariant = product.variants[selectPurity];
+    const selectedVariant = product.variants[selectPurity];
 
-  if (!selectedVariant || selectedVariant.quantity <= 0) {
-    alert("Selected purity is out of stock");
-    return;
-  }
+    if (!selectedVariant || selectedVariant.quantity <= 0) {
+      alert("Selected purity is out of stock");
+      return;
+    }
 
-  if (quantity > selectedVariant.quantity) {
-    alert(`Only ${selectedVariant.quantity} quantity available`);
-    return;
-  }
+    if (quantity > selectedVariant.quantity) {
+      alert(`Only ${selectedVariant.quantity} quantity available`);
+      return;
+    }
 
-  addToCart(product, quantity, selectedVariant.purity);
-  setShowAddedToCart(true);
-  setTimeout(() => setShowAddedToCart(false), 2000);
-};
+    addToCart(product, quantity, selectedVariant.purity);
+    setShowAddedToCart(true);
+    setTimeout(() => setShowAddedToCart(false), 2000);
+  };
 
 
-const handleBuyNow = () => {
-  if (!product) return;
+  const handleBuyNow = () => {
+    if (!product) return;
 
-  const selectedVariant = product.variants[selectPurity];
+    const selectedVariant = product.variants[selectPurity];
 
-  if (!selectedVariant || selectedVariant.quantity <= 0) {
-    alert("Selected purity is out of stock");
-    return;
-  }
+    if (!selectedVariant || selectedVariant.quantity <= 0) {
+      alert("Selected purity is out of stock");
+      return;
+    }
 
-  if (quantity > selectedVariant.quantity) {
-    alert(`Only ${selectedVariant.quantity} quantity available`);
-    return;
-  }
+    if (quantity > selectedVariant.quantity) {
+      alert(`Only ${selectedVariant.quantity} quantity available`);
+      return;
+    }
 
-  addToCart(product, quantity, selectedVariant.purity);
-  navigate("/cart");
-};
+    addToCart(product, quantity, selectedVariant.purity);
+    navigate("/cart");
+  };
 
 
   if (!product) {
@@ -400,11 +401,16 @@ const handleBuyNow = () => {
                   className="cursor-pointer hover:text-[#B39055] transition-colors"
                   onClick={() => {
                     if (navigator.share) {
+                      const customUrl = `${window.location.origin}/productId/${product._id}`;
+                      console.log("Generated URL:", customUrl);
+
                       navigator.share({
                         title: product.name,
                         text: `Check out ${product.name} at G-Crown Jewellers`,
-                        url: window.location.href,
+                        url: customUrl
                       });
+                    } else {
+                      alert("Sharing not supported in this browser");
                     }
                   }}
                 />
@@ -571,7 +577,7 @@ const handleBuyNow = () => {
                               <img
                                 src={
                                   rev.media?.[0] ||
-                                  "https://via.placeholder.com/40"
+                                  ProfilePic
                                 }
                                 className="w-10 h-10 rounded-full"
                                 alt="user"

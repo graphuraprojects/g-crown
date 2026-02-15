@@ -3,62 +3,56 @@ import { axiosGetService } from "../../services/axios";
 import CollectionPage from "../../components/collections/CollectionPage";
 import toast, { Toaster } from "react-hot-toast";
 
+const LIMIT = 9;
+
 const NecklacesListing = () => {
-  const [necklacesList, setNecklacesList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const fetchNecklaces = async (page = 1) => {
+    try {
+      setLoading(true);
+
+      const apiResponse = await axiosGetService(
+        `/customer/product/all?page=${page}&limit=${LIMIT}&category=Necklaces`
+      );
+
+      if (!apiResponse.ok) {
+        toast.error("Failed to load necklaces.");
+        return;
+      }
+
+      const { products, pagination } = apiResponse.data.data;
+
+      setProducts(products); // replace for numbered pagination
+      setPagination(pagination);
+      setCurrentPage(page);
+
+    } catch (error) {
+      console.error("Failed to load necklaces", error);
+      toast.error("Something went wrong while fetching necklaces.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchNecklaces = async () => {
-      try {
-        setLoading(true);
-        const apiResponse = await axiosGetService("/customer/product/all");
-
-        if (!apiResponse.ok) {
-          toast.error("Failed to load products. Please try again later.");
-          return;
-        }
-
-        const productList = apiResponse.data.data || [];
-
-        // Efficient filtering for Necklaces
-        // We check for both singular and plural to be safe
-        const filteredNecklaces = productList.filter((item) => {
-          const cat = item.category?.toLowerCase();
-          return ["necklace", "necklaces"].includes(cat);
-        });
-
-        setNecklacesList(filteredNecklaces);
-      } catch (error) {
-        console.error("Failed to load products", error);
-        toast.error("Something went wrong while fetching products.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNecklaces();
+    fetchNecklaces(1);
   }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#FFF9E9] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          {/* Main loader themed to match G-Crown brand colors */}
-          <div className="w-12 h-12 border-4 border-[#1C3A2C] border-t-[#CBA135] rounded-full animate-spin"></div>
-          <p className="font-serif text-[#1C3A2C] tracking-widest animate-pulse uppercase">
-            Loading Necklaces...
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
       <Toaster />
-      <CollectionPage 
-        title="Necklace Collection" 
-        products={necklacesList} 
+
+      <CollectionPage
+        title="Necklace Collection"
+        products={products}
+        loading={loading}
+        pagination={pagination}
+        currentPage={currentPage}
+        fetchProducts={fetchNecklaces}
       />
     </>
   );

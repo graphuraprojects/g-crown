@@ -7,7 +7,8 @@ import {
   generateInvoice,
   saveOrder,
   cancelOrder,
-  
+  requestRefund,
+  processRefund
 } from "../../controllers/order/order.controller.js";
 import { trackOrder } from "../../controllers/order/trackOrderController.js";
 import isAuth from "../../middlewares/requiredLogin.middleware.js"
@@ -24,5 +25,8 @@ router.put("/:id/status",isAuth, updateOrderStatus);
 router.get("/:id/invoice", generateInvoice);
 router.post("/save", isAuth, saveOrder);
 router.put("/cancel/:id",isAuth, cancelOrder);
+router.put("/refund/:orderId", requestRefund);
+router.post("/process-refund/:orderId", processRefund);
+
 
 export default router;

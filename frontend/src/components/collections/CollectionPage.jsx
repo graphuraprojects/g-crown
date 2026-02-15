@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect} from "react";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { FilterSidebar } from "../filterSection";
 import ProductCard from "../products/ProductCard";
@@ -15,6 +15,10 @@ import supportIcon from "../../assets/NewArrivalAssets/logos/streamline-plump_cu
 const CollectionPage = ({
   title = "Collections",
   products = [],
+  loading,
+  pagination,
+  currentPage,
+  fetchProducts
 }) => {
 
   const MIN_LIMIT = 2500;
@@ -26,6 +30,13 @@ const CollectionPage = ({
   const [selectedColors, setSelectedColors] = useState([]);
   const [priceRange, setPriceRange] = useState([MIN_LIMIT, MAX_LIMIT]);
   const [sortBy, setSortBy] = useState("default");
+
+
+  useEffect(() => {
+    if (title === "Collections" && products.length === 0) {
+      fetchProducts(1);
+    }
+  }, [title]);
 
   // Derive filter options from the current product set
   const categoryOptions = useMemo(
@@ -79,42 +90,60 @@ const CollectionPage = ({
     setSortBy("default");
   };
 
+
+
+  const capitalizeFirst = (str = "") =>
+  str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
+
+
   const filteredProducts = useMemo(() => {
-    let result = products.filter((product) => {
-      const salePrice = product?.price?.sale ?? 0;
-      const material = product?.attributes?.material;
-      const color = product?.attributes?.color;
+  let result = products.filter((product) => {
+    const salePrice = product?.price?.sale ?? 0;
 
-      const categoryMatch =
-        selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    const category = capitalizeFirst(product?.category);
+    const material = capitalizeFirst(product?.attributes?.material);
+    const color = capitalizeFirst(product?.attributes?.color);
 
-      const materialMatch =
-        selectedMaterials.length === 0 || selectedMaterials.includes(material);
+    const selectedCat = selectedCategories.map(capitalizeFirst);
+    const selectedMat = selectedMaterials.map(capitalizeFirst);
+    const selectedCol = selectedColors.map(capitalizeFirst);
 
-      const colorMatch =
-        selectedColors.length === 0 || selectedColors.includes(color);
+    const categoryMatch =
+      selectedCat.length === 0 || selectedCat.includes(category);
 
-      const priceMatch =
-        salePrice >= priceRange[0] && salePrice <= priceRange[1];
+    const materialMatch =
+      selectedMat.length === 0 || selectedMat.includes(material);
 
-      return categoryMatch && materialMatch && colorMatch && priceMatch;
-    });
+    const colorMatch =
+      selectedCol.length === 0 || selectedCol.includes(color);
 
-    if (sortBy === "lowToHigh") {
-      result = result.sort((a, b) => (a.price?.sale ?? 0) - (b.price?.sale ?? 0));
-    } else if (sortBy === "highToLow") {
-      result = result.sort((a, b) => (b.price?.sale ?? 0) - (a.price?.sale ?? 0));
-    }
+    const priceMatch =
+      salePrice >= priceRange[0] && salePrice <= priceRange[1];
 
-    return result;
-  }, [
-    products,
-    selectedCategories,
-    selectedMaterials,
-    selectedColors,
-    priceRange,
-    sortBy,
-  ]);
+    return categoryMatch && materialMatch && colorMatch && priceMatch;
+  });
+
+  // IMPORTANT: copy array before sort to avoid mutating original
+  if (sortBy === "lowToHigh") {
+    result = [...result].sort(
+      (a, b) => (a.price?.sale ?? 0) - (b.price?.sale ?? 0)
+    );
+  } else if (sortBy === "highToLow") {
+    result = [...result].sort(
+      (a, b) => (b.price?.sale ?? 0) - (a.price?.sale ?? 0)
+    );
+  }
+
+  return result;
+}, [
+  products,
+  selectedCategories,
+  selectedMaterials,
+  selectedColors,
+  priceRange,
+  sortBy,
+]);
+
 
 
   return (
@@ -236,7 +265,7 @@ const CollectionPage = ({
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
                 {filteredProducts.map((product) => (
-                  <ProductCard key={product._id} product={product}  allproducts={products}/>
+                  <ProductCard key={product._id} product={product} allproducts={products} />
                 ))}
               </div>
             ) : (
@@ -255,6 +284,29 @@ const CollectionPage = ({
           </section>
         </div>
       </main>
+
+
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-12 flex-wrap">
+          {Array.from({ length: pagination.totalPages }, (_, i) => {
+            const pageNumber = i + 1;
+
+            return (
+              <button
+                key={pageNumber}
+                onClick={() => fetchProducts(pageNumber)}
+                className={`px-4 py-2 rounded border ${currentPage === pageNumber
+                    ? "bg-[#1C3A2C] text-white"
+                    : "bg-white text-[#1C3A2C] border-[#1C3A2C]"
+                  }`}
+              >
+                {pageNumber}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
 
       {/* Features Bar */}
       <section className="bg-[#FFF9E9] px-4 sm:px-6 lg:px-12 xl:px-16 py-10 lg:py-16">

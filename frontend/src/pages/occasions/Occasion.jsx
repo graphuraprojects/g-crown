@@ -26,16 +26,19 @@ export const Collections = () => {
   // Fetch backend products
   const fetchProducts = async () => {
     try {
-      const apiResponse = await axiosGetService("/customer/product/all");
+      const apiResponse = await axiosGetService("/customer/product/all?page=1&limit=100");
+
       if (!apiResponse.ok) {
         alert(apiResponse.data.message || "Failed to fetch");
         return;
       }
-      setAllProducts(apiResponse.data.data || []);
+
+      setAllProducts(apiResponse.data.data.products || []);
     } catch (error) {
       console.log("Error fetching:", error);
     }
   };
+
 
   useEffect(() => {
     fetchProducts();

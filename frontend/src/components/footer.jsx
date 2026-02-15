@@ -46,49 +46,50 @@ export default function Footer() {
     });
   };
 
-  const [ringsList, setRing] = useState([]);
-  const [necklacesList, setNecklace] = useState([]);
-  const [earingList, setEaring] = useState([]);
-  const [braceletList, setBracelet] = useState([]);
+  // const [ringsList, setRing] = useState([]);
+  // const [necklacesList, setNecklace] = useState([]);
+  // const [earingList, setEaring] = useState([]);
+  // const [braceletList, setBracelet] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      let earings = [];
-      let rings = [];
-      let necklaces = [];
-      let bracelets = [];
+  // const [productList, setProductList] = useState([]);
 
-      try {
-        const apiResponse = await axiosGetService("/customer/product/all");
-        if (!apiResponse.ok) return;
+  // useEffect(() => {
+  //   (async () => {
+  //     let earings = [];
+  //     let rings = [];
+  //     let necklaces = [];
+  //     let bracelets = [];
 
-        let productList = apiResponse.data.data;
-        console.log(productList);
+  //     try {
+  //       const apiResponse = await axiosGetService("/customer/product/all");
+  //       if (!apiResponse.ok) return;
+
+  //       let productList = apiResponse.data.data.products;
+  //       console.log(productList);
         
 
-        productList.forEach((item) => {
-          const cat = item.category?.toLowerCase();
-          if (["earing", "earings", "earring", "earrings"].includes(cat)) {
-            earings.push(item);
-          } else if (["ring", "rings"].includes(cat)) {
-            rings.push(item);
-          } else if (["necklace", "necklaces"].includes(cat)) {
-            necklaces.push(item);
-          } else if (["bracelet", "bracelets"].includes(cat)) {
-            bracelets.push(item);
-          }
-        });
+  //       productList.forEach((item) => {
+  //         const cat = item.category?.toLowerCase();
+  //         if (["earing", "earings", "earring", "earrings"].includes(cat)) {
+  //           earings.push(item);
+  //         } else if (["ring", "rings"].includes(cat)) {
+  //           rings.push(item);
+  //         } else if (["necklace", "necklaces"].includes(cat)) {
+  //           necklaces.push(item);
+  //         } else if (["bracelet", "bracelets"].includes(cat)) {
+  //           bracelets.push(item);
+  //         }
+  //       });
 
-        setEaring(earings);
-        setBracelet(bracelets);
-        setNecklace(necklaces);
-        setRing(rings);
-      } catch (error) {
-        console.error("Failed to load products", error);
-      }
-    })();
-  }, []);
-
+  //       setEaring(earings);
+  //       setBracelet(bracelets);
+  //       setNecklace(necklaces);
+  //       setRing(rings);
+  //     } catch (error) {
+  //       console.error("Failed to load products", error);
+  //     }
+  //   })();
+  // }, []);
   return (
     <footer
       aria-labelledby="footer-heading"

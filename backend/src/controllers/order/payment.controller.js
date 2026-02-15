@@ -103,7 +103,6 @@ export const createOrder = async (req, res) => {
 //   }
 // };
 
-
 export const verifyPayment = async (req, res) => {
   try {
     const {
@@ -119,7 +118,6 @@ export const verifyPayment = async (req, res) => {
     } = req.body;
 
     const body = razorpay_order_id + "|" + razorpay_payment_id;
-    const invoiceNo = "INV-GC-" + Date.now();
 
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -127,10 +125,12 @@ export const verifyPayment = async (req, res) => {
       .digest("hex");
 
     if (expectedSignature !== razorpay_signature) {
-      return res.status(400).json({ success: false });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment signature",
+      });
     }
 
-    // Custom Order ID
     const generateOrderId = () => {
       const year = new Date().getFullYear();
       const day = String(new Date().getDate()).padStart(2, "0");
@@ -140,6 +140,7 @@ export const verifyPayment = async (req, res) => {
     };
 
     const customOrderId = generateOrderId();
+    const invoiceNo = "INV-GC-" + Date.now();
 
     const orderData = {
       userId: req.user._id,
@@ -147,62 +148,61 @@ export const verifyPayment = async (req, res) => {
       userMobile: address.mobile,
       displayOrderId: customOrderId,
       razorpayOrderId: razorpay_order_id,
-      invoiceNo: invoiceNo,
+      paymentId: razorpay_payment_id,
+      invoiceNo,
       total: totalAmount,
-      method: "Razorpay",
-      date: new Date(),
-      address,
       subtotal,
       gst,
       shipping,
+      method: "Razorpay",
+      date: new Date(),
+      address,
       orderStatus: "Confirmed",
       statusText: "Your order is placed",
-      products: cartItems.map(item => ({
+      products: cartItems.map((item) => ({
         productId: item.productId,
         name: item.name,
         detail: item.description,
         productImage: item.productImage,
         qty: item.quantity,
         price: item.price,
-        carat: item.carat   // <-- used to match purity
-      }))
+        carat: item.carat,
+      })),
     };
 
     const newOrder = new Order(orderData);
     await newOrder.save();
 
-
     for (const item of cartItems) {
       const product = await productModel.findById(item.productId);
-
       if (!product) continue;
 
-      const selectedPurity = item.carat;
-      const quantityToReduce = item.quantity;
-
       const variantIndex = product.variants.findIndex(
-        v => v.purity.toLowerCase() === selectedPurity.toLowerCase()
+        (v) => v.purity.toLowerCase() === item.carat.toLowerCase()
       );
 
       if (variantIndex !== -1) {
-        const newQty = Math.max(
+        product.variants[variantIndex].quantity = Math.max(
           0,
-          product.variants[variantIndex].quantity - quantityToReduce
+          product.variants[variantIndex].quantity - item.quantity
         );
-
-        product.variants[variantIndex].quantity = newQty;
       }
 
-      // Optionally, update stockStatus
-      const isOut = product.variants.every(v => v.quantity <= 0);
+      const isOut = product.variants.every((v) => v.quantity <= 0);
       if (isOut) product.stockStatus = "Out of Stock";
 
       await product.save();
     }
 
-    res.status(200).json({ success: true, message: "Payment verified & stock updated." });
-
+    return res.status(200).json({
+      success: true,
+      message: "Payment verified, order saved, stock updated.",
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
+

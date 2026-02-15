@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema({
   orderStatus: {
     type: String,
     enum: ["Confirmed", "Accepted", "Shipped", "Delivered", "Cancelled", "Returned",
-      "Refunded"],
+      "Refunded", "Refund Requested"],
     default: "Confirmed"
   },
 
@@ -59,7 +59,17 @@ const orderSchema = new mongoose.Schema({
       qty: Number,       // Quantity
       price: Number      // Single product price
     }
-  ]
+  ],
+  refundRequest: {
+    reason: String,
+    status: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Pending"
+    },
+    requestedAt: Date,
+    approvedAt: Date
+  },
 });
 
 const Order = mongoose.model("Order", orderSchema);

@@ -54,6 +54,10 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import AdminSignUp from "../pages/auth/AdminSignup";
 import AdminSignIn from "../pages/auth/AdminLogin";
 import Payment from "../pages/Profile/Sections/Payment";
+import ProductDetailsById from "../pages/ProductDetails/ProductDetailsById";
+import Women from "../pages/collections/Women";
+import Men from "../pages/collections/Men";
+import Kid from "../pages/collections/Kid";
 
 export default function AppRoutes() {
   const location = useLocation();
@@ -83,11 +87,15 @@ export default function AppRoutes() {
         <Route path="/collections/wedding-bands" element={<WeddingBands />} />
         <Route path="/collections/classic-solitaire" element={<ClassicSolitaire />} />
         <Route path="/collections/vintage-bands" element={<VintageBands />} />
+        <Route path="/collections/women" element={<Women />} />
+        <Route path="/collections/men" element={<Men />} />
+        <Route path="/collections/kid" element={<Kid />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/new-arrivals" element={<NewArrivals />} />
         <Route path="/occasions" element={<Occasions />} />
         <Route path="/store" element={<Store />} />
         <Route path="/about" element={<AboutUs />} />
+        
 
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
@@ -113,6 +121,7 @@ export default function AppRoutes() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/searchProduct" element={<SearchProducts />} />
         <Route path="/paymentmethod" element={<Payment />} />
+        <Route path="/productId/:id" element={<ProductDetailsById />} />
 
         {/* ================= ADMIN ROUTES ================= */}
         <Route path="/admin/login" element={<AdminLogin />} />

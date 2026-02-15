@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Updated
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify"; // Added
@@ -28,24 +28,24 @@ import WomenImg from "../../assets/homePage/Women.png";
 import MenImg from "../../assets/homePage/Men.png";
 import KidImg from "../../assets/homePage/Kids.png";
 import Necklace from "../../assets/homePage/necklace.png";
-import { ProductContext } from "../../context/ProductContext.jsx"; 
+import { ProductContext } from "../../context/ProductContext.jsx";
 
 import gridImg from '../../assets/homePage/homeGrid.png'
 
 const slides = [
-    {
-      id: 1,
-      image: "https://i0.wp.com/elegance-suisse.ch/wp-content/uploads/The-Rarest-and-Most-Precious-Luxury-Jewelry-of-All-Time.jpg?resize=1000%2C560&ssl=1",
-      title: "The Rarest Collection",
-      subtitle: "Timeless Elegance"
-    },
-    {
-      id: 2,
-      image: "https://media.istockphoto.com/id/1276740597/photo/indian-traditional-gold-necklace.jpg?s=612x612&w=0&k=20&c=OYp1k0OVJObYq9hqVK_r6NwYa_W54km4nya1R-ovIUY=", 
-      title: "Exquisite Rings",
-      subtitle: "Crafted for Perfection"
-    }
-  ];
+  {
+    id: 1,
+    image: "https://i0.wp.com/elegance-suisse.ch/wp-content/uploads/The-Rarest-and-Most-Precious-Luxury-Jewelry-of-All-Time.jpg?resize=1000%2C560&ssl=1",
+    title: "The Rarest Collection",
+    subtitle: "Timeless Elegance"
+  },
+  {
+    id: 2,
+    image: "https://media.istockphoto.com/id/1276740597/photo/indian-traditional-gold-necklace.jpg?s=612x612&w=0&k=20&c=OYp1k0OVJObYq9hqVK_r6NwYa_W54km4nya1R-ovIUY=",
+    title: "Exquisite Rings",
+    subtitle: "Crafted for Perfection"
+  }
+];
 
 // --- Configuration Data ---
 const COLLECTIONS = [
@@ -103,9 +103,9 @@ const FEATURES = [
 ];
 
 const CURATED = [
-  { title: "WOMEN", image: WomenImg, path: "/collections" },
-  { title: "MEN", image: MenImg, path: "/collections" },
-  { title: "KIDS", image: KidImg, path: "/collections" },
+  { title: "WOMEN", image: WomenImg, path: "/collections/women" },
+  { title: "MEN", image: MenImg, path: "/collections/men" },
+  { title: "KIDS", image: KidImg, path: "/collections/kid" },
 ];
 
 const TESTIMONIALS = [
@@ -160,8 +160,12 @@ const SectionHeader = ({ title, subtitle }) => (
 
 export default function HomeMain() {
 
-   const { products } = useContext(ProductContext);
+  const { products, fetchProducts } = useContext(ProductContext);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+      fetchProducts(1, "");
+  }, []);
 
   // const featuredProducts = products
   //   .filter(p => p.bestseller)
@@ -319,46 +323,46 @@ export default function HomeMain() {
       </section>
 
       {/* Grid Image Section */}
-<section className="w-full bg-[#FFF7E8] py-8 sm:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Swiper
-          spaceBetween={30}
-          effect={"fade"}
-          loop={true}
-          autoplay={{
-            delay: 4000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
-          modules={[Autoplay, EffectFade, Navigation, Pagination]}
-          className="mySwiper rounded-2xl lg:rounded-3xl shadow-xl overflow-hidden h-[300px] sm:h-[450px] lg:h-[560px]"
-        >
-          {slides.map((slide) => (
-            <SwiperSlide key={slide.id} className="relative">
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-              {/* Luxury Overlay */}
-              <div className="absolute inset-0 bg-black/20 flex flex-col justify-end p-8 sm:p-16">
-                <h2 className="text-white font-serif text-2xl sm:text-4xl lg:text-5xl mb-2 tracking-widest uppercase">
-                  {slide.title}
-                </h2>
-                <div className="h-[2px] w-24 bg-[#CBA135] mb-4"></div>
-                <p className="text-[#EFDFB7] font-sans text-sm sm:text-lg tracking-wide italic">
-                  {slide.subtitle}
-                </p>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </section>
+      <section className="w-full bg-[#FFF7E8] py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <Swiper
+            spaceBetween={30}
+            effect={"fade"}
+            loop={true}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            modules={[Autoplay, EffectFade, Navigation, Pagination]}
+            className="mySwiper rounded-2xl lg:rounded-3xl shadow-xl overflow-hidden h-[300px] sm:h-[450px] lg:h-[560px]"
+          >
+            {slides.map((slide) => (
+              <SwiperSlide key={slide.id} className="relative">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                {/* Luxury Overlay */}
+                <div className="absolute inset-0 bg-black/20 flex flex-col justify-end p-8 sm:p-16">
+                  <h2 className="text-white font-serif text-2xl sm:text-4xl lg:text-5xl mb-2 tracking-widest uppercase">
+                    {slide.title}
+                  </h2>
+                  <div className="h-[2px] w-24 bg-[#CBA135] mb-4"></div>
+                  <p className="text-[#EFDFB7] font-sans text-sm sm:text-lg tracking-wide italic">
+                    {slide.subtitle}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </section>
 
       {/* 3. TRUST & FEATURES BAR */}
       <section className="bg-[#0F2D2A] py-20 border-y-8 border-[#CBA135]">

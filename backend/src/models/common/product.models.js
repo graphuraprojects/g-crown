@@ -8,7 +8,12 @@ const product_Schema = new Schema({
         type: String,
         required: true,
     },
-
+    productFor:{
+        type: String,
+        enum: ["male", "female", "kid", "both"],
+        default: "both",
+        index: true
+    },
     slug: {
         type: String,
     },

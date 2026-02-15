@@ -3,11 +3,13 @@ import Order from "../../models/order/Order.js";
 import pdf from "html-pdf";
 import fs from "fs";
 import path from "path";
+import razorpay from "../../configs/razorpay.js";
 
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import {ApiError} from "../../utils/api-error.js"
 
 // Get My Orders
 
@@ -22,6 +24,7 @@ export const getAllOrders = async (req, res) => {
   const orders = await Order.find({});
   res.json(orders);
 };
+
 export const getOrders = async (req, res) => {
 
   const { role } = req.user;
@@ -181,9 +184,6 @@ export const saveOrder = async (req, res) => {
 };
 
 
-
-
-
 export const cancelOrder = async (req, res) => {
   try {
 
@@ -201,5 +201,100 @@ export const cancelOrder = async (req, res) => {
     res.json({ success: true, message: "Order Cancelled" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const requestRefund = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { reason } = req.body;
+
+    if (!reason) {
+      return res.status(400).json({
+        success: false,
+        message: "Refund reason is required"
+      });
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found"
+      });
+    }
+
+    if (order.orderStatus === "Refund Requested") {
+      return res.status(400).json({
+        success: false,
+        message: "Refund already requested"
+      });
+    }
+
+    order.orderStatus = "Refund Requested";
+    order.statusText = "Your order is Refund Requested";
+    order.refundRequest = {
+      reason,
+      status: "Pending",
+      requestedAt: new Date()
+    };
+
+    await order.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Refund request submitted successfully"
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+export const processRefund = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    const order = await Order.findById(orderId);
+
+    if (!order)
+      return res.status(404).json({ message: "Order not found" });
+
+    if (order.orderStatus !== "Refund Requested")
+      return res.status(400).json({ message: "Refund not requested" });
+
+    if (!order.paymentId)
+      return res.status(400).json({ message: "No Razorpay payment ID found" });
+
+    const refund = await razorpay.payments.refund(order.paymentId, {
+      amount: order.total * 100,
+      speed: "normal"
+    });
+
+    order.orderStatus = "Refunded";
+    order.refundAmount = order.total;
+    order.refundDate = new Date();
+    order.refundTransactionId = refund.id;
+    order.refundRequest = {
+      status: "Approved",
+      requestedAt: new Date()
+    };
+
+    await order.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Refund processed successfully",
+      refundId: refund.id
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Refund processing failed"
+    });
   }
 };

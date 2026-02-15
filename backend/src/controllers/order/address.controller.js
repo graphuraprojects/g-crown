@@ -1,3 +1,4 @@
+
 import Address from "../../models/order/Address.js";
 
 export const addAddress = async (req, res) => {
@@ -5,11 +6,7 @@ export const addAddress = async (req, res) => {
     const { _id, role } = req.user;
 
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
     const {
@@ -21,27 +18,20 @@ export const addAddress = async (req, res) => {
       state,
       zip,
       phone,
-      email,
+      email
     } = req.body;
 
     // Validate required fields
     if (
-      !firstName ||
-      !lastName ||
-      !country ||
-      !address ||
-      !city ||
-      !state ||
-      !zip ||
-      !phone ||
-      !email
+      !firstName || !lastName || !country || !address ||
+      !city || !state || !zip || !phone || !email
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     // Create new address with userId
     const newAddress = new Address({
-      userId: _id, // attach addressing to the user
+      userId: _id,   // attach addressing to the user
       firstName,
       lastName,
       country,
@@ -61,21 +51,17 @@ export const addAddress = async (req, res) => {
   }
 };
 
+
 export const getAddresses = async (req, res) => {
   try {
+
     const { _id, role } = req.user;
 
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
-    const addresses = await Address.find({ userId: _id }).sort({
-      createdAt: -1,
-    });
+    const addresses = await Address.find({ userId: _id }).sort({ createdAt: -1 });
     res.json(addresses);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -84,9 +70,7 @@ export const getAddresses = async (req, res) => {
 
 export const updateAddress = async (req, res) => {
   try {
-    const updated = await Address.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const updated = await Address.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updated);
   } catch (err) {
     res.status(500).json({ error: err.message });

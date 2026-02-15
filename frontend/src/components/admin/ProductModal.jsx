@@ -12,6 +12,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     sku: "",
     additionalInfo: "",
     description: "",
+    productFor: "both",
     price: { mrp: "", sale: "" },
     stockStatus: "In Stock",
     status: false,
@@ -181,6 +182,7 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
     fd.append("price", JSON.stringify(formData.price));
     fd.append("attributes", JSON.stringify(formData.attributes));
     fd.append("variants", JSON.stringify(cleanedVariants));
+    fd.append("productFor", formData.productFor);
 
     // IMPORTANT
     fd.append("productImage", JSON.stringify(formData.existingImages));
@@ -272,6 +274,23 @@ const ProductModal = ({ product, onClose, onSuccess }) => {
                   />
                 </div>
               ))}
+            </div>
+
+            <div className="flex flex-col">
+              <label className="font-medium text-indigo-800 mb-1">
+                Gender
+              </label>
+              <select
+                name="productFor"
+                value={formData.productFor}
+                onChange={handleChange}
+                className="border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-300"
+              >
+                <option value="both">Both</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="kid">Kid</option>
+              </select>
             </div>
           </div>
 

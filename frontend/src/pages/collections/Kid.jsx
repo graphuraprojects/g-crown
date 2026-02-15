@@ -2,30 +2,30 @@ import React, { useEffect, useContext } from "react";
 import CollectionPage from "../../components/collections/CollectionPage";
 import { ProductContext } from "../../context/ProductContext";
 
-const WeddingBands = () => {
+const Kid = () => {
   const {
     products,
     loading,
     pagination,
     currentPage,
-    fetchProducts
+    fetchProducts,
   } = useContext(ProductContext);
 
-  // Load engagement collection
   useEffect(() => {
-    fetchProducts(1, "Wedding");
+    fetchProducts(1, undefined, "male");
   }, []);
 
   return (
     <CollectionPage
-      title="Wedding Bands"
-      products={products || []}
+      title="Men's Collection"
+      products={products}
       loading={loading}
       pagination={pagination}
       currentPage={currentPage}
-      fetchProducts={(page) => fetchProducts(page, "Wedding")}
+      fetchProducts={(page) => fetchProducts(page, undefined, "male")}
     />
   );
 };
 
-export default WeddingBands;
+export default Kid;
+

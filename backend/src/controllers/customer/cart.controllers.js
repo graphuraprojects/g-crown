@@ -9,11 +9,7 @@ const addItem = async (req, res) => {
     const { productId, quantity = 1, purity } = req.body;
 
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
     const userCart = await cart.findOne({ userId: _id });
@@ -21,18 +17,15 @@ const addItem = async (req, res) => {
     if (!userCart) {
       const newCart = await cart.create({
         userId: _id,
-        cart: [{ productId, quantity, purity }],
+        cart: [{ productId, quantity, purity }]
       });
 
-      return res
-        .status(200)
-        .json(new ApiResponse(200, newCart, "Added to cart"));
+      return res.status(200).json(new ApiResponse(200, newCart, "Added to cart"));
     }
 
     // Check if product exists in cart already
     const existingItem = userCart.cart.find(
-      (item) =>
-        item.productId.toString() === productId && item.purity === purity,
+      (item) => item.productId.toString() === productId && item.purity === purity
     );
 
     if (existingItem) {
@@ -45,17 +38,12 @@ const addItem = async (req, res) => {
 
     await userCart.save();
 
-    return res
-      .status(200)
-      .json(new ApiResponse(200, userCart, "Added to cart"));
-  } catch (err) {
-    return res
-      .status(500)
-      .json(
-        new ApiError(500, err.message, [
-          { message: err.message, name: err.name },
-        ]),
-      );
+    return res.status(200).json(new ApiResponse(200, userCart, "Added to cart"));
+  }
+  catch (err) {
+    return res.status(500).json(
+      new ApiError(500, err.message, [{ message: err.message, name: err.name }])
+    );
   }
 };
 
@@ -65,17 +53,11 @@ const updateItemQuantity = async (req, res) => {
     let { productId, purity, quantity } = req.body;
 
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
-    if (!productId)
-      return res.status(400).json({ message: "Product ID required" });
-    if (quantity === undefined)
-      return res.status(400).json({ message: "Quantity required" });
+    if (!productId) return res.status(400).json({ message: "Product ID required" });
+    if (quantity === undefined) return res.status(400).json({ message: "Quantity required" });
 
     const userCart = await cart.findOne({ userId: _id });
 
@@ -84,7 +66,7 @@ const updateItemQuantity = async (req, res) => {
     productId = productId.toString();
 
     const itemIndex = userCart.cart.findIndex(
-      (c) => c.productId.toString() === productId && c.purity === purity,
+      (c) => c.productId.toString() === productId && c.purity === purity
     );
 
     if (itemIndex === -1) {
@@ -99,9 +81,8 @@ const updateItemQuantity = async (req, res) => {
 
     await userCart.save();
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Updated", data: userCart });
+    return res.status(200).json({ success: true, message: "Updated", data: userCart });
+
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -111,11 +92,7 @@ const clearCart = async (req, res) => {
   try {
     const { _id, role } = req.user;
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
     const userCart = await cart.findOne({ userId: _id });
@@ -128,14 +105,11 @@ const clearCart = async (req, res) => {
     await userCart.save();
 
     return res.status(200).json(new ApiResponse(200, userCart, "Cart cleared"));
-  } catch (err) {
-    return res
-      .status(500)
-      .json(
-        new ApiError(500, err.message, [
-          { message: err.message, name: err.name },
-        ]),
-      );
+  }
+  catch (err) {
+    return res.status(500).json(
+      new ApiError(500, err.message, [{ message: err.message, name: err.name }])
+    );
   }
 };
 
@@ -145,34 +119,25 @@ const removeItem = async (req, res) => {
     const { productId, purity } = req.body;
 
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
     const userCart = await cart.findOne({ userId: _id });
 
-    if (!userCart)
-      return res.status(404).json(new ApiError(404, "Cart not found"));
+    if (!userCart) return res.status(404).json(new ApiError(404, "Cart not found"));
 
     userCart.cart = userCart.cart.filter(
-      (item) =>
-        !(item.productId.toString() === productId && item.purity === purity),
+      (item) => !(item.productId.toString() === productId && item.purity === purity)
     );
 
     await userCart.save();
 
     return res.status(200).json(new ApiResponse(200, userCart, "Item removed"));
-  } catch (err) {
-    return res
-      .status(500)
-      .json(
-        new ApiError(500, err.message, [
-          { message: err.message, name: err.name },
-        ]),
-      );
+  }
+  catch (err) {
+    return res.status(500).json(
+      new ApiError(500, err.message, [{ message: err.message, name: err.name }])
+    );
   }
 };
 
@@ -181,11 +146,7 @@ const getItems = async (req, res) => {
     const { _id, role } = req.user;
 
     if (role) {
-      return res
-        .status(401)
-        .json(
-          new ApiError(401, "Your are not loged in, please login to proceed."),
-        );
+      return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
     const userObjectId = new mongoose.Types.ObjectId(_id);
@@ -200,13 +161,11 @@ const getItems = async (req, res) => {
           from: "products",
           localField: "cart.productId",
           foreignField: "_id",
-          as: "productDetails",
-        },
+          as: "productDetails"
+        }
       },
 
-      {
-        $unwind: { path: "$productDetails", preserveNullAndEmptyArrays: true },
-      },
+      { $unwind: { path: "$productDetails", preserveNullAndEmptyArrays: true } },
 
       // 6. Shape the output
       {
@@ -214,29 +173,28 @@ const getItems = async (req, res) => {
           _id: 0,
           product: "$productDetails",
           quantity: "$cart.quantity",
-          purity: "$cart.purity",
-        },
+          purity: "$cart.purity"
+        }
       },
 
       {
         $group: {
           _id: null,
-          cart: { $push: "$$ROOT" },
-        },
+          cart: { $push: "$$ROOT" }
+        }
       },
 
-      { $project: { _id: 0, cart: 1 } },
+      { $project: { _id: 0, cart: 1 } }
     ];
 
     const result = await cart.aggregate(pipeline);
 
     const finalResult = result.length > 0 ? result[0] : { cart: [] };
 
-    res
-      .status(200)
-      .json(
-        new ApiResponse(200, finalResult, "Cart items fetched successfully"),
-      );
+    res.status(200).json(
+      new ApiResponse(200, finalResult, "Cart items fetched successfully")
+    );
+
   } catch (err) {
     res.status(500).json(new ApiError(500, err.message));
   }

@@ -1,7 +1,5 @@
 import userOrderModel from "../../models/order/userOrder.model.js";
 
-
-
 export const updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -55,3 +53,6 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+

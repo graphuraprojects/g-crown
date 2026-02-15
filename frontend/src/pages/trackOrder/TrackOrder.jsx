@@ -123,6 +123,42 @@ export default function TrackOrder() {
 /* ================= ORDER STATUS ================= */
 
 function OrderStatus({ orderData, displayOrderId }) {
+  const buildSteps = () => {
+    let baseSteps = [...orderData.steps];
+
+    // If refund requested
+    if (orderData.orderStatus === "Refund Requested") {
+      baseSteps.push({
+        label: "Refund Requested",
+        done: true,
+        date: orderData.refundRequest?.requestedAt || new Date()
+      });
+
+      baseSteps.push({
+        label: "Refund Processing",
+        done: false
+      });
+    }
+
+    if (orderData.orderStatus === "Refunded") {
+      baseSteps.push({
+        label: "Refund Requested",
+        done: true,
+        date: orderData.refundRequest?.requestedAt
+      });
+
+      baseSteps.push({
+        label: "Refund Successful",
+        done: true,
+        date: orderData.refundDate
+      });
+    }
+
+    return baseSteps;
+  };
+
+  const steps = buildSteps();
+
   return (
     <section className="mx-auto mb-8 sm:mb-14">
       <h2 className="mb-2 text-lg sm:text-xl font-semibold">Order Status</h2>
@@ -135,20 +171,16 @@ function OrderStatus({ orderData, displayOrderId }) {
           className="relative flex flex-wrap sm:flex-nowrap justify-between gap-4 sm:gap-6"
           role="progressbar"
         >
-          {orderData.steps.map((step, i) => {
+          {steps.map((step, i) => {
             const isCompleted = step.done;
-            const isLast = i === orderData.steps.length - 1;
+            const isLast = i === steps.length - 1;
 
-            // --- DATE LOGIC ---
-            // If completed, use the actual date. 
-            // If not completed, calculate an estimated date based on index.
             let displayDate = "";
-            if (isCompleted) {
+            if (isCompleted && step.date) {
               displayDate = formatDate(step.date);
-            } else {
-              // Add (i * 2) days to the order creation date for estimation
+            } else if (!isCompleted) {
               const estDate = new Date(orderData.createdAt);
-              estDate.setDate(estDate.getDate() + (i * 2)); 
+              estDate.setDate(estDate.getDate() + (i * 2));
               displayDate = `Expected ${formatDate(estDate)}`;
             }
 
@@ -177,9 +209,14 @@ function OrderStatus({ orderData, displayOrderId }) {
                   {isCompleted && <Check size={16} className="text-white" />}
                 </div>
 
-                <p className={`text-xs sm:text-sm font-medium ${!isCompleted ? "text-gray-400" : ""}`}>
+                <p
+                  className={`text-xs sm:text-sm font-medium ${
+                    !isCompleted ? "text-gray-400" : ""
+                  }`}
+                >
                   {step.label}
                 </p>
+
                 <p className="mt-1 text-[10px] sm:text-xs text-gray-500">
                   {displayDate}
                 </p>
@@ -191,6 +228,7 @@ function OrderStatus({ orderData, displayOrderId }) {
     </section>
   );
 }
+
 
 /* ================= ORDER INFO ================= */
 

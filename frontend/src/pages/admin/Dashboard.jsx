@@ -52,7 +52,7 @@ const Dashboard = () => {
 
   useState(() => {
     ; (async () => {
-      const productApiResponse = await axiosGetService("/customer/product/all", {withCredentials: true});
+      const productApiResponse = await axiosGetService("/admin/product/getall", {withCredentials: true});
       const storeApiResponse = await axiosGetService("/admin/store",  {withCredentials: true});
       const customersApiResponse = await axiosGetService("/admin/order/", { withCredentials: true });
 

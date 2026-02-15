@@ -8,18 +8,18 @@ export const AdminProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
 
   // 1) Admin ला सगळे orders आण
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+  // useEffect(() => {
+  //   fetchOrders();
+  // }, []);
 
-  const fetchOrders = async () => {
-    try {
-      const res = await axios.get("http://localhost:3000/gcrown/api/v1/admin/order", {withCredentials: true});
-      setOrders(res.data);
-    } catch (err) {
-      console.log("Orders Fetch Error:", err);
-    }
-  };
+  // const fetchOrders = async () => {
+  //   try {
+  //     const res = await axios.get("http://localhost:3000/gcrown/api/v1/admin/order", {withCredentials: true});
+  //     setOrders(res.data);
+  //   } catch (err) {
+  //     console.log("Orders Fetch Error:", err);
+  //   }
+  // };
 
   // 2) Status update function (DB + UI + MyOrders साठी)
   const updateOrderStatus = async (id, status) => {

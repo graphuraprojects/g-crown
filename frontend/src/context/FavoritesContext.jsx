@@ -31,7 +31,7 @@ export const FavoritesProvider = ({ children }) => {
       const apiResponse = await axiosGetService("/customer/wishlist/allitem");
 
       if (!apiResponse.ok) {
-        console.log(response.data.message || "Please Login");
+        console.log(apiResponse.data.message || "Please Login");
         return
       }
 
@@ -67,24 +67,24 @@ export const FavoritesProvider = ({ children }) => {
       // Optimistic Add
       setFavorites(prev => [...prev, { ...product, _id: productId }]);
 
-      const response = await axiosPostService("/customer/wishlist/add", {
+      const apiResponse = await axiosPostService("/customer/wishlist/add", {
         productId
       });
 
-      if (!response.ok) {
+      if (!apiResponse.ok) {
         setFavorites(prev => prev.filter(item => item._id !== productId));
-        alert(response.data.message || "Failed to add to wishlist");
+        alert(apiResponse.data.message || "Failed to add to wishlist");
       }
     } else {
       // Optimistic Remove
       setFavorites(prev => prev.filter(item => item._id !== productId));
 
-      const response = await axiosPutService("/customer/wishlist/remove", {
+      const apiResponse = await axiosPutService("/customer/wishlist/remove", {
         productId
       });
 
-      if (!response.ok) {
-        alert(response.data.message || "Failed to remove item");
+      if (!apiResponse.ok) {
+        alert(apiResponse.data.message || "Failed to remove item");
         setFavorites(prev => [...prev, product]);
       }
     }
@@ -93,21 +93,21 @@ export const FavoritesProvider = ({ children }) => {
   const removeFromFavorites = async (productId) => {
     setFavorites(prev => prev.filter(item => item._id !== productId));
 
-    const response = await axiosPutService("/customer/wishlist/remove", {
+    const apiResponse = await axiosPutService("/customer/wishlist/remove", {
       productId
     });
 
-    if (!response.ok) {
-      alert(response.data.message || "Failed to remove item");
+    if (!apiResponse.ok) {
+      alert(apiResponse.data.message || "Failed to remove item");
     }
   };
 
   const clearFavorites = async () => {
     setFavorites([]);
 
-    const response = await axiosPutService("/customer/wishlist/removeall");
+    const apiResponse = await axiosPutService("/customer/wishlist/removeall");
 
-    if (!response.ok) {
+    if (!apiResponse.ok) {
       console.log("Failed to clear wishlist");
     }
   };
