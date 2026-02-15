@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://farming-9qft.onrender.com/api/$1" },
+    { "source": "/api/(.*)", "destination": "https://g-crown.onrender.com/api/$1" },
 
     { "source": "/(.*)", "destination": "/index.html" }
   ]
