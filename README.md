@@ -57,3 +57,4 @@ Frontend Developer
 	•	Responsive UI using Tailwind CSS
 	•	Performance optimization through reusable and lightweight components
 	•	Real-world e-commerce UI patterns
+# g-crown
