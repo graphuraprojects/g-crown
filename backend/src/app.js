@@ -19,11 +19,10 @@ import orderRoutes from "./routers/order/order.routes.js"
 import adminOrderRoutes from "./routers/order/adminOrderRoutes.js"
 import commonSearchRoutes from "./routers/common/search.route.js";
 
-
 const app = express();
 
 app.use(cors({
-    origin:["http://localhost:5173", "https://g-crown.vercel.app"],
+    origin:["http://localhost:5173", "https://g-crown.vercel.app/"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders:["Content-Type", "Authorization"],  
@@ -50,12 +49,5 @@ app.use("/api/v1/admin/prom", adminPromationRoutes);
 app.use("/api/v1/customer/order", orderRoutes);
 
 app.use("/api/v1/common", commonSearchRoutes);
-
-app.use("/api/orders", orderRoutes);  
-app.use("/api/reviews", reviewRoutes);
-app.use("/api/addresses", addressRoutes);
- app.use("/api/payment", paymentRoutes);
-app.use("/api/admin", adminOrderRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 export default app;
