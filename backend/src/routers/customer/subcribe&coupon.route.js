@@ -4,7 +4,7 @@ import {subscribe,userCoupon} from "../../controllers/customer/subscriber.contro
 
 const router = Router();
 
-router.route("/subscribe").post(subscribe);
-router.route("/useCoupon").post(isAuth, userCoupon);
+router.route("/v1/customer/subscribe&coupon/subscribe").post(subscribe);
+router.route("/v1/customer/subscribe&coupon/useCoupon").post(isAuth, userCoupon);
 
 export default router

@@ -18,6 +18,12 @@ import orderRoutes from "./routers/order/order.routes.js";
 import adminOrderRoutes from "./routers/order/adminOrderRoutes.js";
 import commonSearchRoutes from "./routers/common/search.route.js";
 
+// import orderRoutes from "./routers/order/order.routes.js";
+import reviewRoutes from "./routers/order/review.routes.js";
+import addressRoutes from "./routers/order/address.routes.js";
+import paymentRoutes from "./routers/order/payment.routes.js";
+// import adminOrderRoutes from "./routers/order/adminOrderRoutes.js";
+
 const app = express();
 
 
@@ -30,21 +36,27 @@ app.use(cookieParser());
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json({ limit: "100mb" }));
 
-app.use("/api/v1/customer/auth", customerAuthRoutes);
-app.use("/api/v1/customer/product", customerProductRoutes);
-app.use("/api/v1/customer/wishlist", wishListRoutes);
-app.use("/api/v1/customer/store", customerStoreRoutes);
-app.use("/api/v1/customer/cart", cartRoutes);
-app.use("/api/v1/customer/subscribe&coupon", subscribeRoutes);
+app.use("/api", customerAuthRoutes);
+app.use("/api", customerProductRoutes);
+app.use("/api", wishListRoutes);
+app.use("/api", customerStoreRoutes);
+app.use("/api", cartRoutes);
+app.use("/api", subscribeRoutes);
 
-app.use("/api/v1/admin/auth", adminAuthRoutes);
-app.use("/api/v1/admin/product", adminProductRoutes);
-app.use("/api/v1/admin/store", adminStoreRoutes);
-app.use("/api/v1/admin/order", adminOrderRoutes);
-app.use("/api/v1/admin/prom", adminPromationRoutes);
+app.use("/api", adminAuthRoutes);
+app.use("/api", adminProductRoutes);
+app.use("/api", adminStoreRoutes);
+app.use("/api", adminOrderRoutes);
+app.use("/api", adminPromationRoutes);
 
-app.use("/api/v1/customer/order", orderRoutes);
+app.use("/api", orderRoutes);
 
-app.use("/api/v1/common", commonSearchRoutes);
+app.use("/api", commonSearchRoutes);
+
+app.use("/api", orderRoutes);
+app.use("/api", reviewRoutes);
+app.use("/api", addressRoutes);
+app.use("/api", paymentRoutes);
+app.use("/api", adminOrderRoutes);
 
 export default app;

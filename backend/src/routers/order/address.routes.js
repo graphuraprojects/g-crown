@@ -11,9 +11,9 @@ import isAuth from "../../middlewares/requiredLogin.middleware.js"
 
 const router = express.Router();
 
-router.post("/", isAuth, addAddress);
-router.get("/", isAuth, getAddresses);
-router.put("/:id", isAuth, updateAddress);
-router.delete("/:id", isAuth, deleteAddress);
+router.post("/addresses", isAuth, addAddress);
+router.get("/addresses", isAuth, getAddresses);
+router.put("/addresses/:id", isAuth, updateAddress);
+router.delete("/addresses/:id", isAuth, deleteAddress);
 
 export default router;
