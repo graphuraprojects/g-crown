@@ -23,10 +23,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://g-crown.vercel.app", "https://g-crown.onrender.com"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin:"*"
   }),
 );
 app.get("/api/test", (req, res) => {
