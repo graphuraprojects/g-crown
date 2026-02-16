@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import customerAuthRoutes from "./routers/customer/auth.route.js";
@@ -21,11 +20,7 @@ import commonSearchRoutes from "./routers/common/search.route.js";
 
 const app = express();
 
-app.use(
-  cors({
-    origin:"*"
-  }),
-);
+
 app.get("/api/test", (req, res) => {
   res.json({ message: "Rewrite working 🚀" });
 });

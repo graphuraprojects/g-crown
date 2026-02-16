@@ -9,12 +9,20 @@ import adminOrderRoutes from "./routers/order/adminOrderRoutes.js";
 import { fileURLToPath } from "url";
 import path from "path";
 import express from "express";
+import cors from "cors";
+
+app.use(
+    cors({
+        origin: "*"
+    }),
+);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({
-  path: "./.env",
+    path: "./.env",
 });
+
 
 app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
