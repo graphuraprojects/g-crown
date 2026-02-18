@@ -2,7 +2,7 @@ import subscriberModel from "../../models/common/subscriber.models.js";
 import nodemailer from "nodemailer";
 import { ApiError } from "../../utils/api-error.js";
 import { ApiResponse } from "../../utils/api-response.js"
-
+import SibApiV3Sdk from "sib-api-v3-sdk";
 
 const promation = async (req, res) => {
   try {
@@ -30,97 +30,69 @@ const promation = async (req, res) => {
     }
 
     const subscribers = await subscriberModel.find({ confirmed: true });
-    const emails = subscribers.map(s => s.email);
+    const emails = subscribers.map(s => ({ email: s.email }));
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp-relay.brevo.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.Email,
-        pass: process.env.Pass
-      },
-    });
+    if (!emails.length) {
+      return res.status(400).json(new ApiError(400, "No confirmed subscribers found."));
+    }
 
-    await transporter.sendMail({
-      from: `"G-Crown" <logine786@gmail.com>`,
-      bcc: emails,
-      subject,
-      html: promoCode ? `
+    // ===== BREVO CONFIG =====
+    const client = SibApiV3Sdk.ApiClient.instance;
+    client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
+
+    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+    const htmlContent = promoCode
+      ? `
         <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff8f2; padding: 30px; border-radius: 10px; border: 1px solid #f5e3d8; max-width: 600px; margin: auto;">
-
           <div style="text-align: center;">
-            <h1 style="color: #c19b6b; font-weight: 600; letter-spacing: 1px; font-size: 28px; margin-bottom: 5px;">
-              Exclusive Offer from G-Crown ✨
-            </h1>
-            <p style="color: #8b6b45; margin: 0 0 15px; font-size: 14px;">
-              ${message}
-            </p>
+            <h1 style="color: #c19b6b;">Exclusive Offer from G-Crown ✨</h1>
+            <p>${message}</p>
           </div>
 
-          <div style="background-color: #ffffff; border: 1px solid #e3d3c1; padding: 18px; border-radius: 8px; margin: 20px 0; text-align: center;">
-            <p style="margin: 0; color: #7a5b3b; font-size: 15px;">
-              <b>Your Offer Gift Awaits 👑</b>
-            </p>
-            <p style="margin: 10px 0 0; font-size: 26px; font-weight: bold; color: #c19b6b; letter-spacing: 2px;">
-              ${promoCode}
-            </p>
-            <p style="margin: 8px 0 0; color: #5f4933; font-size: 14px;">
-              Enjoy <strong>${percent}% OFF</strong> on purchase.
-            </p>
-            <p style="margin: 8px 0 0; color: #8b6b45; font-size: 13px;">
-              Valid until: <strong>${expiry.toDateString()}</strong>
-            </p>
-
-
-            <div style="text-align: center; margin-top: 22px;">
-    <a href="https://g-crown.vercel.app/" style="display: inline-block; padding: 12px 26px; background-color: #c19b6b; color: white; text-decoration: none; border-radius: 6px; font-size: 15px; font-weight: 500; letter-spacing: 1px;">
-      Explore G-Crown
-    </a>
-  </div>
+          <div style="background:#fff; padding:18px; border-radius:8px; text-align:center;">
+            <h2>${promoCode}</h2>
+            <p><strong>${percent}% OFF</strong></p>
+            <p>Valid until: <strong>${expiry.toDateString()}</strong></p>
           </div>
 
-          <p style="text-align: center; font-size: 12px; color: #97826b; margin-top: 25px;">
-            With Love & Craftsmanship — G-Crown Family
-          </p>
-        </div>`
-        : `<div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff8f2; padding: 30px; border-radius: 10px; border: 1px solid #f5e3d8; max-width: 600px; margin: auto;">
+          <div style="text-align:center; margin-top:20px;">
+            <a href="https://g-crown.vercel.app/"
+              style="padding:12px 26px; background:#c19b6b; color:#fff; text-decoration:none; border-radius:6px;">
+              Explore G-Crown
+            </a>
+          </div>
+        </div>
+      `
+      : `
+        <div style="font-family: 'Segoe UI', Arial, sans-serif; padding:30px;">
+          <h2>A Special Note from G-Crown ✨</h2>
+          <p style="white-space:pre-line;">${message}</p>
 
-  <div style="text-align: center;">
-    <h1 style="color: #c19b6b; font-weight: 600; letter-spacing: 1px; font-size: 28px; margin-bottom: 5px;">
-      A Special Note from G-Crown ✨
-    </h1>
-    <p style="color: #8b6b45; margin: 0 0 15px; font-size: 14px;">
-      Discover Elegance. Embrace Luxury.
-    </p>
-  </div>
+          <div style="text-align:center; margin-top:20px;">
+            <a href="https://g-crown.vercel.app/"
+              style="padding:12px 26px; background:#c19b6b; color:#fff; text-decoration:none; border-radius:6px;">
+              Explore G-Crown
+            </a>
+          </div>
+        </div>
+      `;
 
- <p style="color: #5e4d3c; font-size: 15px; line-height: 24px; margin-top: 10px; text-align:center; white-space:pre-line;">
-  ${message}
-</p>
-
-
-  <p style="font-size: 14px; color: #624c35; text-align: center; margin: 25px 0 10px;">
-    We appreciate your presence in our exclusive community of jewelry lovers.
-  </p>
-
-  <div style="text-align: center; margin-top: 22px;">
-    <a href="https://g-crown.vercel.app/" style="display: inline-block; padding: 12px 26px; background-color: #c19b6b; color: white; text-decoration: none; border-radius: 6px; font-size: 15px; font-weight: 500; letter-spacing: 1px;">
-      Explore G-Crown
-    </a>
-  </div>
-
-  <p style="text-align: center; font-size: 12px; color: #97826b; margin-top: 25px;">
-    With Love & Craftsmanship — G-Crown Family
-  </p>
-</div>`
+    await apiInstance.sendTransacEmail({
+      sender: {
+        name: "G-Crown",
+        email: "logine786@gmail.com", // MUST be verified in Brevo
+      },
+      to: emails, // Brevo supports multiple recipients
+      subject,
+      htmlContent,
     });
 
-    // Save promo code globally
+    // Save promo code
     if (promoCode) {
       global.PROMO_COUPONS[promoCode] = {
         percent,
-        expiresAt: expiry
+        expiresAt: expiry,
       };
     }
 
@@ -135,9 +107,11 @@ const promation = async (req, res) => {
     );
 
   } catch (err) {
+    console.log("Brevo Promotion Error:", err.response?.body || err);
     return res.status(500).json(new ApiError(500, err.message));
   }
 };
+
 
 
 export { promation }
