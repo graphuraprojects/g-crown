@@ -4,11 +4,11 @@ import isAuth from "../../middlewares/requiredLogin.middleware.js";
 
 const router = Router();
 
-router.route("/v1/customer/product/review").post(isAuth, addReview);
-router.route("/v1/customer/product/all").get( getAllProducts);
-router.route("/v1/customer/product/productId/:id").get(getProductById);
-router.route("/v1/customer/product/newarrival").get(newArrivalProducts);
-router.route("/v1/customer/product/:productId/reviews").get(getProductReviews);
+router.route("/review").post(isAuth, addReview);
+router.route("/all").get( getAllProducts);
+router.route("/productId/:id").get(getProductById);
+router.route("/newarrival").get(newArrivalProducts);
+router.route("/:productId/reviews").get(getProductReviews);
 
 
 export default router

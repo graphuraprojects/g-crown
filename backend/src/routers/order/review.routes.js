@@ -3,7 +3,7 @@ import Review from "../../models/order/Review.js";
 
 const router = express.Router();
 
-router.post("/reviews/add", async (req, res) => {
+router.post("/add", async (req, res) => {
   try {
 
     const { orderId, rating, comment } = req.body;

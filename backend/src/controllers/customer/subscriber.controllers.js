@@ -20,11 +20,13 @@ const subscribe = async (req, res) => {
     }
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp-relay.brevo.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.Email,
         pass: process.env.Pass
-      }
+      },
     });
 
     subscriber = await subscriberModel.create({
@@ -70,7 +72,7 @@ const subscribe = async (req, res) => {
   </p>
 
   <div style="text-align: center; margin-top: 22px;">
-    <a href="http://localhost:5173" style="display: inline-block; padding: 12px 26px; background-color: #c19b6b; color: white; text-decoration: none; border-radius: 6px; font-size: 15px; font-weight: 500; letter-spacing: 1px;">
+    <a href="https://g-crown.vercel.app/" style="display: inline-block; padding: 12px 26px; background-color: #c19b6b; color: white; text-decoration: none; border-radius: 6px; font-size: 15px; font-weight: 500; letter-spacing: 1px;">
       Explore G-Crown
     </a>
   </div>

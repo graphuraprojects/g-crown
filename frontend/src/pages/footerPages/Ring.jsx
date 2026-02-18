@@ -20,7 +20,7 @@ const RingsListing = () => {
       );
 
       if (!apiResponse.ok) {
-        toast.error("Failed to load necklaces.");
+        toast.error("Failed to load Rings.");
         return;
       }
 
@@ -31,8 +31,8 @@ const RingsListing = () => {
       setCurrentPage(page);
 
     } catch (error) {
-      console.error("Failed to load necklaces", error);
-      toast.error("Something went wrong while fetching necklaces.");
+      console.error("Failed to load Rings", error);
+      toast.error("Something went wrong while fetching Rings.");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,7 @@ const RingsListing = () => {
       <Toaster />
 
       <CollectionPage
-        title="Necklace Collection"
+        title="Rings Collection"
         products={products}
         loading={loading}
         pagination={pagination}

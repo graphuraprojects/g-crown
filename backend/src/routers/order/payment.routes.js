@@ -5,9 +5,9 @@ import isAuth from "../../middlewares/requiredLogin.middleware.js"
 
 
 const router = express.Router();
-router.post("/payment/create", createOrder);
-router.post("/payment/create-order", createOrder);
-router.post("/payment/verify",isAuth, verifyPayment);
+router.post("/create", createOrder);
+router.post("/create-order", createOrder);
+router.post("/verify",isAuth, verifyPayment);
 
 
 

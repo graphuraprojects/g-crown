@@ -8,6 +8,6 @@ const router = express.Router();
  * @desc    Search products
  * @access  Public
  */
-router.get("/v1/common/search", searchProducts);
+router.get("/search", searchProducts);
 
 export default router;

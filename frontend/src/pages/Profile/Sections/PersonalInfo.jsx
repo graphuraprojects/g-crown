@@ -78,19 +78,19 @@ const PersonalInfo = () => {
       let apiResponse = await axiosGetService("/customer/auth/myProfile");
 
       if (!apiResponse.ok) {
-        toast.error("Please login to access your profile", {
-          style: {
-            border: "1px solid #CBA135",
-            padding: "16px",
-            color: "#1C3A2C",
-            background: "#EFDFB7",
-          },
-          iconTheme: {
-            primary: "#1C3A2C",
-            secondary: "#FFFAEE",
-          },
-        });
-        setTimeout(() => navigate("/signin"), 1500);
+        // toast.error("Please login to access your profile", {
+        //   style: {
+        //     border: "1px solid #CBA135",
+        //     padding: "16px",
+        //     color: "#1C3A2C",
+        //     background: "#EFDFB7",
+        //   },
+        //   iconTheme: {
+        //     primary: "#1C3A2C",
+        //     secondary: "#FFFAEE",
+        //   },
+        // });
+        navigate("/signin");
 
         // navigate("/signin"); // Redirect to login
         return;

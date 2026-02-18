@@ -1,26 +1,28 @@
 import nodemailer from "nodemailer";
-import {ApiError} from "../../utils/api-error.js";
-import {ApiResponse} from "../../utils/api-response.js";
+import { ApiError } from "../../utils/api-error.js";
+import { ApiResponse } from "../../utils/api-response.js";
 
 const otp = async (req, res) => {
-    try{
-        const {email} = req.body;
+    try {
+        const { email } = req.body;
 
-        let OTP = parseInt(Math.random()*1000000).toString();
+        let OTP = parseInt(Math.random() * 1000000).toString();
 
         const transport = nodemailer.createTransport({
-            service: "gmail",
-            auth:{
-                 user:  process.env.Email,
+            host: "smtp-relay.brevo.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.Email,
                 pass: process.env.Pass
-            }
+            },
         });
 
         await transport.sendMail({
             from: `"G-Crown" <logine786@gmail.com>`,
             to: email,
             subject: "Your G-Crown Verification Code",
-             html: `<div style="font-family: Arial, sans-serif;">
+            html: `<div style="font-family: Arial, sans-serif;">
                     <h2 style="color: #0066cc;">G-Crown</h2>
                     <p>Your One-Time Password (OTP) for verifying your G-Crown account is:</p>
                     <h1 style="color: #333;">${OTP}</h1>
@@ -31,10 +33,10 @@ const otp = async (req, res) => {
                     </div>`,
         });
 
-        return res.status(200).json(new ApiResponse(200,OTP, "Otp Send Successfully." ));
+        return res.status(200).json(new ApiResponse(200, OTP, "Otp Send Successfully."));
     }
-    catch(err){
-        return res.status(500).json(new ApiError(500, err.message, [{message: err.message, name: err.name}]))
+    catch (err) {
+        return res.status(500).json(new ApiError(500, err.message, [{ message: err.message, name: err.name }]))
     }
 }
 

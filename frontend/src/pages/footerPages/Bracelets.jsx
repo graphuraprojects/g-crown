@@ -20,7 +20,7 @@ const BraceletsListing = () => {
       );
 
       if (!apiResponse.ok) {
-        toast.error("Failed to load necklaces.");
+        toast.error("Failed to load Bracelets.");
         return;
       }
 
@@ -31,8 +31,8 @@ const BraceletsListing = () => {
       setCurrentPage(page);
 
     } catch (error) {
-      console.error("Failed to load necklaces", error);
-      toast.error("Something went wrong while fetching necklaces.");
+      console.error("Failed to load Bracelets", error);
+      toast.error("Something went wrong while fetching Bracelets.");
     } finally {
       setLoading(false);
     }

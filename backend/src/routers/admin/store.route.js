@@ -8,9 +8,9 @@ const router = Router();
 const storage = multer.memoryStorage();
 const upload = multer({storage});
 
-router.route("/v1/admin/store/").get(isAuth, getShowrooms);
-router.route("/v1/admin/store/add").post(isAuth, upload.array("storeImage", 5), addShowroom);
-router.route("/v1/admin/store/softdelete").put(isAuth, softDeleteShowroom);
-router.route("/v1/admin/store/harddelete").delete(isAuth, hardDeleteShowroom);
+router.route("/").get(isAuth, getShowrooms);
+router.route("/add").post(isAuth, upload.array("storeImage", 5), addShowroom);
+router.route("/softdelete").put(isAuth, softDeleteShowroom);
+router.route("/harddelete").delete(isAuth, hardDeleteShowroom);
 
 export default router

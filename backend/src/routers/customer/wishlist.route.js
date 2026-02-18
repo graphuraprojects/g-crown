@@ -4,9 +4,9 @@ import isAuth from "../../middlewares/requiredLogin.middleware.js";
 
 const router = Router();
 
-router.route("/v1/customer/wishlist/add").post(isAuth, addWishlist);
-router.route("/v1/customer/wishlist/remove").put(isAuth, removeWishlist);
-router.route("/v1/customer/wishlist/removeall").put(isAuth, removeAll);
-router.route("/v1/customer/wishlist/allitem").get(isAuth, getWishlist);
+router.route("/add").post(isAuth, addWishlist);
+router.route("/remove").put(isAuth, removeWishlist);
+router.route("/removeall").put(isAuth, removeAll);
+router.route("/allitem").get(isAuth, getWishlist);
 
 export default router

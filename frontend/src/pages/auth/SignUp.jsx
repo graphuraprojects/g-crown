@@ -172,12 +172,12 @@ const SignUp = () => {
             </p>
           </motion.div>
 
-          <div className="mt-6 flex items-center gap-3">
+          {/* <div className="mt-6 flex items-center gap-3">
             <span className="h-1.5 flex-1 rounded-full bg-[#C9A23F]" />
             <span className="h-1.5 flex-1 rounded-full bg-white/40" />
             <span className="h-1.5 flex-1 rounded-full bg-white/40" />
             <span className="h-1.5 flex-1 rounded-full bg-white/40" />
-          </div>
+          </div> */}
         </div>
       </div>
 

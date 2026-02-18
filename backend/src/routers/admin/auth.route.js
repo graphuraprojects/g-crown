@@ -11,17 +11,17 @@ let router = Router();
 let storage = multer.memoryStorage();
 let upload = multer({storage});
 
-router.route("/v1/admin/auth/signupOtp").post(duplicateEmail, otp);
-router.route("/v1/admin/auth/signup").post(Signup);
-router.route("/v1/admin/auth/login").post(adminEmail, Login);
-router.route("/v1/admin/auth/forgetPasswordOtp").post(adminEmail, otp);
-router.route("/v1/admin/auth/forgetPassword").put(ForgotPassword);
-router.route("/v1/admin/auth/changepassword").put(isAuth, changePassword)
-router.route("/v1/admin/auth/signout").post(Signout);
-router.route("/v1/admin/auth/profile").put(isAuth, upload.single("profileImage"), UpdateProfile)
-router.route('/v1/admin/auth/myprofile').get(isAuth, myProfile);
+router.route("/signupOtp").post(duplicateEmail, otp);
+router.route("/signup").post(Signup);
+router.route("/login").post(adminEmail, Login);
+router.route("/forgetPasswordOtp").post(adminEmail, otp);
+router.route("/forgetPassword").put(ForgotPassword);
+router.route("/changepassword").put(isAuth, changePassword)
+router.route("/signout").post(Signout);
+router.route("/profile").put(isAuth, upload.single("profileImage"), UpdateProfile)
+router.route('/myprofile').get(isAuth, myProfile);
 
-router.route("/v1/admin/auth/getemployee").get(isAuth, getAllUsers);
-router.route("/v1/admin/auth/deleteemployee").delete(isAuth, deleteUser)
+router.route("/getemployee").get(isAuth, getAllUsers);
+router.route("/deleteemployee").delete(isAuth, deleteUser)
 
 export default router;

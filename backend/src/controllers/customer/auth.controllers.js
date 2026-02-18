@@ -4,7 +4,7 @@ import { ApiResponse } from "../../utils/api-response.js";
 import { encryptPasswordMethod, decryptPasswordMethod } from "../../utils/passwordEncrypt&passwordDecrypt.js";
 import cookiesForUser from "../../utils/cookiesForUser.js";
 import { cloudinary, deleteFromCloudinary } from "../../configs/cloudinary.js";
-import {OAuth2Client} from "google-auth-library"
+import { OAuth2Client } from "google-auth-library"
 
 const Signup = async (req, res) => {
     try {
@@ -37,6 +37,10 @@ const Login = async (req, res) => {
         const { email, password } = req.body;
 
         const customerDetail = await auth_Model.findOne({ email: email });
+
+        if (!customerDetail) {
+            return res.status(404).json(new ApiError(404, "User Not Found"));
+        }
 
         const decryptPassword = await decryptPasswordMethod(password, customerDetail.password);
 
@@ -160,7 +164,7 @@ const UpdateProfile = async (req, res) => {
             { new: true }
         );
 
-        if(!userData){
+        if (!userData) {
             return res.status(401).json(new ApiError(401, "Duplication Value"));
         }
 
@@ -229,7 +233,7 @@ const GoogleAuth = async (req, res) => {
 
         await cookiesForUser(res, user);
 
-        return res.status(200).json(new ApiResponse(200, {userEmail: email}, "Successful"));
+        return res.status(200).json(new ApiResponse(200, { userEmail: email }, "Successful"));
     }
     catch (err) {
         return res.status(500).json(new ApiError(500, err.message, [{ message: err.message, name: err.name }]));
