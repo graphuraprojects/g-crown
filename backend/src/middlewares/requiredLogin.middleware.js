@@ -15,7 +15,7 @@ const jwtVerifier = async (req, res, next) => {
             try{
                 let jwtVerifier = jwt.verify(accessToken, process.env.Jwt_Key);
                 req.user = jwtVerifier.user;
-                next();
+                return next();
             }
             catch(err){
                 if(err.name === "TokenExpiredError" || err.name === "JsonWebTokenError"){

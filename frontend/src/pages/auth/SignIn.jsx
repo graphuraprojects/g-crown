@@ -272,11 +272,13 @@ const SignIn = () => {
                 </div>
 
                 {/* <motion.button whileTap={{ scale: 0.98 }} type="button" className="flex w-full items-center justify-center gap-4 border border-gray-200 bg-white py-3.5 text-[14px] font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition-all"> */}
+                <div className="w-full mt-2">
                   <GoogleLogin
                     onSuccess={handleGoogleLogin}
                     onError={() => console.log("❌ Google Login Failed")}
-                   className="flex w-full items-center justify-center gap-4 border border-gray-200 bg-white py-3.5 text-[14px] font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition-all" 
+                    width="100%"
                   />
+                </div>
                 {/* </motion.button> */}
 
                 <motion.button whileTap={{ scale: 0.98 }} onClick={() => navigate("/admin/login")} type="button" className="w-full border border-[#1E3A2F] py-3.5 text-[14px] font-bold text-[#1E3A2F] hover:bg-[#1E3A2F] hover:text-white transition-all mt-2">

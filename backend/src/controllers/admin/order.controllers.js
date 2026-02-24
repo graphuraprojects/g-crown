@@ -50,7 +50,7 @@ export const updateOrderStatus = async (req, res) => {
     });
   } catch (error) {
     console.error("ADMIN ORDER UPDATE ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 

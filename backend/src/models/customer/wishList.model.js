@@ -8,9 +8,13 @@ const wishlistSchema = new Schema({
         ref: "customer"
     },
     wishlist: [{
+        productId:{
         type: ObjectId,
         ref: "product"
-    }]
+    },
+        quantity: Number,
+        purity: String,}
+]
 }, { timestamps: true });
 
 wishlistSchema.index({ customerId: 1 });

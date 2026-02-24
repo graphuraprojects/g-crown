@@ -26,69 +26,111 @@ export const FavoritesProvider = ({ children }) => {
     fetchWishlist();
   }, []);
 
-  const fetchWishlist = async () => {
-    try {
-      const apiResponse = await axiosGetService("/customer/wishlist/allitem");
+const fetchWishlist = async () => {
+  try {
+    const apiResponse = await axiosGetService(
+      "/customer/wishlist/allitem"
+    );
 
-      if (!apiResponse.ok) {
-        console.log(apiResponse.data.message || "Please Login");
-        return
-      }
+    if (!apiResponse.ok) {
+      console.log(apiResponse.data.message || "Please Login");
+      return;
+    }
 
-      const list = apiResponse.data.data[0]?.products || [];
+    const list = apiResponse.data.data?.wishlist || [];
 
-      const formatted = list.map(p => ({
-        _id: p._id,
-        slug: p.slug,
-        name: p.name,
-        price: p.price,
-        stockStatus: p.stockStatus,
-        productImage: p.productImage,   // ⭐ important for images
-        category: p.category
-      }));
+    const formatted = list.map(item => {
 
+      const product = item.product;
 
-      setFavorites(formatted);
-      localStorage.setItem(
-        "g-crown-favorites",
-        JSON.stringify(formatted.map(x => x._id))
+      const variant = product?.variants?.find(
+        v => String(v.purity) === String(item.purity)
       );
-    } catch (err) {
-      console.log("Wishlist load error:", err);
+
+      return {
+        _id: product?._id,
+        slug: product?.slug,
+        name: product?.name,
+        category: product?.category,
+        productImage: product?.productImage,
+        stockStatus: product?.stockStatus,
+
+        price: {
+          mrp: variant?.price || 0,
+          sale: variant?.sale || 0,
+          currency: product?.price?.currency || "INR"
+        },
+
+        availableStock: variant?.quantity || 0,
+
+        quantity: item.quantity,
+        purity: item.purity
+      };
+    });
+
+    setFavorites(formatted);
+
+  } catch (err) {
+    console.log("Wishlist load error:", err);
+  }
+};
+
+const toggleFavorite = async (product, productPurity) => {
+
+  const productId = String(product._id || product.id);
+  const purity = String(productPurity);
+
+  const exists = favorites.some(
+    item =>
+      String(item._id) === productId &&
+      String(item.purity) === purity
+  );
+
+  if (!exists) {
+
+    setFavorites(prev => [
+      ...prev,
+      { ...product, _id: productId, purity }
+    ]);
+
+    const apiResponse = await axiosPostService(
+      "/customer/wishlist/add",
+      { productId, purity }
+    );
+
+    if (!apiResponse?.ok) {
+      setFavorites(prev =>
+        prev.filter(
+          item =>
+            !(String(item._id) === productId &&
+              String(item.purity) === purity)
+        )
+      );
     }
-  };
 
-  const toggleFavorite = async (product) => {
-    const productId = product._id || product.id;
+  } else {
 
-    const exists = favorites.some(item => item._id === productId);
+    setFavorites(prev =>
+      prev.filter(
+        item =>
+          !(String(item._id) === productId &&
+            String(item.purity) === purity)
+      )
+    );
 
-    if (!exists) {
-      // Optimistic Add
-      setFavorites(prev => [...prev, { ...product, _id: productId }]);
+    const apiResponse = await axiosPutService(
+      "/customer/wishlist/remove",
+      { productId, purity }
+    );
 
-      const apiResponse = await axiosPostService("/customer/wishlist/add", {
-        productId
-      });
-
-      if (!apiResponse.ok) {
-        setFavorites(prev => prev.filter(item => item._id !== productId));
-        alert(apiResponse.data.message || "Failed to add to wishlist");
-      }
-    } else {
-      // Optimistic Remove
-      setFavorites(prev => prev.filter(item => item._id !== productId));
-
-      const apiResponse = await axiosPutService("/customer/wishlist/remove", {
-        productId
-      });
-
-      if (!apiResponse.ok) {
-        alert(apiResponse.data.message || "Failed to remove item");
-        setFavorites(prev => [...prev, product]);
-      }
+    if (!apiResponse?.ok) {
+      setFavorites(prev => [
+        ...prev,
+        { ...product, _id: productId, purity }
+      ]);
     }
-  };
+  }
+};
 
   const removeFromFavorites = async (productId) => {
     setFavorites(prev => prev.filter(item => item._id !== productId));

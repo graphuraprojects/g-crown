@@ -59,7 +59,7 @@ const ProductCard = ({ product, allproducts }) => {
       <button
         onClick={(e) => {
           e.stopPropagation();
-          toggleFavorite(product);
+          toggleFavorite(product, product.attributes.purity[0]);
         }}
         className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur p-2 rounded-full shadow hover:scale-110 transition"
         aria-label="Toggle favorite"

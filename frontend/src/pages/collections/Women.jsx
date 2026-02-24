@@ -15,17 +15,17 @@ const Women = () => {
   } = useContext(ProductContext);
 
   useEffect(() => {
-    fetchProducts(1, undefined, "male");
+    fetchProducts(1, undefined, "Women");
   }, []);
 
   return (
     <CollectionPage
-      title="Men's Collection"
+      title="Women's Collection"
       products={products}
       loading={loading}
       pagination={pagination}
       currentPage={currentPage}
-      fetchProducts={(page) => fetchProducts(page, undefined, "male")}
+      fetchProducts={(page) => fetchProducts(page, undefined, "Women")}
     />
   );
 };

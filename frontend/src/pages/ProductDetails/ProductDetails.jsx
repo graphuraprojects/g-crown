@@ -75,6 +75,25 @@ const ProductDetails = () => {
   //   };
 
 
+  const handleAddtoWishList = () => {
+    if (!product) return;
+
+    const selectedVariant = product.variants[selectPurity];
+
+    if (!selectedVariant || selectedVariant.quantity <= 0) {
+      alert("Selected purity is out of stock");
+      return;
+    }
+
+    if (quantity > selectedVariant.quantity) {
+      alert(`Only ${selectedVariant.quantity} quantity available`);
+      return;
+    }
+
+    toggleFavorite(product, selectedVariant.purity);
+  }
+
+
   const handleAddToCart = () => {
     if (!product) return;
 
@@ -243,7 +262,7 @@ const ProductDetails = () => {
                 className="w-full h-full object-cover"
               />
               <button
-                onClick={() => product && toggleFavorite(product)}
+                onClick={handleAddtoWishList}
                 className="absolute top-4 right-4 z-10 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
               >
                 <Heart

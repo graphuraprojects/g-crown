@@ -86,9 +86,9 @@ const softDeleteShowroom = async (req, res) => {
             deletedAt: new Date()
         });
 
-        res.status(200).json({ success: true, message: "Soft deleted" });
+        return res.status(200).json({ success: true, message: "Soft deleted" });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        return res.status(500).json({ success: false, message: err.message });
     }
 }
 
@@ -110,9 +110,9 @@ const hardDeleteShowroom = async (req, res) => {
 
         await Showroom.findByIdAndDelete(id);
 
-        res.status(200).json({ success: true, message: "Hard deleted" });
+        return res.status(200).json({ success: true, message: "Hard deleted" });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        return res.status(500).json({ success: false, message: err.message });
     }
 }
 

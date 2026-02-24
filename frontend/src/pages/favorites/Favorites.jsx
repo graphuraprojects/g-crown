@@ -21,20 +21,39 @@ export default function Favorites() {
   ======================= */
 
   const handleAddToCart = (product) => {
-    const element = itemRefs.current[product.id];
-    if (element) element.classList.add("opacity-0", "translate-x-4", "transition-all", "duration-500");
+
+    const element = itemRefs.current[product._id];
+    if (element) {
+      element.classList.add(
+        "opacity-0",
+        "translate-x-4",
+        "transition-all",
+        "duration-500"
+      );
+    }
 
     setTimeout(() => {
-      addToCart(product, 1);
-      removeFromFavorites(product.id);
-      if (showToast) showToast(`${product.name} added to cart!`);
+
+      addToCart(product, 1, product.purity);
+
+      removeFromFavorites(product._id);
+
+      if (showToast) {
+        showToast(`${product.name} added to cart!`);
+      }
+
     }, 400);
   };
 
   const handleAddAllToCart = () => {
     if (favorites.length === 0) return;
-    favorites.forEach((item) => addToCart(item, 1));
+
+    favorites.forEach((item) => {
+      addToCart(item, 1, item.purity);
+    });
+
     clearFavorites();
+
     showToast("All items moved to cart");
   };
 

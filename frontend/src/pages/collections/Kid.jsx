@@ -12,17 +12,17 @@ const Kid = () => {
   } = useContext(ProductContext);
 
   useEffect(() => {
-    fetchProducts(1, undefined, "male");
+    fetchProducts(1, undefined, "Kid");
   }, []);
 
   return (
     <CollectionPage
-      title="Men's Collection"
+      title="Kid's Collection"
       products={products}
       loading={loading}
       pagination={pagination}
       currentPage={currentPage}
-      fetchProducts={(page) => fetchProducts(page, undefined, "male")}
+      fetchProducts={(page) => fetchProducts(page, undefined, "Kid")}
     />
   );
 };

@@ -5,62 +5,95 @@ import mongoose from "mongoose";
 
 const addWishlist = async (req, res) => {
   try {
-    const { productId } = req.body;
     const { _id, role } = req.user;
+    const { productId, quantity = 1, purity } = req.body;
 
     if (role) {
       return res.status(401).json(new ApiError(401, "Your are not customer"))
     }
 
-    let wishlist = await wishlistModel.findOne({ customerId: _id });
+    const userWishlist = await wishlistModel.findOne({
+      customerId: _id,
+    });
 
-    if (!wishlist) {
-      wishlist = wishlistModel({
+    // 🔹 If wishlist does not exist → create new
+    if (!userWishlist) {
+      const newWishlist = await wishlistModel.create({
         customerId: _id,
-        wishlist: [productId]
+        wishlist: [{ productId, quantity, purity }],
       });
 
-      await wishlist.save();
-      return res.status(200).json(new ApiResponse(200, null, "Added to wishlist"));
+      return res.status(200).json(
+        new ApiResponse(200, newWishlist, "Added to wishlist")
+      );
     }
 
-    if (wishlist.wishlist.includes(productId)) {
-      return res.status(409).json(new ApiError(409, "Product already in wishlist"));
+    const existingItem = userWishlist.wishlist.find(
+      (item) =>
+        item.productId.toString() === productId
+    );
+
+    if (existingItem) {
+      return res.status(409).json(
+        new ApiError(409, "Product already in wishlist")
+      );
     }
 
-    wishlist.wishlist.push(productId);
-    await wishlist.save();
+    // 🔹 Push new item
+    userWishlist.wishlist.push({ productId, quantity, purity });
 
-    return res.status(200).json(new ApiResponse(200, null, "Added to wishlist"));
+    await userWishlist.save();
+
+    return res.status(200).json(
+      new ApiResponse(200, userWishlist, "Added to wishlist")
+    );
 
   } catch (err) {
-    return res.status(500).json(new ApiError(500, err.message, [{ message: err.message, name: err.name }]));
+    return res.status(500).json(
+      new ApiError(500, err.message, [
+        { message: err.message, name: err.name }
+      ])
+    );
   }
 };
 
 const removeWishlist = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId} = req.body;
     const { _id, role } = req.user;
 
     if (role) {
-      return res.status(401).json(new ApiError(401, "Your are not customer"))
+      return res.status(401).json(
+        new ApiError(401, "You are not a customer")
+      );
     }
 
     const wishlist = await wishlistModel.findOneAndUpdate(
       { customerId: _id },
-      { $pull: { wishlist: productId } },
+      {
+        $pull: {
+          wishlist: {
+            productId: new mongoose.Types.ObjectId(productId),
+          }
+        }
+      },
       { new: true }
     );
 
     if (!wishlist) {
-      return res.status(404).json(new ApiError(404, "Wishlist not found"));
+      return res.status(404).json(
+        new ApiError(404, "Wishlist not found")
+      );
     }
 
-    return res.status(200).json(new ApiResponse(200, null, "Removed from wishlist"));
+    return res.status(200).json(
+      new ApiResponse(200, wishlist, "Removed from wishlist")
+    );
 
   } catch (err) {
-    return res.status(500).json(new ApiError(500, err.message, [{ message: err.message, name: error.name }]));
+    return res.status(500).json(
+      new ApiError(500, err.message)
+    );
   }
 };
 
@@ -105,33 +138,65 @@ const getWishlist = async (req, res) => {
     const { _id, role } = req.user;
 
     if (role) {
-      return res.status(401).json(new ApiError(401, "Your are not customer"))
+      return res.status(401).json(
+        new ApiError(401, "You are not a customer")
+      );
     }
 
-    const wishlist = await wishlistModel.aggregate([
-      {
-        $match: {
-          customerId: new mongoose.Types.ObjectId(_id)
-        }
-      },
+    const userObjectId = new mongoose.Types.ObjectId(_id);
+
+    const pipeline = [
+      { $match: { customerId: userObjectId } },
+
+      { $unwind: "$wishlist" },
+
       {
         $lookup: {
           from: "products",
-          localField: "wishlist",
+          localField: "wishlist.productId",
           foreignField: "_id",
-          as: "products"
+          as: "productDetails"
         }
-      }
-    ]);
+      },
 
-    return res
-      .status(200)
-      .json(new ApiResponse(200, wishlist, "Your Wish List Items."));
+      { $unwind: { path: "$productDetails", preserveNullAndEmptyArrays: true } },
+
+      {
+        $project: {
+          _id: 0,
+          product: "$productDetails",
+          quantity: "$wishlist.quantity",
+          purity: "$wishlist.purity"
+        }
+      },
+
+      {
+        $group: {
+          _id: null,
+          wishlist: { $push: "$$ROOT" }
+        }
+      },
+
+      { $project: { _id: 0, wishlist: 1 } }
+    ];
+
+    const result = await wishlistModel.aggregate(pipeline);
+
+    const finalResult =
+      result.length > 0 ? result[0] : { wishlist: [] };
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        finalResult,
+        "Wishlist items fetched successfully"
+      )
+    );
 
   } catch (err) {
-    return res
-      .status(500)
-      .json(new ApiError(500, err.message, [{ message: err.message, name: err.name }]));
+    return res.status(500).json(
+      new ApiError(500, err.message)
+    );
   }
 };
 

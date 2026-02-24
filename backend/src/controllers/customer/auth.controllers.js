@@ -38,9 +38,9 @@ const Login = async (req, res) => {
 
         const customerDetail = await auth_Model.findOne({ email: email });
 
-        if (!customerDetail) {
-            return res.status(404).json(new ApiError(404, "User Not Found"));
-        }
+        // if (!customerDetail) {
+        //     return res.status(404).json(new ApiError(404, "User Not Found"));
+        // }
 
         const decryptPassword = await decryptPasswordMethod(password, customerDetail.password);
 
