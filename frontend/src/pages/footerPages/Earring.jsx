@@ -16,7 +16,7 @@ const EarringsListing = () => {
       setLoading(true);
 
       const apiResponse = await axiosGetService(
-        `/customer/product/all?page=${page}&limit=${LIMIT}&category=Earring`
+        `/customer/product/all?page=${page}&limit=${LIMIT}&category=Earrings`
       );
 
       if (!apiResponse.ok) {

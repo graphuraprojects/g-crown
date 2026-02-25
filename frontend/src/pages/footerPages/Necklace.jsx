@@ -16,7 +16,7 @@ const NecklacesListing = () => {
       setLoading(true);
 
       const apiResponse = await axiosGetService(
-        `/customer/product/all?page=${page}&limit=${LIMIT}&category=Necklaces`
+        `/customer/product/all?page=${page}&limit=${LIMIT}&category=Necklace`
       );
 
       if (!apiResponse.ok) {
