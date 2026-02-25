@@ -15,7 +15,7 @@ const Women = () => {
   } = useContext(ProductContext);
 
   useEffect(() => {
-    fetchProducts(1, undefined, "Women");
+    fetchProducts(1, undefined, "female");
   }, []);
 
   return (
@@ -25,7 +25,7 @@ const Women = () => {
       loading={loading}
       pagination={pagination}
       currentPage={currentPage}
-      fetchProducts={(page) => fetchProducts(page, undefined, "Women")}
+      fetchProducts={(page) => fetchProducts(page, undefined, "female")}
     />
   );
 };

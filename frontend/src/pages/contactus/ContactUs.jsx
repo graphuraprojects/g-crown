@@ -1,20 +1,38 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send, ChevronRight, CheckCircle2 } from "lucide-react";
+import axios from "axios";
+import { axiosPostService } from "../../services/axios";
 
 export default function ContactUs() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Standard Production delay for API feedback
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 1500);
+
+    try {
+      const response = await axiosPostService(
+        "/inquiry",
+        form
+      );
+
+      console.log(response.data)
+
+      if (response.data.success) {
+        setSubmitted(true);
+        setForm({ name: "", email: "", subject: "", message: "" });
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert(
+        error.response?.data?.message || "Something went wrong. Please try again."
+      );
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -38,8 +56,8 @@ export default function ContactUs() {
       {/* 2. MAIN PRODUCTION CONTENT */}
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="flex flex-col lg:flex-row gap-20">
-          
-          {/* LEFT COLUMN: BRAND INFO */}
+
+          {/* LEFT COLUMN */}
           <div className="lg:w-5/12 space-y-16">
             <section>
               <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-8">Our Presence</h2>
@@ -66,7 +84,7 @@ export default function ContactUs() {
             </section>
 
             <section className="p-8 bg-white border border-[#E5DDCC]">
-              <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-[#1C3A2C] mb-4">Buisness Hours</h2>
+              <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-[#1C3A2C] mb-4">Business Hours</h2>
               <div className="space-y-2 text-sm text-gray-600 font-sans">
                 <div className="flex justify-between border-b border-gray-100 py-2">
                   <span>Monday — Friday</span>
@@ -84,7 +102,7 @@ export default function ContactUs() {
             </section>
           </div>
 
-          {/* RIGHT COLUMN: THE FORM CARD */}
+          {/* RIGHT COLUMN */}
           <div className="lg:w-7/12">
             <div className="bg-white border border-[#E5DDCC] p-8 md:p-16 shadow-sm relative overflow-hidden">
               <AnimatePresence mode="wait">
@@ -95,7 +113,8 @@ export default function ContactUs() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0, x: 20 }}
                   >
-                    <h3 className="text-2xl font-medium mb-10">Technichal Inquiry</h3>
+                    <h3 className="text-2xl font-medium mb-10">Technical Inquiry</h3>
+
                     <form onSubmit={handleSubmit} className="space-y-8 font-sans">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <InputField 
@@ -114,14 +133,18 @@ export default function ContactUs() {
                           onChange={(v) => setForm({...form, email: v})}
                         />
                       </div>
+
                       <InputField 
                         label="Inquiry Subject" 
                         placeholder="Product Consultation, Order Status, etc."
                         value={form.subject}
                         onChange={(v) => setForm({...form, subject: v})}
                       />
+
                       <div className="flex flex-col gap-2">
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Message</label>
+                        <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
+                          Message *
+                        </label>
                         <textarea 
                           rows="5"
                           required
@@ -160,7 +183,7 @@ export default function ContactUs() {
                     <h3 className="text-3xl font-medium mb-4">Inquiry Submitted</h3>
                     <p className="text-gray-500 font-sans max-w-sm mx-auto leading-relaxed">
                       Your message has been assigned to a concierge specialist. 
-                      You will receive a response at <span className="text-[#1C3A2C] font-semibold">{form.email}</span> within 24 business hours.
+                      You will receive a response within 24 business hours.
                     </p>
                     <button 
                       onClick={() => setSubmitted(false)}
@@ -176,15 +199,15 @@ export default function ContactUs() {
         </div>
       </div>
 
-      {/* 3. TRUST FOOTER SECTION */}
+      {/* FOOTER */}
       <footer className="bg-white border-t border-[#E5DDCC] py-16 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] font-bold mb-2">Social Presence</p>
             <div className="flex gap-6 font-sans text-sm text-gray-500">
-              <a href="#" className="hover:text-[#D4AF37] transition-colors">Instagram</a>
-              <a href="#" className="hover:text-[#D4AF37] transition-colors">LinkedIn</a>
-              <a href="#" className="hover:text-[#D4AF37] transition-colors">Pinterest</a>
+              <a href="#">Instagram</a>
+              <a href="#">LinkedIn</a>
+              <a href="#">Pinterest</a>
             </div>
           </div>
           <div className="text-xs text-gray-400 font-sans tracking-wide">
@@ -196,7 +219,7 @@ export default function ContactUs() {
   );
 }
 
-/* --- PRODUCTION UI ATOMS --- */
+/* --- UI COMPONENTS --- */
 
 const ContactInfoBlock = ({ icon, title, content, actionText }) => (
   <div className="flex gap-6 group">
@@ -204,7 +227,7 @@ const ContactInfoBlock = ({ icon, title, content, actionText }) => (
     <div>
       <h4 className="text-sm font-bold mb-1">{title}</h4>
       <p className="text-gray-500 font-sans text-sm leading-relaxed mb-2">{content}</p>
-      <button className="text-[10px] uppercase tracking-widest font-bold border-b border-transparent group-hover:border-[#D4AF37] transition-all">
+      <button className="text-[10px] uppercase tracking-widest font-bold">
         {actionText}
       </button>
     </div>
@@ -212,9 +235,9 @@ const ContactInfoBlock = ({ icon, title, content, actionText }) => (
 );
 
 const InputField = ({ label, type = "text", placeholder, required, value, onChange }) => (
-  <div className="flex flex-col gap-2 group">
-    <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 group-focus-within:text-[#1C3A2C] transition-colors">
-      {label} {required && "*" }
+  <div className="flex flex-col gap-2">
+    <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
+      {label} {required && "*"}
     </label>
     <input 
       type={type}
