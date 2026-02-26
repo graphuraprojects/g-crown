@@ -557,7 +557,7 @@ useEffect(() => {
               navigate("/target");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}>
-              Contact Us
+              Browse Our Collection
             </button>
           </div>
           <img

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {  AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom"; // Add this
 import model from "../../assets/authPages/comingModel.png";
 import logo from "../../assets/authPages/logo.png";
