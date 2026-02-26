@@ -74,6 +74,15 @@ const PersonalInfo = () => {
   };
 
   useEffect(() => {
+
+
+    const access = localStorage.getItem("access");
+
+    if (!access) {
+      console.log("Check")
+      navigate("/signin");
+    }
+
     (async () => {
       let apiResponse = await axiosGetService("/customer/auth/myProfile");
 
@@ -216,11 +225,10 @@ const PersonalInfo = () => {
         <button
           onClick={handleUpdate}
           disabled={isUpdating}
-          className={`px-12 py-4 text-sm font-medium tracking-wide transition-all duration-300 rounded-sm ${
-            showSuccess
+          className={`px-12 py-4 text-sm font-medium tracking-wide transition-all duration-300 rounded-sm ${showSuccess
               ? "bg-green-600 text-white"
               : "bg-[#1B3022] text-white hover:bg-[#2a4532]"
-          } shadow-lg active:scale-95`}
+            } shadow-lg active:scale-95`}
         >
           {isUpdating
             ? "Updating..."

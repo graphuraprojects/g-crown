@@ -80,7 +80,10 @@ export default function Verify() {
         if(role === "admin"){
           navigate("/admin/dashboard");
         }
-        else{navigate("/coming-soon");}
+        else{
+          localStorage.setItem("access", "true");
+          navigate("/coming-soon", {state: {email: apiResponse.data.data.email}});
+        }
       }, 1500);
     }
   };

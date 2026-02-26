@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // Add this
+import { useNavigate, useLocation } from "react-router-dom"; // Add this
 import model from "../../assets/authPages/comingModel.png";
 import logo from "../../assets/authPages/logo.png";
 
 const LAUNCH_DATE = new Date("2025-12-31T00:00:00").getTime();
 
 export default function ComingSoon() {
+  const {email} = useLocation().state || {}
   const navigate = useNavigate(); // Initialize navigate
   const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -35,7 +36,7 @@ export default function ComingSoon() {
 
   // Handler for skip button
   const handleSkip = () => {
-    navigate("/?welcome=true"); // Pass the flag to Home
+    navigate("/", {state: {welcomeMessage: true,userName: email}}); // Pass the flag to Home
   };
 
   return (

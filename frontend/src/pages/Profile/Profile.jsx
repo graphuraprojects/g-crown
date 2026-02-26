@@ -20,7 +20,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
 
-  // Navigation helper defined inside component
   const handleLogout = async () => {
     // Add any cleanup logic here (clear localStorage, etc.)
     const apiResponse = await axiosPostService("/customer/auth/signout", {});
@@ -37,7 +36,6 @@ const Profile = () => {
     }
   };
 
-  // Senior Tip: Use a render map for better readability
   const TabContent = useMemo(() => {
     switch (activeTab) {
       case "profile": return <PersonalInfo />;
@@ -126,7 +124,7 @@ const LogoutView = ({ onConfirm, onCancel }) => {
                 />
               </div>
               <h2 className="text-2xl font-serif tracking-[0.2em] uppercase">Securing Session</h2>
-              <p className="text-[#B38B59] mt-2 italic font-light">Clearing your data...</p>
+              <p className="text-[#B38B59] mt-2 italic font-light">Thank you for choosing G-Crown. Signing you out…</p>
             </motion.div>
           </motion.div>
         )}

@@ -129,8 +129,9 @@ const SignUp = () => {
         return
       }
 
+      localStorage.setItem("access", "true");
       navigate("/", {
-        state: { welcomeMessage: true, userName: apiResponse.data.userEmail, isReturningUser: true }
+        state: { welcomeMessage: true, userName: apiResponse.data.data.email, isReturningUser: true }
       });
     }
     catch (err) {
