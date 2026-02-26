@@ -68,6 +68,7 @@ export const Collections = () => {
   };
 
   
+  
   // Backend-aware Filtering Logic
   const filteredProducts = useMemo(() => {
 
