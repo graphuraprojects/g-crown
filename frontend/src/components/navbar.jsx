@@ -53,7 +53,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* NAVBAR */}
+      
       <header
         className={`fixed top-0 left-0 w-full z-50 bg-[#0F231C]
         transition-transform duration-300 ease-out
@@ -61,7 +61,7 @@ export default function Navbar() {
       >
         <div className="mx-auto max-w-360 px-4 sm:px-6 lg:px-10">
           <div className="relative flex h-22 items-center justify-between">
-            {/* MOBILE LEFT (Menu) */}
+            
             <button
               aria-label="Open menu"
               onClick={() => setMenuOpen(true)}
@@ -70,7 +70,7 @@ export default function Navbar() {
               <Menu size={26} />
             </button>
 
-            {/* DESKTOP SEARCH */}
+            
             <div className="hidden lg:flex w-[320px] xl:w-105 items-center rounded-full bg-[#FBF6EA] px-4 py-2">
               <input
                 type="text"
@@ -102,48 +102,62 @@ export default function Navbar() {
               <IconButton
                 Icon={Heart}
                 active={isActive("/favorites")}
-                onClick={() => { navigate("/favorites"); window.scrollTo(0,0); }}
+                onClick={() => {
+                  navigate("/favorites");
+                  window.scrollTo(0, 0);
+                }}
                 badge={favorites.length}
               />
               <IconButton
                 Icon={ShoppingCart}
                 active={isActive("/cart")}
-                onClick={() => { navigate("/cart"); window.scrollTo(0,0); }}
+                onClick={() => {
+                  navigate("/cart");
+                  window.scrollTo(0, 0);
+                }}
                 badge={getCartCount()}
               />
               <div className="hidden lg:flex gap-3">
                 <IconButton
                   Icon={MapPin}
                   active={isActive("/track-order")}
-                  onClick={() => { navigate("/track-order"); window.scrollTo(0,0); }}
+                  onClick={() => {
+                    navigate("/track-order");
+                    window.scrollTo(0, 0);
+                  }}
                 />
                 <IconButton
                   Icon={User}
                   active={isActive("/profile")}
-                  onClick={() => { navigate("/profile"); window.scrollTo(0,0); }}
+                  onClick={() => {
+                    navigate("/profile");
+                    window.scrollTo(0, 0);
+                  }}
                 />
               </div>
             </div>
           </div>
 
-          {/* DESKTOP NAV */}
+          
           <nav className="hidden lg:flex items-center justify-between pb-4 text-base xl:text-lg">
+            
             <div className="flex gap-30 xl:gap-40">
               <CustomNavLink label="Home" href="/" />
-              <CustomNavLink label="About Us" href="/about" />
               <CustomNavLink label="Collections" href="/collections" />
-            </div>
-            <div className="flex gap-30 xl:gap-40">
               <CustomNavLink label="Occasions" href="/occasions" />
-              {/* ✅ CHANGED: New Arrivals → Coming Soon */}
+            </div>
+
+            
+            <div className="flex gap-30 xl:gap-40">
               <CustomNavLink label="Coming Soon" href="/new-arrivals" />
               <CustomNavLink label="Store" href="/store" />
+              <CustomNavLink label="About Us" href="/about" />
             </div>
           </nav>
         </div>
       </header>
 
-      {/* Overlay */}
+      
       <div
         onClick={() => setMenuOpen(false)}
         className={`fixed inset-0 z-40 bg-black/40 transition-opacity
@@ -166,11 +180,11 @@ export default function Navbar() {
         <nav className="px-6 pt-6 space-y-6 text-lg">
           {[
             { label: "Home", href: "/" },
-            { label: "About Us", href: "/about" },
             { label: "Collections", href: "/collections" },
             { label: "Occasions", href: "/occasions" },
-            { label: "Coming Soon", href: "/new-arrivals" }, // ✅ CHANGED
+            { label: "Coming Soon", href: "/new-arrivals" },
             { label: "Store", href: "/store" },
+            { label: "About Us", href: "/about" },
             { label: "Track Order", href: "/track-order" },
           ].map((item) => (
             <RouterNavLink
@@ -178,7 +192,9 @@ export default function Navbar() {
               to={item.href}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) =>
-                `block transition-colors ${isActive ? "text-white font-bold" : "text-[#CBA135] hover:text-white"}`
+                `block transition-colors ${
+                  isActive ? "text-white font-bold" : "text-[#CBA135] hover:text-white"
+                }`
               }
             >
               {item.label}
@@ -186,28 +202,37 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Drawer Footer */}
+        
         <div className="absolute bottom-6 left-0 w-full px-6">
           <div className="flex justify-between">
             <MobileAction
               Icon={Heart}
               label="Wishlist"
               active={isActive("/favorites")}
-              onClick={() => { setMenuOpen(false); navigate("/favorites"); }}
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/favorites");
+              }}
               badge={favorites.length}
             />
             <MobileAction
               Icon={ShoppingCart}
               label="Cart"
               active={isActive("/cart")}
-              onClick={() => { setMenuOpen(false); navigate("/cart"); }}
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/cart");
+              }}
               badge={getCartCount()}
             />
             <MobileAction
               Icon={User}
               label="Account"
               active={isActive("/profile")}
-              onClick={() => { setMenuOpen(false); navigate("/profile"); }}
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/profile");
+              }}
             />
           </div>
         </div>
@@ -215,6 +240,7 @@ export default function Navbar() {
     </>
   );
 }
+
 
 function IconButton({ Icon, onClick, badge = 0, active = false }) {
   return (
@@ -225,8 +251,10 @@ function IconButton({ Icon, onClick, badge = 0, active = false }) {
     >
       <Icon size={18} />
       {badge > 0 && (
-        <span className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
-        ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}>
+        <span
+          className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
+          ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}
+        >
           {badge > 9 ? "9+" : badge}
         </span>
       )}
@@ -234,15 +262,20 @@ function IconButton({ Icon, onClick, badge = 0, active = false }) {
   );
 }
 
+
 function MobileAction({ Icon, label, onClick, badge = 0, active = false }) {
   return (
     <button onClick={onClick} className="relative flex flex-col items-center gap-1 text-sm">
-      <div className={`relative flex h-12 w-12 items-center justify-center rounded-full transition-colors
-        ${active ? "bg-[#CBA135] text-white" : "bg-[#FBF6EA] text-[#0F231C]"}`}>
+      <div
+        className={`relative flex h-12 w-12 items-center justify-center rounded-full transition-colors
+        ${active ? "bg-[#CBA135] text-white" : "bg-[#FBF6EA] text-[#0F231C]"}`}
+      >
         <Icon size={20} />
         {badge > 0 && (
-          <span className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
-          ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}>
+          <span
+            className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
+            ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}
+          >
             {badge > 9 ? "9+" : badge}
           </span>
         )}
@@ -251,6 +284,7 @@ function MobileAction({ Icon, label, onClick, badge = 0, active = false }) {
     </button>
   );
 }
+
 
 function CustomNavLink({ label, href }) {
   return (
