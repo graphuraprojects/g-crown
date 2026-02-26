@@ -32,6 +32,19 @@ import { ProductContext } from "../../context/ProductContext.jsx";
 
 import gridImg from '../../assets/homePage/homeGrid.png'
 
+{/* Grid Image Section */}
+<section className="w-full bg-[#FFF7E8] py-8 sm:py-12">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
+    {/* GRID IMAGE */}
+    <img
+      src={gridImg}
+      alt="Grid Banner"
+      className="w-full rounded-2xl"
+    />
+
+  </div>
+</section>
 const slides = [
   {
     id: 1,
@@ -163,9 +176,9 @@ export default function HomeMain() {
   const { products, fetchProducts } = useContext(ProductContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-      fetchProducts(1, "");
-  }, []);
+useEffect(() => {
+  fetchProducts(1, "");
+}, [fetchProducts]);
 
   // const featuredProducts = products
   //   .filter(p => p.bestseller)
@@ -525,6 +538,7 @@ export default function HomeMain() {
           </div>
         </div>
       </section>
+      
 
       {/* 7. CTA BANNER */}
       <section className="py-24 px-4 flex justify-center">
