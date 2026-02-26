@@ -5,7 +5,7 @@ import { FilterSidebar } from "../../components/filterSection";
 import shippingIcon from "../../assets/NewArrivalAssets/logos/la_shipping-fast.png";
 import paymentIcon from "../../assets/NewArrivalAssets/logos/fluent_payment-32-regular.png";
 import supportIcon from "../../assets/NewArrivalAssets/logos/streamline-plump_customer-support-7.png";
-import bannerImage from "../../assets/NewArrivalAssets/Frame 7654506.png";
+import bannerImage from "../../assets/NewArrivalAssets/fgps.png";
 
 import { axiosGetService } from "../../services/axios";
 
