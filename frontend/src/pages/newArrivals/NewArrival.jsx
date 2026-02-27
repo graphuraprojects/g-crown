@@ -5,7 +5,7 @@ import { FilterSidebar } from "../../components/filterSection";
 import shippingIcon from "../../assets/NewArrivalAssets/logos/la_shipping-fast.png";
 import paymentIcon from "../../assets/NewArrivalAssets/logos/fluent_payment-32-regular.png";
 import supportIcon from "../../assets/NewArrivalAssets/logos/streamline-plump_customer-support-7.png";
-import bannerImage from "../../assets/NewArrivalAssets/Frame 7654506.png";
+import bannerImage from "../../assets/NewArrivalAssets/fgps.png";
 
 import { axiosGetService } from "../../services/axios";
 
@@ -91,12 +91,12 @@ const NewArrival = () => {
 
   const handleMinPriceChange = useCallback((e) => {
     const newMin = Number(e.target.value);
-    setPriceRange(([_, max]) => [newMin, max]);
+    setPriceRange(([, max]) => [newMin, max]);
   }, []);
 
   const handleMaxPriceChange = useCallback((e) => {
     const newMax = Number(e.target.value);
-    setPriceRange(([min, _]) => [min, newMax]);
+    setPriceRange(([min]) => [min, newMax]);
   }, []);
 
   const filteredProducts = useMemo(() => {
