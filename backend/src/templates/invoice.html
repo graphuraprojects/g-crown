@@ -1,47 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8" />
+  <title>Invoice</title>
+
   <style>
-    body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 0; }
-    .container { width: 720px; margin: 0 auto; padding: 30px; border: 2px solid #000; margin-top: 20px; margin-bottom: 20px; }
-    .header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 10px; }
-    .logo { font-size: 20px; font-weight: bold; }
-    .invoice-title { text-align: right; }
-    .section { margin-top: 15px; overflow: hidden; border: 1px solid #ddd; padding: 10px; }
-    .address-box { width: 48%; display: inline-block; vertical-align: top; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border: 1px solid #000; padding: 6px; text-align: left; }
-    th { background: #f2f2f2; }
-    .total-table { width: 40%; float: right; margin-top: 10px; border: 1px solid #000; }
-    .total-table td { border: none; padding: 6px 8px; }
-    .total-table tr { border-bottom: 1px solid #ddd; }
-    .footer { margin-top: 30px; font-size: 10px; text-align: center; border-top: 1px solid #000; padding-top: 10px; }
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      font-size: 12px;
+      margin: 0;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .container {
+      width: 720px;              /* Desktop / A4 safe */
+      margin: auto;
+      padding: 25px;
+      border: 2px solid #000;
+    }
+
+    /* ---- HEADER ---- */
+    .header {
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .logo {
+      float: left;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .invoice-title {
+      float: right;
+      text-align: right;
+      font-size: 12px;
+    }
+
+    .clear {
+      clear: both;
+    }
+
+    /* ---- ADDRESS ---- */
+    .section {
+      margin-top: 15px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .address-box {
+      width: 48%;
+      float: left;
+      font-size: 12px;
+    }
+
+    .address-box.right {
+      float: right;
+    }
+
+    /* ---- TABLE ---- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: left;
+    }
+
+    th {
+      background: #f2f2f2;
+    }
+
+    /* ---- TOTAL ---- */
+    .total-table {
+      width: 40%;
+      float: right;
+      margin-top: 10px;
+      border: 1px solid #000;
+    }
+
+    .total-table td {
+      border: none;
+      padding: 6px 8px;
+    }
+
+    .total-table tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .grand-total {
+      font-weight: bold;
+      border-top: 2px solid #000;
+    }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      margin-top: 30px;
+      font-size: 10px;
+      text-align: center;
+      border-top: 1px solid #000;
+      padding-top: 10px;
+    }
+
+    /* ---- MOBILE SAFE ---- */
+    @media (max-width: 600px) {
+      .container {
+        width: 100%;
+        padding: 15px;
+      }
+
+      .logo,
+      .invoice-title,
+      .address-box,
+      .total-table {
+        float: none;
+        width: 100%;
+        text-align: left;
+      }
+
+      .invoice-title {
+        margin-top: 10px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
+
     <div class="header">
       <div class="logo">GC Jewellery</div>
       <div class="invoice-title">
         <h3>Tax Invoice</h3>
-        <p>Invoice No: {{invoiceNo}}</p>
-        <p>Order ID: {{orderId}}</p>
-        <p>Date: {{invoiceDate}}</p>
+        Invoice No: {{invoiceNo}}<br>
+        Order ID: {{orderId}}<br>
+        Date: {{invoiceDate}}
       </div>
+      <div class="clear"></div>
     </div>
 
     <div class="section">
       <div class="address-box">
         <h4>Billing Address</h4>
-        <p>{{billingName}}</p>
-        <p>{{billingAddress}}</p>
+        {{billingName}}<br>
+        {{billingAddress}}
       </div>
 
-      <div class="address-box" style="float:right">
+      <div class="address-box right">
         <h4>Shipping Address</h4>
-        <p>{{shippingName}}</p>
-        <p>{{shippingAddress}}</p>
+        {{shippingName}}<br>
+        {{shippingAddress}}
       </div>
+      <div class="clear"></div>
     </div>
 
     <table>
@@ -60,36 +181,29 @@
 
     <table class="total-table">
       <tr>
-        <td>Subtotal:</td>
+        <td>Subtotal</td>
         <td>₹{{subTotal}}</td>
       </tr>
       <tr>
-        <td>GST (18%):</td>
+        <td>GST</td>
         <td>₹{{gstAmount}}</td>
       </tr>
       <tr>
-        <td>Shipping Charges:</td>
+        <td>Shipping</td>
         <td>₹{{shippingCharge}}</td>
       </tr>
-<<<<<<< HEAD
-      <tr style="font-weight:bold;border-top:1px solid #000;">
-=======
-      <tr style="font-weight:bold;border-top:2px solid #000;">
->>>>>>> master
-        <td>Grand Total:</td>
+      <tr class="grand-total">
+        <td>Grand Total</td>
         <td>₹{{grandTotal}}</td>
       </tr>
     </table>
 
-    <div style="clear:both"></div>
+    <div class="clear"></div>
 
     <div class="footer">
       This is a computer generated invoice. No signature required.
     </div>
+
   </div>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> master
