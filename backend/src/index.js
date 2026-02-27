@@ -33,6 +33,6 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 DatabaseConnection();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server Run on PORT: ${PORT}`));
