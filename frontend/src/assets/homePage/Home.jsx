@@ -490,20 +490,16 @@ export default function HomeMain() {
               </div>
 
               <div className="p-5">
-                <div className="flex items-center text-sm mb-2">
-                  <span className="text-[#CBA135] mr-2">★★★★★</span>
-                  <span className="text-[#666] w-[100px] h-[20px] pl-[8px] flex items-center gap-1">
-                    (248 reviews)
-                  </span>
-                </div>
+<div className="flex items-center text-sm mb-2">
+  <span className="text-[#CBA135] mr-2">★★★★★</span>
+  <span className="text-[#666] w-[100px] h-[20px] pl-[8px] flex items-center gap-1">
+    (248 reviews)
+  </span>
+</div>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
-                <h3 className="font-cormorant font-bold text-[24px] leading-[32px] tracking-normal text-[#08221B] mb-1">
-                  Eternal Sparkle Diamond Ring
-                </h3>
+<h3 className="font-cormorant font-bold text-[24px] leading-[32px] tracking-normal text-[#08221B] mb-1">
+  Eternal Sparkle Diamond Ring
+</h3>
 
                 <p className="text-sm text-[#666] mb-3">
                   18K White Gold | 2.5ct Diamond
@@ -776,7 +772,7 @@ export default function HomeMain() {
           hover:shadow-lg
         "
       >
-        Contact Us
+        Browse Our Collections
       </button>
     </div>
 
