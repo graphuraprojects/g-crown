@@ -1,8 +1,15 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, Search, HelpCircle, Diamond, Truck, RefreshCw, X, Send, Calendar, User, Mail, Clock } from "lucide-react";
+<<<<<<< HEAD
 import {axiosPostService} from "../../services/axios"
 
+=======
+
+/** * SENIOR FUNDAMENTAL: Data structures are kept outside the component
+ * to allow for clean logic and potential external API integration.
+ */
+>>>>>>> master
 const FAQ_DATA = [
   {
     category: "Materials & Quality",
@@ -65,7 +72,11 @@ const AccordionItem = ({ item, isOpen, onToggle, id }) => (
         </div>
       </button>
     </h3>
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> master
     <AnimatePresence initial={false}>
       {isOpen && (
         <motion.div
@@ -91,6 +102,7 @@ export default function FAQ() {
   const [activeId, setActiveId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+<<<<<<< HEAD
   // BUG FIX 1: loading state was used but never declared
   const [loading, setLoading] = useState(false);
 
@@ -109,6 +121,17 @@ export default function FAQ() {
       ...group,
       questions: group.questions.filter(item =>
         item.q.toLowerCase().includes(lowerTerm) ||
+=======
+  // Performance optimized search with memoization
+  const filteredFaqs = useMemo(() => {
+    const lowerTerm = searchTerm.toLowerCase().trim();
+    if (!lowerTerm) return FAQ_DATA;
+    
+    return FAQ_DATA.map(group => ({
+      ...group,
+      questions: group.questions.filter(item => 
+        item.q.toLowerCase().includes(lowerTerm) || 
+>>>>>>> master
         item.a.toLowerCase().includes(lowerTerm)
       )
     })).filter(group => group.questions.length > 0);
@@ -117,7 +140,11 @@ export default function FAQ() {
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+<<<<<<< HEAD
     "mainEntity": FAQ_DATA.flatMap(group =>
+=======
+    "mainEntity": FAQ_DATA.flatMap(group => 
+>>>>>>> master
       group.questions.map(item => ({
         "@type": "Question",
         "name": item.q,
@@ -126,6 +153,7 @@ export default function FAQ() {
     )
   };
 
+<<<<<<< HEAD
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -171,6 +199,8 @@ export default function FAQ() {
 
   // BUG FIX 2: return statement was placed OUTSIDE the function body (after the closing `}`),
   // making it unreachable dead code. Moved it inside the function.
+=======
+>>>>>>> master
   return (
     <div className="bg-[#FAF7ED] min-h-screen text-[#1C3A2C] selection:bg-[#D4AF37] selection:text-white">
       <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
@@ -178,8 +208,13 @@ export default function FAQ() {
       {/* HERO SECTION */}
       <header className="bg-[#1C3A2C] pt-24 pb-16 md:pt-32 md:pb-28 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/diamond-upholstery.png')]"></div>
+<<<<<<< HEAD
 
         <motion.div
+=======
+        
+        <motion.div 
+>>>>>>> master
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative z-10 max-w-4xl mx-auto"
@@ -188,10 +223,17 @@ export default function FAQ() {
           <h1 className="text-3xl md:text-5xl lg:text-7xl text-white font-light tracking-tight mb-8 font-serif leading-tight">
             How can we <span className="italic text-[#D4AF37]">help you?</span>
           </h1>
+<<<<<<< HEAD
 
           <div className="relative max-w-xl mx-auto group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
             <input
+=======
+          
+          <div className="relative max-w-xl mx-auto group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
+            <input 
+>>>>>>> master
               type="search"
               placeholder="Search for diamonds, shipping, resizing..."
               className="w-full bg-white/5 border border-white/20 rounded-none py-5 pl-12 pr-4 text-white font-sans text-sm md:text-base focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 transition-all placeholder:text-white/30"
@@ -215,7 +257,11 @@ export default function FAQ() {
                 {group.questions.map((item, qIdx) => {
                   const uniqueId = `${groupIdx}-${qIdx}`;
                   return (
+<<<<<<< HEAD
                     <AccordionItem
+=======
+                    <AccordionItem 
+>>>>>>> master
                       key={uniqueId}
                       id={uniqueId}
                       item={item}
@@ -242,13 +288,21 @@ export default function FAQ() {
             Our personal concierge is available for one-on-one consultations regarding bespoke designs and high-jewelry inquiries.
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-stretch sm:items-center">
+<<<<<<< HEAD
             <a
+=======
+            <a 
+>>>>>>> master
               href="tel:7378021327"
               className="bg-[#1C3A2C] text-white px-12 py-5 text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-black transition-all active:scale-[0.98] text-center no-underline shadow-lg shadow-[#1C3A2C]/10"
             >
               Contact Concierge
             </a>
+<<<<<<< HEAD
             <button
+=======
+            <button 
+>>>>>>> master
               onClick={() => setIsModalOpen(true)}
               className="border-2 border-[#1C3A2C] text-[#1C3A2C] px-12 py-5 text-xs md:text-sm uppercase tracking-[0.2em] font-bold hover:bg-[#1C3A2C] hover:text-white transition-all active:scale-[0.98]"
             >
@@ -262,21 +316,36 @@ export default function FAQ() {
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+<<<<<<< HEAD
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+=======
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+>>>>>>> master
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
               className="absolute inset-0 bg-[#1C3A2C]/90 backdrop-blur-md"
             />
+<<<<<<< HEAD
 
             <motion.div
+=======
+            
+            <motion.div 
+>>>>>>> master
               initial={{ scale: 0.9, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 30 }}
               className="relative bg-[#FAF7ED] w-full max-w-xl p-8 md:p-14 shadow-2xl rounded-sm border border-[#E5DDCC]"
             >
+<<<<<<< HEAD
               <button
+=======
+              <button 
+>>>>>>> master
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-8 right-8 text-[#1C3A2C] hover:text-[#D4AF37] transition-colors"
                 aria-label="Close modal"
@@ -290,6 +359,7 @@ export default function FAQ() {
                 <p className="text-gray-500 text-sm md:text-base max-w-sm mx-auto">Please leave your details below and our concierge will confirm your session.</p>
               </div>
 
+<<<<<<< HEAD
               {/* BUG FIX 3: form was calling an inline alert handler instead of the defined onSubmit function */}
               <form className="space-y-8" onSubmit={onSubmit}>
                 <div className="space-y-6">
@@ -302,12 +372,30 @@ export default function FAQ() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Full Name"
+=======
+              <form 
+                className="space-y-8"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  alert("Thank you. Your appointment request has been sent to the admin.");
+                  setIsModalOpen(false);
+                }}
+              >
+                <div className="space-y-6">
+                  <div className="relative group">
+                    <User className="absolute left-0 bottom-3 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
+                    <input 
+                      required 
+                      type="text" 
+                      placeholder="Full Name" 
+>>>>>>> master
                       className="w-full bg-transparent border-b-2 border-[#E5DDCC] py-3 pl-10 text-[#1C3A2C] placeholder:text-gray-300 focus:outline-none focus:border-[#D4AF37] transition-all font-sans text-lg"
                     />
                   </div>
 
                   <div className="relative group">
                     <Mail className="absolute left-0 bottom-3 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
+<<<<<<< HEAD
                     <input
                       required
                       type="email"
@@ -315,6 +403,12 @@ export default function FAQ() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email Address"
+=======
+                    <input 
+                      required 
+                      type="email" 
+                      placeholder="Email Address" 
+>>>>>>> master
                       className="w-full bg-transparent border-b-2 border-[#E5DDCC] py-3 pl-10 text-[#1C3A2C] placeholder:text-gray-300 focus:outline-none focus:border-[#D4AF37] transition-all font-sans text-lg"
                     />
                   </div>
@@ -324,12 +418,18 @@ export default function FAQ() {
                       <label className="text-[11px] uppercase tracking-[0.2em] text-gray-400 font-bold block">Preferred Date</label>
                       <div className="relative">
                         <Calendar className="absolute left-0 top-3 text-[#D4AF37]" size={18} />
+<<<<<<< HEAD
                         <input
                           required
                           type="date"
                           name="preferredDate"
                           value={formData.preferredDate}
                           onChange={handleChange}
+=======
+                        <input 
+                          required 
+                          type="date" 
+>>>>>>> master
                           className="w-full bg-transparent border-b-2 border-[#E5DDCC] py-2 pl-8 text-[#1C3A2C] focus:outline-none focus:border-[#D4AF37] transition-all font-sans"
                         />
                       </div>
@@ -338,12 +438,18 @@ export default function FAQ() {
                       <label className="text-[11px] uppercase tracking-[0.2em] text-gray-400 font-bold block">Preferred Time</label>
                       <div className="relative">
                         <Clock className="absolute left-0 top-3 text-[#D4AF37]" size={18} />
+<<<<<<< HEAD
                         <input
                           required
                           type="time"
                           name="preferredTime"
                           value={formData.preferredTime}
                           onChange={handleChange}
+=======
+                        <input 
+                          required 
+                          type="time" 
+>>>>>>> master
                           className="w-full bg-transparent border-b-2 border-[#E5DDCC] py-2 pl-8 text-[#1C3A2C] focus:outline-none focus:border-[#D4AF37] transition-all font-sans"
                         />
                       </div>
@@ -352,6 +458,7 @@ export default function FAQ() {
                 </div>
 
                 <div className="pt-6">
+<<<<<<< HEAD
                   <button
                     type="submit"
                     disabled={loading}
@@ -359,6 +466,13 @@ export default function FAQ() {
                   >
                     {loading ? "Sending..." : "Send Request"}
                     {!loading && <Send size={16} />}
+=======
+                  <button 
+                    type="submit" 
+                    className="w-full bg-[#1C3A2C] text-white py-5 uppercase tracking-[0.3em] text-xs font-bold flex items-center justify-center gap-4 hover:bg-black transition-all active:scale-[0.97] shadow-xl shadow-[#1C3A2C]/20"
+                  >
+                    Send Request <Send size={16} />
+>>>>>>> master
                   </button>
                 </div>
               </form>
@@ -368,4 +482,8 @@ export default function FAQ() {
       </AnimatePresence>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

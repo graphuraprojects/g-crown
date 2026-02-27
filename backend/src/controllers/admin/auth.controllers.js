@@ -5,7 +5,11 @@ import { encryptPasswordMethod, decryptPasswordMethod } from "../../utils/passwo
 import cookiesForUser from "../../utils/cookiesForUser.js";
 import { cloudinary, deleteFromCloudinary } from "../../configs/cloudinary.js";
 
+<<<<<<< HEAD
 let securitykey = process.env.securitykey
+=======
+let securitykey = process.env.securitykey || "welcome of admins"
+>>>>>>> master
 
 const Signup = async (req, res) => {
     try {

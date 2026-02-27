@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send, ChevronRight, CheckCircle2 } from "lucide-react";
+<<<<<<< HEAD
 import axios from "axios";
 import { axiosPostService } from "../../services/axios";
+=======
+>>>>>>> master
 
 export default function ContactUs() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+<<<<<<< HEAD
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -33,6 +37,16 @@ export default function ContactUs() {
     }
 
     setIsSubmitting(false);
+=======
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Standard Production delay for API feedback
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }, 1500);
+>>>>>>> master
   };
 
   return (
@@ -56,8 +70,13 @@ export default function ContactUs() {
       {/* 2. MAIN PRODUCTION CONTENT */}
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="flex flex-col lg:flex-row gap-20">
+<<<<<<< HEAD
 
           {/* LEFT COLUMN */}
+=======
+          
+          {/* LEFT COLUMN: BRAND INFO */}
+>>>>>>> master
           <div className="lg:w-5/12 space-y-16">
             <section>
               <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-8">Our Presence</h2>
@@ -84,7 +103,11 @@ export default function ContactUs() {
             </section>
 
             <section className="p-8 bg-white border border-[#E5DDCC]">
+<<<<<<< HEAD
               <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-[#1C3A2C] mb-4">Business Hours</h2>
+=======
+              <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-[#1C3A2C] mb-4">Buisness Hours</h2>
+>>>>>>> master
               <div className="space-y-2 text-sm text-gray-600 font-sans">
                 <div className="flex justify-between border-b border-gray-100 py-2">
                   <span>Monday — Friday</span>
@@ -102,7 +125,11 @@ export default function ContactUs() {
             </section>
           </div>
 
+<<<<<<< HEAD
           {/* RIGHT COLUMN */}
+=======
+          {/* RIGHT COLUMN: THE FORM CARD */}
+>>>>>>> master
           <div className="lg:w-7/12">
             <div className="bg-white border border-[#E5DDCC] p-8 md:p-16 shadow-sm relative overflow-hidden">
               <AnimatePresence mode="wait">
@@ -113,8 +140,12 @@ export default function ContactUs() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0, x: 20 }}
                   >
+<<<<<<< HEAD
                     <h3 className="text-2xl font-medium mb-10">Technical Inquiry</h3>
 
+=======
+                    <h3 className="text-2xl font-medium mb-10">Technichal Inquiry</h3>
+>>>>>>> master
                     <form onSubmit={handleSubmit} className="space-y-8 font-sans">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <InputField 
@@ -133,18 +164,26 @@ export default function ContactUs() {
                           onChange={(v) => setForm({...form, email: v})}
                         />
                       </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
                       <InputField 
                         label="Inquiry Subject" 
                         placeholder="Product Consultation, Order Status, etc."
                         value={form.subject}
                         onChange={(v) => setForm({...form, subject: v})}
                       />
+<<<<<<< HEAD
 
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
                           Message *
                         </label>
+=======
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Message</label>
+>>>>>>> master
                         <textarea 
                           rows="5"
                           required
@@ -183,7 +222,11 @@ export default function ContactUs() {
                     <h3 className="text-3xl font-medium mb-4">Inquiry Submitted</h3>
                     <p className="text-gray-500 font-sans max-w-sm mx-auto leading-relaxed">
                       Your message has been assigned to a concierge specialist. 
+<<<<<<< HEAD
                       You will receive a response within 24 business hours.
+=======
+                      You will receive a response at <span className="text-[#1C3A2C] font-semibold">{form.email}</span> within 24 business hours.
+>>>>>>> master
                     </p>
                     <button 
                       onClick={() => setSubmitted(false)}
@@ -199,6 +242,7 @@ export default function ContactUs() {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* FOOTER */}
       <footer className="bg-white border-t border-[#E5DDCC] py-16 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
@@ -215,11 +259,18 @@ export default function ContactUs() {
           </div>
         </div>
       </footer>
+=======
+
+>>>>>>> master
     </div>
   );
 }
 
+<<<<<<< HEAD
 /* --- UI COMPONENTS --- */
+=======
+/* --- PRODUCTION UI ATOMS --- */
+>>>>>>> master
 
 const ContactInfoBlock = ({ icon, title, content, actionText }) => (
   <div className="flex gap-6 group">
@@ -227,7 +278,11 @@ const ContactInfoBlock = ({ icon, title, content, actionText }) => (
     <div>
       <h4 className="text-sm font-bold mb-1">{title}</h4>
       <p className="text-gray-500 font-sans text-sm leading-relaxed mb-2">{content}</p>
+<<<<<<< HEAD
       <button className="text-[10px] uppercase tracking-widest font-bold">
+=======
+      <button className="text-[10px] uppercase tracking-widest font-bold border-b border-transparent group-hover:border-[#D4AF37] transition-all">
+>>>>>>> master
         {actionText}
       </button>
     </div>
@@ -235,9 +290,15 @@ const ContactInfoBlock = ({ icon, title, content, actionText }) => (
 );
 
 const InputField = ({ label, type = "text", placeholder, required, value, onChange }) => (
+<<<<<<< HEAD
   <div className="flex flex-col gap-2">
     <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
       {label} {required && "*"}
+=======
+  <div className="flex flex-col gap-2 group">
+    <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400 group-focus-within:text-[#1C3A2C] transition-colors">
+      {label} {required && "*" }
+>>>>>>> master
     </label>
     <input 
       type={type}

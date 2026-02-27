@@ -3,14 +3,21 @@ import crypto from "crypto";
 import razorpay from "../../configs/razorpay.js";
 import Order from "../../models/order/Order.js";
 import productModel from "../../models/common/product.models.js";
+<<<<<<< HEAD
 import { sendOrderConfirmationMail } from "../../utils/confirmation.js";
+=======
+>>>>>>> master
 
 export const createOrder = async (req, res) => {
   try {
     const { amount } = req.body; // rupees
 
     const order = await razorpay.orders.create({
+<<<<<<< HEAD
       amount: Math.round(amount * 100), // paise
+=======
+      amount: amount * 100, // paise
+>>>>>>> master
       currency: "INR",
       receipt: "order_" + Date.now()
     });
@@ -18,7 +25,10 @@ export const createOrder = async (req, res) => {
     res.json(order);
   } catch (err) {
 
+<<<<<<< HEAD
     console.log(err)
+=======
+>>>>>>> master
 
     res.status(500).json({ error: err.message });
   }
@@ -196,6 +206,7 @@ export const verifyPayment = async (req, res) => {
       await product.save();
     }
 
+<<<<<<< HEAD
     await sendOrderConfirmationMail({
   to: req.user.email,
   userName: address.fullName,
@@ -206,6 +217,8 @@ export const verifyPayment = async (req, res) => {
   address,
 });
 
+=======
+>>>>>>> master
     return res.status(200).json({
       success: true,
       message: "Payment verified, order saved, stock updated.",

@@ -1,6 +1,14 @@
 import Product from "../../models/common/product.models.js";
 
+<<<<<<< HEAD
 
+=======
+/**
+ * @desc    Search products by name / description / category
+ * @route   GET/api/v1/common/search?q=keyword
+ * @access  Public
+ */
+>>>>>>> master
 export const searchProducts = async (req, res) => {
   try {
     const { q } = req.query;
@@ -33,6 +41,7 @@ export const searchProducts = async (req, res) => {
     });
   }
 };
+<<<<<<< HEAD
 
 export const searchSuggestions = async (req, res) => {
   try {
@@ -75,3 +84,5 @@ export const searchSuggestions = async (req, res) => {
     });
   }
 };
+=======
+>>>>>>> master

@@ -7,11 +7,16 @@ import {
   Menu,
   X,
 } from "lucide-react";
+<<<<<<< HEAD
 import { useEffect, useRef, useState, useCallback } from "react";
+=======
+import { useEffect, useRef, useState } from "react";
+>>>>>>> master
 import { useNavigate, NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
+<<<<<<< HEAD
 import { axiosGetService } from "../services/axios";
 
 // ─── Debounce helper ────────────────────────────────────────────────────────
@@ -174,11 +179,17 @@ function SearchBox({ autoFocus = false, onSearch }) {
   );
 }
 
+=======
+>>>>>>> master
 
 export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+<<<<<<< HEAD
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+=======
+  const [searchQuery, setSearchQuery] = useState("");
+>>>>>>> master
   const lastScrollY = useRef(0);
   const navigate = useNavigate();
   const location = useLocation();
@@ -196,6 +207,10 @@ export default function Navbar() {
       }
       lastScrollY.current = currentY;
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -206,6 +221,7 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+<<<<<<< HEAD
   const handleSearch = useCallback((q) => {
     navigate(`/searchProduct?q=${encodeURIComponent(q)}`);
     setMobileSearchOpen(false);
@@ -214,12 +230,24 @@ export default function Navbar() {
   return (
     <>
       {/* NAVBAR */}
+=======
+  const handleSearch = () => {
+    if (searchQuery.trim() === "") return;
+    navigate(`/searchProduct?q=${encodeURIComponent(searchQuery.trim())}`);
+    setSearchQuery("");
+  };
+
+  return (
+    <>
+      
+>>>>>>> master
       <header
         className={`fixed top-0 left-0 w-full z-50 bg-[#0F231C]
         transition-transform duration-300 ease-out
         ${visible ? "translate-y-0" : "-translate-y-full"}`}
       >
         <div className="mx-auto max-w-360 px-4 sm:px-6 lg:px-10">
+<<<<<<< HEAD
 
           <div className="relative flex h-22 items-center justify-between">
 
@@ -244,6 +272,33 @@ export default function Navbar() {
             {/* DESKTOP SEARCH — now uses SearchBox */}
             <div className="hidden lg:flex w-[320px] xl:w-105">
               <SearchBox onSearch={handleSearch} />
+=======
+          <div className="relative flex h-22 items-center justify-between">
+            
+            <button
+              aria-label="Open menu"
+              onClick={() => setMenuOpen(true)}
+              className="lg:hidden rounded-md p-2 text-white hover:bg-white/10"
+            >
+              <Menu size={26} />
+            </button>
+
+            
+            <div className="hidden lg:flex w-[320px] xl:w-105 items-center rounded-full bg-[#FBF6EA] px-4 py-2">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                className="w-full bg-transparent text-sm text-[#001302] outline-none placeholder:text-[#00140a] placeholder:text-lg placeholder:text-center"
+              />
+              <Search
+                size={18}
+                className="text-[#00140a] shrink-0 mr-5"
+                onClick={handleSearch}
+              />
+>>>>>>> master
             </div>
 
             {/* LOGO */}
@@ -261,30 +316,59 @@ export default function Navbar() {
               <IconButton
                 Icon={Heart}
                 active={isActive("/favorites")}
+<<<<<<< HEAD
                 onClick={() => { navigate("/favorites"); window.scrollTo(0, 0); }}
+=======
+                onClick={() => {
+                  navigate("/favorites");
+                  window.scrollTo(0, 0);
+                }}
+>>>>>>> master
                 badge={favorites.length}
               />
               <IconButton
                 Icon={ShoppingCart}
                 active={isActive("/cart")}
+<<<<<<< HEAD
                 onClick={() => { navigate("/cart"); window.scrollTo(0, 0); }}
+=======
+                onClick={() => {
+                  navigate("/cart");
+                  window.scrollTo(0, 0);
+                }}
+>>>>>>> master
                 badge={getCartCount()}
               />
               <div className="hidden lg:flex gap-3">
                 <IconButton
                   Icon={MapPin}
                   active={isActive("/track-order")}
+<<<<<<< HEAD
                   onClick={() => { navigate("/track-order"); window.scrollTo(0, 0); }}
+=======
+                  onClick={() => {
+                    navigate("/track-order");
+                    window.scrollTo(0, 0);
+                  }}
+>>>>>>> master
                 />
                 <IconButton
                   Icon={User}
                   active={isActive("/profile")}
+<<<<<<< HEAD
                   onClick={() => { navigate("/profile"); window.scrollTo(0, 0); }}
+=======
+                  onClick={() => {
+                    navigate("/profile");
+                    window.scrollTo(0, 0);
+                  }}
+>>>>>>> master
                 />
               </div>
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* MOBILE SEARCH BAR */}
           {mobileSearchOpen && (
             <div className="lg:hidden pb-3 px-1">
@@ -303,12 +387,32 @@ export default function Navbar() {
               <CustomNavLink label="Occasions" href="/occasions" />
               <CustomNavLink label="New Arrivals" href="/new-arrivals" />
               <CustomNavLink label="Store" href="/store" />
+=======
+          
+          <nav className="hidden lg:flex items-center justify-between pb-4 text-base xl:text-lg">
+            
+            <div className="flex gap-30 xl:gap-40">
+              <CustomNavLink label="Home" href="/" />
+              <CustomNavLink label="Collections" href="/collections" />
+              <CustomNavLink label="Occasions" href="/occasions" />
+            </div>
+
+            
+            <div className="flex gap-30 xl:gap-40">
+              <CustomNavLink label="Coming Soon" href="/new-arrivals" />
+              <CustomNavLink label="Store" href="/store" />
+              <CustomNavLink label="About Us" href="/about" />
+>>>>>>> master
             </div>
           </nav>
         </div>
       </header>
 
+<<<<<<< HEAD
       {/* Overlay */}
+=======
+      
+>>>>>>> master
       <div
         onClick={() => setMenuOpen(false)}
         className={`fixed inset-0 z-40 bg-black/40 transition-opacity
@@ -331,11 +435,19 @@ export default function Navbar() {
         <nav className="px-6 pt-6 space-y-6 text-lg">
           {[
             { label: "Home", href: "/" },
+<<<<<<< HEAD
             { label: "About Us", href: "/about" },
             { label: "Collections", href: "/collections" },
             { label: "Occasions", href: "/occasions" },
             { label: "New Arrivals", href: "/new-arrivals" },
             { label: "Store", href: "/store" },
+=======
+            { label: "Collections", href: "/collections" },
+            { label: "Occasions", href: "/occasions" },
+            { label: "Coming Soon", href: "/new-arrivals" },
+            { label: "Store", href: "/store" },
+            { label: "About Us", href: "/about" },
+>>>>>>> master
             { label: "Track Order", href: "/track-order" },
           ].map((item) => (
             <RouterNavLink
@@ -343,7 +455,13 @@ export default function Navbar() {
               to={item.href}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) =>
+<<<<<<< HEAD
                 `block transition-colors ${isActive ? "text-white font-bold" : "text-[#CBA135] hover:text-white"}`
+=======
+                `block transition-colors ${
+                  isActive ? "text-white font-bold" : "text-[#CBA135] hover:text-white"
+                }`
+>>>>>>> master
               }
             >
               {item.label}
@@ -351,28 +469,53 @@ export default function Navbar() {
           ))}
         </nav>
 
+<<<<<<< HEAD
         {/* Drawer Footer */}
+=======
+        
+>>>>>>> master
         <div className="absolute bottom-6 left-0 w-full px-6">
           <div className="flex justify-between">
             <MobileAction
               Icon={Heart}
               label="Wishlist"
               active={isActive("/favorites")}
+<<<<<<< HEAD
               onClick={() => { setMenuOpen(false); navigate("/favorites"); }}
+=======
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/favorites");
+              }}
+>>>>>>> master
               badge={favorites.length}
             />
             <MobileAction
               Icon={ShoppingCart}
               label="Cart"
               active={isActive("/cart")}
+<<<<<<< HEAD
               onClick={() => { setMenuOpen(false); navigate("/cart"); }}
+=======
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/cart");
+              }}
+>>>>>>> master
               badge={getCartCount()}
             />
             <MobileAction
               Icon={User}
               label="Account"
               active={isActive("/profile")}
+<<<<<<< HEAD
               onClick={() => { setMenuOpen(false); navigate("/profile"); }}
+=======
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/profile");
+              }}
+>>>>>>> master
             />
           </div>
         </div>
@@ -381,19 +524,33 @@ export default function Navbar() {
   );
 }
 
+<<<<<<< HEAD
 // ─── Sub-components ──────────────────────────────────────────────────────────
+=======
+>>>>>>> master
 
 function IconButton({ Icon, onClick, badge = 0, active = false }) {
   return (
     <button
       onClick={onClick}
       className={`relative flex h-10 w-10 items-center justify-center rounded-full transition-colors cursor-pointer
+<<<<<<< HEAD
       ${active ? "bg-[#CBA135] text-white" : "bg-[#1A3528] text-[#CBA135] border border-[#CBA135]/40 hover:border-[#CBA135]"}`}
     >
       <Icon size={18} />
       {badge > 0 && (
         <span className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
         ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}>
+=======
+      ${active ? "bg-[#CBA135] text-white" : "bg-[#FBF6EA] text-[#0F231C] hover:bg-[#E8DDC4]"}`}
+    >
+      <Icon size={18} />
+      {badge > 0 && (
+        <span
+          className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
+          ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}
+        >
+>>>>>>> master
           {badge > 9 ? "9+" : badge}
         </span>
       )}
@@ -401,6 +558,7 @@ function IconButton({ Icon, onClick, badge = 0, active = false }) {
   );
 }
 
+<<<<<<< HEAD
 function MobileAction({ Icon, label, onClick, badge = 0, active = false }) {
   return (
     <button onClick={onClick} className="relative flex flex-col items-center gap-1 text-sm">
@@ -410,6 +568,22 @@ function MobileAction({ Icon, label, onClick, badge = 0, active = false }) {
         {badge > 0 && (
           <span className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
           ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}>
+=======
+
+function MobileAction({ Icon, label, onClick, badge = 0, active = false }) {
+  return (
+    <button onClick={onClick} className="relative flex flex-col items-center gap-1 text-sm">
+      <div
+        className={`relative flex h-12 w-12 items-center justify-center rounded-full transition-colors
+        ${active ? "bg-[#CBA135] text-white" : "bg-[#FBF6EA] text-[#0F231C]"}`}
+      >
+        <Icon size={20} />
+        {badge > 0 && (
+          <span
+            className={`absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white
+            ${active ? "bg-[#0F231C]" : "bg-[#CBA135]"}`}
+          >
+>>>>>>> master
             {badge > 9 ? "9+" : badge}
           </span>
         )}
@@ -419,6 +593,10 @@ function MobileAction({ Icon, label, onClick, badge = 0, active = false }) {
   );
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 function CustomNavLink({ label, href }) {
   return (
     <RouterNavLink

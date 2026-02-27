@@ -17,7 +17,10 @@ import userOrderRoutes from "./routers/order/userOrder.route.js";
 import orderRoutes from "./routers/order/order.routes.js";
 import adminOrderRoutes from "./routers/order/adminOrderRoutes.js";
 import commonSearchRoutes from "./routers/common/search.route.js";
+<<<<<<< HEAD
 import InquiryRoute from "./routers/common/inquirry.route.js"
+=======
+>>>>>>> master
 
 const app = express();
 
@@ -47,7 +50,10 @@ app.use("/api/v1/admin/prom", adminPromationRoutes);
 app.use("/api/v1/customer/order", orderRoutes);
 
 app.use("/api/v1/common", commonSearchRoutes);
+<<<<<<< HEAD
 app.use("/api/v1/inquiry", InquiryRoute);
+=======
+>>>>>>> master
 
 
 

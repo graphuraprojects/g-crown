@@ -1,8 +1,11 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap');
 
+=======
+>>>>>>> master
 @theme {
   --font-cormorant: "Cormorant Garamond", serif;
 
@@ -22,9 +25,14 @@
   --green-text: #FAF7F2;
   --green-text-2: #CBA135;
 
+<<<<<<< HEAD
 
   --font-heading: "Playfair Display", serif;
   --font-body: "Inter", system-ui, sans-serif;
+=======
+  --font-heading: "Cormorant Garamond", serif;
+  --font-body: "Cormorant Garamond", serif;
+>>>>>>> master
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -34,11 +42,14 @@
   --text-2xl: 1.5rem;
 }
 
+<<<<<<< HEAD
 :root {
   --font-heading: "Cormorant Garamond", serif;
   --font-body: "Cormorant Garamond", serif;
 }
 
+=======
+>>>>>>> master
 * {
   box-sizing: border-box;
 }
@@ -54,7 +65,10 @@ body {
   overflow-x: hidden;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 .noise-overlay {
   position: absolute;
   inset: 0;
@@ -63,12 +77,20 @@ body {
   opacity: 0.7;
 }
 
+<<<<<<< HEAD
+=======
+/* Animations */
+
+>>>>>>> master
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px);
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
   to {
     opacity: 1;
     transform: translateY(0);
@@ -84,7 +106,10 @@ body {
     opacity: 0;
     transform: translateX(100%);
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
   to {
     opacity: 1;
     transform: translateX(0);

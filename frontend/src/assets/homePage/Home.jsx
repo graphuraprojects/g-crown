@@ -497,6 +497,10 @@ export default function HomeMain() {
                   </span>
                 </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                 <h3 className="font-cormorant font-bold text-[24px] leading-[32px] tracking-normal text-[#08221B] mb-1">
                   Eternal Sparkle Diamond Ring
                 </h3>

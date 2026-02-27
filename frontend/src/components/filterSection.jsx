@@ -178,7 +178,11 @@ export const FilterSidebar = ({
             <FilterSection title="Color">
               <div className="flex flex-col">
                 {colors.map((color) => (
+<<<<<<< HEAD
                   <Checkbox
+=======
+                  <RadioButton
+>>>>>>> master
                     key={color}
                     label={color}
                     checked={selectedColors.includes(color)}

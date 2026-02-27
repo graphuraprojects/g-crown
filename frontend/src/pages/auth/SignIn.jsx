@@ -35,9 +35,14 @@ const SignIn = () => {
         alert(apiResponse.data.message || "SignIn Failed");
       }
       else {
+<<<<<<< HEAD
         localStorage.setItem("access", "true");
         navigate("/", {
           state: { welcomeMessage: true, userName: apiResponse.data.data.email, isReturningUser: true }
+=======
+        navigate("/", {
+          state: { welcomeMessage: true, userName: apiResponse.data.userName, isReturningUser: true }
+>>>>>>> master
         });
       }
 
@@ -61,7 +66,10 @@ const SignIn = () => {
       if (!apiResponse.ok) {
         alert(apiResponse.data.message || "SignIn Failed");
       } else {
+<<<<<<< HEAD
         localStorage.setItem("access", "true");
+=======
+>>>>>>> master
         navigate("/", {
           state: { welcomeMessage: true, userName: displayName, isReturningUser: true }
         });
@@ -275,6 +283,7 @@ const SignIn = () => {
 
                 {/* <motion.button whileTap={{ scale: 0.98 }} type="button" className="flex w-full items-center justify-center gap-4 border border-gray-200 bg-white py-3.5 text-[14px] font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition-all"> */}
                 <div className="w-full mt-2">
+<<<<<<< HEAD
                   <div style={{ width: "100%" }}>
                     <GoogleLogin
                       onSuccess={handleGoogleLogin}
@@ -282,6 +291,13 @@ const SignIn = () => {
                       width="100%"
                     />
                   </div>
+=======
+                  <GoogleLogin
+                    onSuccess={handleGoogleLogin}
+                    onError={() => console.log("❌ Google Login Failed")}
+                    width="100%"
+                  />
+>>>>>>> master
                 </div>
                 {/* </motion.button> */}
 
