@@ -83,7 +83,7 @@ export default function HomeMain() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  useEffect(() => { fetchProducts(1, ""); }, []);
+  useEffect(() => { fetchProducts(1, ""); }, [fetchProducts]);
 
   const featuredProducts = products ? products.slice(0, 6) : [];
 
@@ -242,7 +242,7 @@ export default function HomeMain() {
       </section>
 
       {/* CURATED FOR YOU */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
+      <section className="py-0 px-6 max-w-7xl mx-auto">
         <SectionHeader title="Curated For You" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {CURATED.map((cat, i) => (
@@ -297,7 +297,7 @@ export default function HomeMain() {
               Elevate Your Elegance <br /> with G-Crown Jewellers
             </h2>
             <button className="px-10 py-4 bg-gradient-to-r from-[#C9A14A] via-[#E6C36A] to-[#B8903D] text-[#08221B] font-bold text-xl rounded-lg hover:scale-105 transition-transform shadow-xl" onClick={() => { navigate("/target"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-              Contact Us
+              Browse Our Collections
             </button>
           </div>
           <img src={Necklace} alt="Luxury" className="absolute right-0 top-0 h-[110%] w-auto object-contain hidden lg:block opacity-90 translate-y-[-5%]" />
