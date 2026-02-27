@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { toast } from 'react-toastify';
+import { AnimatePresence } from "framer-motion";
 // Senior Tip: Ensure these assets are correctly linked in your project structure
 import modelImage from "../../assets/authPages/signUpModel.png";
 import { axiosPostService } from "../../services/axios";
@@ -110,7 +109,7 @@ const SignUp = () => {
         });
       }
 
-    } catch (error) {
+    } catch {
       alert("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
@@ -129,14 +128,8 @@ const SignUp = () => {
         return
       }
 
-<<<<<<< HEAD
-      localStorage.setItem("access", "true");
-      navigate("/", {
-        state: { welcomeMessage: true, userName: apiResponse.data.data.email, isReturningUser: true }
-=======
       navigate("/", {
         state: { welcomeMessage: true, userName: apiResponse.data.userEmail, isReturningUser: true }
->>>>>>> master
       });
     }
     catch (err) {

@@ -25,11 +25,7 @@ const Signup = async (req, res) => {
 
         await cookiesForUser(res, customerDetail)
 
-<<<<<<< HEAD
-        return res.status(200).json(new ApiResponse(200, customerDetail, "Registration Successful"));
-=======
         return res.status(200).json(new ApiResponse(200, null, "Registration Successful"));
->>>>>>> master
     }
     catch (err) {
         return res.status(500).json(new ApiError(500, err.message, [{ message: err.message, name: err.name }]));
@@ -237,11 +233,7 @@ const GoogleAuth = async (req, res) => {
 
         await cookiesForUser(res, user);
 
-<<<<<<< HEAD
-        return res.status(200).json(new ApiResponse(200, user , "Successful"));
-=======
         return res.status(200).json(new ApiResponse(200, { userEmail: email }, "Successful"));
->>>>>>> master
     }
     catch (err) {
         return res.status(500).json(new ApiError(500, err.message, [{ message: err.message, name: err.name }]));

@@ -415,20 +415,12 @@ const ProductDetailsById = () => {
                                 <span className="text-[#1C3A2C] font-semibold">Category :</span>
                                 {product.category}
                             </p>
-<<<<<<< HEAD
-                            {/* <p>
-=======
                             <p>
->>>>>>> master
                                 <span className="text-[#1C3A2C] font-semibold">Tags :</span>
                                 {product.tags.map((tag, i) => (
                                     <span key={i}>{tag} </span>
                                 ))}
-<<<<<<< HEAD
-                            </p> */}
-=======
                             </p>
->>>>>>> master
                             <div className="flex items-center gap-2">
                                 <span className="text-[#1C3A2C] font-semibold">Share :</span>
                                 <Share2

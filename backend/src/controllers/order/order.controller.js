@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 import Order from "../../models/order/Order.js";
 import pdf from "html-pdf";
 import fs from "fs";
@@ -15,76 +11,36 @@ const __dirname = path.dirname(__filename);
 import {ApiError} from "../../utils/api-error.js"
 
 // Get My Orders
-<<<<<<< HEAD
-
-export const getAllOrders = async (req, res) => {
-
-  const { role } = req.user;
-
-  if (role) {
-    return res.status(401).json(new ApiError(401, "Your are not Customer"));
-  }
-
-=======
 export const getAllOrders = async (req, res) => {
   const { role } = req.user;
   if (role) {
     return res.status(401).json(new ApiError(401, "Your are not Customer"));
   }
->>>>>>> master
   const orders = await Order.find({});
   res.json(orders);
 };
 
 export const getOrders = async (req, res) => {
-<<<<<<< HEAD
-
-  const { role } = req.user;
-
-  if (role) {
-    return res.status(401).json(new ApiError(401, "Your are not Customer"));
-  }
-
-=======
   const { role } = req.user;
   if (role) {
     return res.status(401).json(new ApiError(401, "Your are not Customer"));
   }
->>>>>>> master
   const orders = await Order.find({ userId: req.user._id });
   res.json(orders);
 };
 
 export const createOrder = async (req, res) => {
-<<<<<<< HEAD
-
-  const { role } = req.user;
-
-  if (role) {
-    return res.status(401).json(new ApiError(401, "Your are not Customer"));
-  }
-
-  const displayOrderId = "GC-" + Date.now();
-
-=======
   const { role } = req.user;
   if (role) {
     return res.status(401).json(new ApiError(401, "Your are not Customer"));
   }
   const displayOrderId = "GC-" + Date.now();
->>>>>>> master
   const products = req.body.products.map(p => ({
     name: p.name,
     price: p.price,
     qty: p.qty,
-<<<<<<< HEAD
-    productImage: p.productImage   // 🔥 ही line add कर
-  }));
-
-=======
     productImage: p.productImage
   }));
->>>>>>> master
   const newOrder = new Order({
     ...req.body,
     products,
@@ -92,33 +48,16 @@ export const createOrder = async (req, res) => {
     userId: req.user._id,
     orderStatus: "Accepted"
   });
-<<<<<<< HEAD
-
-=======
->>>>>>> master
   await newOrder.save();
   res.json(newOrder);
 };
 
-<<<<<<< HEAD
-
-// Update Status
-export const updateOrderStatus = async (req, res) => {
-
-  const { role } = req.user;
-
-  if (!role) {
-    return res.status(401).json(new ApiError(401, "No Auth"));
-  }
-
-=======
 // Update Status
 export const updateOrderStatus = async (req, res) => {
   const { role } = req.user;
   if (!role) {
     return res.status(401).json(new ApiError(401, "No Auth"));
   }
->>>>>>> master
   await Order.findByIdAndUpdate(req.params.id, {
     orderStatus: req.body.status,
     statusText: req.body.statusText
@@ -126,11 +65,7 @@ export const updateOrderStatus = async (req, res) => {
   res.json({ message: "Order Status Updated" });
 };
 
-<<<<<<< HEAD
-// Generate Invoice
-=======
 // ✅ Generate Invoice - FIXED
->>>>>>> master
 export const generateInvoice = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -147,10 +82,6 @@ export const generateInvoice = async (req, res) => {
       ? `${order.address.addressLine}, ${order.address.city}, ${order.address.state} - ${order.address.pincode}, Ph: ${order.address.mobile}`
       : "Not Available";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     let rows = "";
     order.products.forEach((p) => {
       rows += `
@@ -166,23 +97,6 @@ export const generateInvoice = async (req, res) => {
     html = html
       .replace("{{invoiceNo}}", order.invoiceNo || "INV-GC-" + Date.now())
       .replace("{{orderId}}", order.displayOrderId)
-<<<<<<< HEAD
-
-      .replace("{{invoiceDate}}", new Date(order.date).toDateString())
-
-      // Company Billing (fixed)
-      .replace("{{billingName}}", "GC Jewellery Pvt Ltd")
-      .replace("{{billingAddress}}", "FC Road, Pune, Maharashtra - 411004")
-
-      // Customer Shipping (safe)
-      .replace("{{shippingName}}", shippingName)
-      .replace("{{shippingAddress}}", shippingAddress)
-
-      .replace("{{productRows}}", rows)
-      .replace("{{grandTotal}}", order.total);
-
-
-=======
       .replace("{{invoiceDate}}", new Date(order.date).toDateString())
       .replace("{{billingName}}", "GC Jewellery Pvt Ltd")
       .replace("{{billingAddress}}", "FC Road, Pune, Maharashtra - 411004")
@@ -193,7 +107,6 @@ export const generateInvoice = async (req, res) => {
       .replace("{{gstAmount}}", Number(order.gst || 0).toLocaleString())            // ✅ FIX
       .replace("{{shippingCharge}}", Number(order.shipping || 0).toLocaleString())  // ✅ FIX
       .replace("{{grandTotal}}", Number(order.total || 0).toLocaleString());        // ✅ FIX
->>>>>>> master
 
     pdf.create(html).toStream((err, stream) => {
       if (err) {
@@ -210,38 +123,15 @@ export const generateInvoice = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-
-// export const saveOrder = async (req, res) => {
-//   try {
-//     const order = new Order(req.body); // mongoose model
-//     await order.save();
-//     res.json({ success: true, order });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
 export const saveOrder = async (req, res) => {
   try {
     const displayOrderId = "GC-" + Date.now();
-
-=======
-export const saveOrder = async (req, res) => {
-  try {
-    const displayOrderId = "GC-" + Date.now();
->>>>>>> master
     const products = req.body.products.map(p => ({
       name: p.name,
       price: p.price,
       qty: p.qty,
-<<<<<<< HEAD
-      productImage: p.productImage   // 🔥 THIS LINE IS MAIN
-    }));
-
-=======
       productImage: p.productImage
     }));
->>>>>>> master
     const order = new Order({
       ...req.body,
       products: products,
@@ -249,10 +139,6 @@ export const saveOrder = async (req, res) => {
       userId: req.user._id,
       orderStatus: "Accepted"
     });
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     await order.save();
     res.json({ success: true, order });
   } catch (err) {
@@ -260,23 +146,6 @@ export const saveOrder = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-
-export const cancelOrder = async (req, res) => {
-  try {
-
-    const { role } = req.user;
-
-    if (role) {
-      return res.status(401).json(new ApiError(401, "Your are not Customer"));
-    }
-
-    await Order.findByIdAndUpdate(req.params.id, {
-      orderStatus: "Cancelled",   // ✅ योग्य field
-      statusText: "Your order has been cancelled by user"
-    });
-
-=======
 export const cancelOrder = async (req, res) => {
   try {
     const { role } = req.user;
@@ -287,7 +156,6 @@ export const cancelOrder = async (req, res) => {
       orderStatus: "Cancelled",
       statusText: "Your order has been cancelled by user"
     });
->>>>>>> master
     res.json({ success: true, message: "Order Cancelled" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -307,10 +175,6 @@ export const requestRefund = async (req, res) => {
     }
 
     const order = await Order.findById(orderId);
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -351,10 +215,6 @@ export const requestRefund = async (req, res) => {
 export const processRefund = async (req, res) => {
   try {
     const { orderId } = req.params;
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     const order = await Order.findById(orderId);
 
     if (!order)
@@ -393,8 +253,4 @@ export const processRefund = async (req, res) => {
       message: "Refund processing failed"
     });
   }
-<<<<<<< HEAD
-};
-=======
 }; 
->>>>>>> master

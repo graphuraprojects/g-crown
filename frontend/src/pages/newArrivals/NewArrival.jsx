@@ -155,7 +155,7 @@ const NewArrival = () => {
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-6 lg:py-12">
           <header className="mb-6 lg:mb-10">
             <div className="flex items-center gap-2 sm:gap-3">
-              <h1 className="text-[24px] sm:text-[32px] lg:text-[40px] font-semibold font-cormorant text-[#CBA135] leading-tight uppercase">NEW ARRIVALS</h1>
+              <h1 className="text-[24px] sm:text-[32px] lg:text-[40px] font-semibold font-cormorant text-[#CBA135] leading-tight uppercase">Coming Soon</h1>
               <span className="text-[24px] sm:text-[32px] lg:text-[40px] font-semibold font-cormorant text-[#1C3A2C]">|</span>
               <span className="text-[14px] sm:text-[16px] lg:text-[18px] font-normal font-montserrat text-[#1C3A2C]">{displayProducts.length} Designs</span>
             </div>
