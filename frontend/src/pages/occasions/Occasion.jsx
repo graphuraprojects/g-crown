@@ -39,7 +39,9 @@ export const Collections = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
+    (async () => {
+      await fetchProducts();
+    })();
   }, []);
 
   // ================= DYNAMIC FILTER OPTIONS =================
@@ -159,25 +161,12 @@ export const Collections = () => {
     sortBy
   ]);
 
-  // ================= COLLECTION GROUPING =================
-  const dailyWear = filteredProducts.filter(
-    p => p.productCollection?.toLowerCase() === "daily"
-  );
-
-  const bridalWear = filteredProducts.filter(
-    p => p.productCollection?.toLowerCase() === "bridal"
-  );
-
-  const festiveWear = filteredProducts.filter(
-    p => p.productCollection?.toLowerCase() === "festive"
-  );
-
   return (
     <div className="bg-[#FFF9E9] min-h-screen font-sans text-[#2D2D2D]">
 
       {/* BANNER */}
       <section className="w-full">
-        <div className="w-full h-[220px] sm:h-[320px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
+        <div className="w-full h-[180px] sm:h-[280px] md:h-[360px] lg:h-[450px] xl:h-[550px] 2xl:h-[650px]">
           <img
             src={bannerImage}
             alt="Collections"
