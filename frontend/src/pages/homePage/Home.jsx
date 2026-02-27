@@ -441,7 +441,7 @@ useEffect(() => {
         </div>
       </section>
 
-      
+            
       <section className="py-0 px-6 max-w-7xl mx-auto">
         <SectionHeader title="Curated For You" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

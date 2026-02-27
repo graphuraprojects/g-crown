@@ -81,7 +81,7 @@ export default function TermsOfService() {
             </div>
           </section>
 
-          {/* SECTION 4: USER RESPONSIBILITY */}
+          
           <section className="prose prose-stone max-w-none border-t border-[#E5DDCC] pt-16">
             <h2 className="text-2xl font-medium mb-6 flex items-center gap-3">
               <span className="text-[#D4AF37] text-xs font-bold font-sans">03.</span> Accuracy of Billing
@@ -97,7 +97,7 @@ export default function TermsOfService() {
             </div>
           </section>
 
-          {/* SECTION 5: MODIFICATIONS */}
+          
           <section className="border-t border-[#E5DDCC] pt-16 pb-20">
              <div className="max-w-2xl">
                <h2 className="text-2xl font-medium mb-4">Governing Law</h2>
@@ -112,7 +112,7 @@ export default function TermsOfService() {
         </div>
       </main>
 
-      {/* 4. FOOTER CALLOUT */}
+      
       <footer className="bg-white py-20 border-t border-[#E5DDCC]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="font-sans text-gray-500 mb-6">Questions regarding our Terms of Service should be directed to:</p>

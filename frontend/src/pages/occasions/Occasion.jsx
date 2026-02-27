@@ -112,7 +112,7 @@ export const Collections = () => {
     <div className="bg-[#FFF9E9] min-h-screen font-sans text-[#2D2D2D]">
 
       <section className="w-full relative overflow-hidden">
-        <div className="w-full h-[220px] sm:h-[320px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
+        <div className="w-full h-[180px] sm:h-[280px] md:h-[360px] lg:h-[450px] xl:h-[550px]">
           <img src={bannerImage} alt="New Arrivals" className="w-full h-full object-cover" loading="eager" />
         </div>
       </section>
