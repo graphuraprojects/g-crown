@@ -74,7 +74,7 @@ export default function TermsOfService() {
               <span className="text-[#D4AF37] text-xs font-bold font-sans">02.</span> Intellectual Property
             </h2>
             <div className="flex flex-col md:flex-row gap-8 items-start">
-              <Copyright className="text-gray-300 shrink-0" size={48} />
+              <Copyright className="text-gray-300 shrink-0" size={15} />
               <p className="text-gray-600 font-sans leading-relaxed">
                 All designs, bespoke patterns, brand photography, and the "G-Crown" trademark are the exclusive property of G-Crown Luxury. Any reproduction, distribution, or unauthorized use of our designs or visual assets without written consent will result in legal action under the Intellectual Property Rights Act.
               </p>
@@ -104,9 +104,6 @@ export default function TermsOfService() {
                <p className="text-gray-600 font-sans leading-relaxed mb-8">
                  These Terms of Service and any separate agreements shall be governed by and construed in accordance with the laws of Haryana, India, under the jurisdiction of the Gurugram courts.
                </p>
-               <button className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-[0.2em] border-b-2 border-[#D4AF37] pb-1 hover:text-[#D4AF37] transition-colors">
-                 Download PDF Copy <RotateCcw size={12} />
-               </button>
              </div>
           </section>
         </div>
