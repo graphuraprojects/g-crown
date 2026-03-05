@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Navigation ke liye
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProfilePic from "../../../assets/NewArrivalAssets/logos/ProfilePic.jpg";
-import { useEffect } from "react";
 import { axiosPutService, axiosGetService } from "../../../services/axios";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
+import { Camera } from "lucide-react";
 
 const PersonalInfo = () => {
   const navigate = useNavigate();
@@ -15,7 +15,8 @@ const PersonalInfo = () => {
   const [email, setEmail] = useState("");
   const [image, setImage] = useState("");
   const [gender, setGender] = useState("Male");
-  const [contact, setContact] = useState();
+  const [contact, setContact] = useState("");
+
   const [selectedImageFile, setSelectedImageFile] = useState(null);
 
   const handleImageSelect = (e) => {
@@ -24,12 +25,16 @@ const PersonalInfo = () => {
 
     setSelectedImageFile(file);
 
-    // preview
     const previewURL = URL.createObjectURL(file);
-    setImage(previewURL);
+
+    setImage((prev) => {
+      if (prev && prev.startsWith("blob:")) {
+        URL.revokeObjectURL(prev);
+      }
+      return previewURL;
+    });
   };
 
-  // Update logic with 3-second success state
   const handleUpdate = async () => {
     setIsUpdating(true);
 
@@ -46,71 +51,66 @@ const PersonalInfo = () => {
 
       const apiResponse = await axiosPutService(
         "/customer/auth/profile",
-        formData,
+        formData
       );
 
-      if (!apiResponse.ok) {
+      if (!apiResponse || !apiResponse.ok) {
+        alert(
+          (apiResponse && apiResponse.data && apiResponse.data.message) ||
+            "Update Failed"
+        );
         setIsUpdating(false);
-        alert(apiResponse.data.message || "Update Failed");
         return;
-      } else {
-        alert(apiResponse.data.message);
-
-        // fake delay optional (for animation)
-        setTimeout(() => {
-          setIsUpdating(false);
-          setShowSuccess(true);
-
-          setTimeout(() => {
-            setShowSuccess(false);
-          }, 3000);
-        }, 500); // small delay for smoother UI}
       }
+
+      alert(apiResponse.data.message);
+
+      setTimeout(() => {
+        setIsUpdating(false);
+        setShowSuccess(true);
+
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 3000);
+      }, 500);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       alert("Something went wrong!");
       setIsUpdating(false);
     }
   };
 
   useEffect(() => {
-    (async () => {
-      let apiResponse = await axiosGetService("/customer/auth/myProfile");
+    const fetchProfile = async () => {
+      try {
+        const apiResponse = await axiosGetService("/customer/auth/myProfile");
 
-      if (!apiResponse.ok) {
-        // toast.error("Please login to access your profile", {
-        //   style: {
-        //     border: "1px solid #CBA135",
-        //     padding: "16px",
-        //     color: "#1C3A2C",
-        //     background: "#EFDFB7",
-        //   },
-        //   iconTheme: {
-        //     primary: "#1C3A2C",
-        //     secondary: "#FFFAEE",
-        //   },
-        // });
+        if (!apiResponse || !apiResponse.ok) {
+          navigate("/signin");
+          return;
+        }
+
+        const profileData = apiResponse.data.data;
+
+        setEmail(profileData.email || "");
+        setContact(profileData.contact || "");
+        setFirstName(profileData.firstName || "");
+        setLastName(profileData.lastName || "");
+        setGender(profileData.gender || "Male");
+        setImage(profileData.profileImage || "");
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
         navigate("/signin");
-
-        // navigate("/signin"); // Redirect to login
-        return;
-      } else {
-        let profileData = apiResponse.data.data;
-
-        setEmail(profileData.email);
-        setContact(profileData.contact);
-        setFirstName(profileData.firstName);
-        setLastName(profileData.lastName);
-        setGender(profileData.gender);
-        setImage(profileData.profileImage);
       }
-    })();
+    };
+
+    fetchProfile();
   }, [navigate]);
 
   return (
-    <div className="max-w-4xl mx-auto font-sans relative ">
+    <div className="max-w-4xl mx-auto font-sans relative">
       <Toaster position="top-center" reverseOrder={false} />
-      {/* Back to Home Button - Top Right */}
+
       <button
         onClick={() => navigate("/")}
         className="absolute top-0 right-0 flex items-center gap-2 text-[#1B3022] hover:underline text-sm transition-all cursor-pointer"
@@ -118,9 +118,8 @@ const PersonalInfo = () => {
         <span>←</span> Back to Home
       </button>
 
-      {/* Profile Image Section */}
       <div
-        className="relative w-28 h-28 mb-4"
+        className="relative w-28 h-28 mb-4 cursor-pointer"
         onClick={() => document.getElementById("profileFile").click()}
       >
         <img
@@ -136,33 +135,28 @@ const PersonalInfo = () => {
           hidden
           onChange={handleImageSelect}
         />
-        {/* Active Status Dot */}
-        <div className="absolute bottom-2 right-2 w-5 h-5 bg-[#1B3022] border-4 border-[#F9F4EA] rounded-full"></div>
+
+        <div className="absolute bottom-1 right-1 w-7 h-7 bg-[#1B3022] rounded-full flex items-center justify-center shadow-md">
+          <Camera size={14} className="text-white" />
+        </div>
       </div>
 
-      {/* Form Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-700">
-            First Name*
-          </label>
+          <label className="text-sm font-medium text-gray-700">First Name*</label>
           <input
             type="text"
-            // defaultValue="Preeti"
-            value={firstName || ""}
+            value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             className="p-3 border border-gray-200 rounded-sm outline-none bg-white focus:border-[#1B3022] transition-colors shadow-sm"
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-700">
-            Last Name*
-          </label>
+          <label className="text-sm font-medium text-gray-700">Last Name*</label>
           <input
             type="text"
-            // defaultValue="Sharma"
-            value={lastName || ""}
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             className="p-3 border border-gray-200 rounded-sm outline-none bg-white focus:border-[#1B3022] transition-colors shadow-sm"
           />
@@ -172,21 +166,17 @@ const PersonalInfo = () => {
           <label className="text-sm font-medium text-gray-700">Email*</label>
           <input
             type="email"
-            // defaultValue="example@gmail.com"
-            value={email || ""}
+            value={email}
             readOnly
-            className="p-3 border border-gray-200 rounded-sm outline-none bg-white focus:border-[#1B3022] transition-colors shadow-sm w-full"
+            className="p-3 border border-gray-200 rounded-sm outline-none bg-gray-50 cursor-not-allowed transition-colors shadow-sm w-full"
           />
         </div>
 
         <div className="flex flex-col gap-2 col-span-full">
-          <label className="text-sm font-medium text-gray-700">
-            Phone Number*
-          </label>
+          <label className="text-sm font-medium text-gray-700">Phone Number*</label>
           <input
             type="text"
-            // defaultValue="91-9977377430"
-            value={contact || ""}
+            value={contact}
             onChange={(e) => setContact(e.target.value)}
             className="p-3 border border-gray-200 outline-none rounded-sm bg-white focus:border-[#1B3022] transition-colors shadow-sm w-full"
           />
@@ -199,34 +189,32 @@ const PersonalInfo = () => {
             onChange={(e) => setGender(e.target.value)}
             value={gender}
           >
-            <option>Select</option>
+            <option value="">Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Other">Other</option>
           </select>
-          {/* Custom Dropdown Arrow */}
-          <div className="absolute right-5 bottom-2 text-2xl  pointer-events-none text-gray-900">
+          <div className="absolute right-4 bottom-3.5 text-sm pointer-events-none text-gray-600">
             ▼
           </div>
         </div>
       </div>
 
-      {/* Action Button with Success/Loading States */}
-      <div className="mt-8 flex items-center gap-4 ">
+      <div className="mt-8 flex items-center gap-4">
         <button
           onClick={handleUpdate}
           disabled={isUpdating}
-          className={`px-12 py-4 text-sm font-medium tracking-wide transition-all duration-300 rounded-sm ${
+          className={`px-12 py-4 text-sm font-medium tracking-wide transition-all duration-300 rounded-sm shadow-lg active:scale-95 ${
             showSuccess
               ? "bg-green-600 text-white"
               : "bg-[#1B3022] text-white hover:bg-[#2a4532]"
-          } shadow-lg active:scale-95`}
+          }`}
         >
           {isUpdating
             ? "Updating..."
             : showSuccess
-              ? "Changes Updated! ✓"
-              : "Update Changes"}
+            ? "Changes Updated! ✓"
+            : "Update Changes"}
         </button>
 
         {showSuccess && (
