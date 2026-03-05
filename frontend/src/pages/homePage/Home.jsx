@@ -10,7 +10,8 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
+import "swiper/css/effect-coverflow";
+import { Autoplay, EffectFade, Navigation, Pagination, EffectCoverflow } from "swiper/modules";
 
 import gCrown from "../../assets/g-crown Image.jpeg";
 import kaashiRings1 from "../../assets/homePage/kaashRings.jpg";
@@ -24,6 +25,15 @@ import MenImg from "../../assets/homePage/Men.png";
 import KidImg from "../../assets/homePage/Kids.png";
 import Necklace from "../../assets/homePage/necklace.png";
 import { ProductContext } from "../../context/ProductContext.jsx";
+import video1 from "../../assets/videos/video1.mp4";
+import video2 from "../../assets/videos/video2.mp4";
+import video3 from "../../assets/videos/video3.mp4";
+import video4 from "../../assets/videos/video4.mp4";
+import video5 from "../../assets/videos/video5.mp4";
+import video6 from "../../assets/videos/video6.mp4";
+import video7 from "../../assets/videos/video7.mp4";
+import video8 from "../../assets/videos/video8.mp4";
+import video9 from "../../assets/videos/video9.mp4";
 
 const slides = [
   {
@@ -76,12 +86,25 @@ const SectionHeader = ({ title, subtitle }) => (
 );
 
 export default function HomeMain() {
-  const { products, fetchProducts } = useContext(ProductContext);
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const { products, fetchProducts } = useContext(ProductContext);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  const allVideos = [
+    video1,
+    video2,
+    video3,
+    video4,
+    video5,
+    video6,
+    video7,
+    video8,
+    video9
+  ];
+
 
   useEffect(() => { fetchProducts(1, ""); }, [fetchProducts]);
 
@@ -288,6 +311,56 @@ export default function HomeMain() {
           </div>
         </div>
       </section>
+  {/* CUSTOMER MOMENTS VIDEO SLIDER */}
+<section className="py-24 bg-[#FFF8E8]">
+  <SectionHeader
+    title="Customer Moments"
+    subtitle="Real stories and moments from our happy customers"
+  />
+
+  <div className="max-w-6xl mx-auto px-4">
+
+    <Swiper
+      effect={"coverflow"}
+      grabCursor={true}
+      centeredSlides={true}
+      slidesPerView={3}
+      loop={true}
+      coverflowEffect={{
+        rotate: 20,
+        stretch: 0,
+        depth: 200,
+        modifier: 1,
+        slideShadows: false,
+      }}
+      autoplay={{
+        delay: 3000,
+        disableOnInteraction: false,
+      }}
+      navigation={true}
+      modules={[EffectCoverflow, Autoplay, Navigation]}
+      className="w-full"
+    >
+
+      {allVideos.map((video, index) => (
+        <SwiperSlide key={index}>
+          <div className="rounded-xl overflow-hidden shadow-xl">
+            <video
+              src={video}
+              autoPlay
+              muted
+              loop
+              controls
+              className="w-full h-[400px] object-cover"
+            />
+          </div>
+        </SwiperSlide>
+      ))}
+
+    </Swiper>
+
+  </div>
+</section>
 
       {/* CTA BANNER */}
       <section className="py-24 px-4 flex justify-center">
