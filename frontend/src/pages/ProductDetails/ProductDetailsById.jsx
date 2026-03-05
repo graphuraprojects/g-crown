@@ -48,7 +48,12 @@ const ProductDetailsById = () => {
     const [activeTab, setActiveTab] = useState("Description");
     const [selectedPurity, setSelectedPurity] = useState("18 KT");
     const [showAddedToCart, setShowAddedToCart] = useState(false);
-    const favorited = product ? isFavorite(product._id) : false;
+
+    const selectedVariant = product?.variants?.[selectPurity];
+
+    const favorited = product
+        ? isFavorite(product._id, selectedVariant?.purity)
+        : false;
 
     //  const handleAddToCart = () => {
     //   if (product) {
@@ -270,16 +275,26 @@ const ProductDetailsById = () => {
                                 className="w-full h-full object-cover"
                             />
                             <button
-                                onClick={() => product && toggleFavorite(product)}
-                                className="absolute top-4 right-4 z-10 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    if (!product || !selectedVariant) return;
+
+                                    const favoriteProduct = {
+                                        ...product,
+                                        price: {
+                                            sale: selectedVariant.sale,
+                                            mrp: selectedVariant.price
+                                        }
+                                    };
+
+                                    toggleFavorite(favoriteProduct, selectedVariant.purity);
+                                }}
+                                className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur p-2 rounded-full shadow hover:scale-110 transition"
                             >
                                 <Heart
-                                    size={20}
-                                    className={
-                                        favorited
-                                            ? "fill-red-500 text-red-500"
-                                            : "text-[#08221B]"
-                                    }
+                                    size={16}
+                                    className={favorited ? "fill-red-500 text-red-500" : "text-[#08221B]"}
                                 />
                             </button>
                         </div>
@@ -415,12 +430,12 @@ const ProductDetailsById = () => {
                                 <span className="text-[#1C3A2C] font-semibold">Category :</span>
                                 {product.category}
                             </p>
-                            <p>
+                            {/* <p>
                                 <span className="text-[#1C3A2C] font-semibold">Tags :</span>
                                 {product.tags.map((tag, i) => (
                                     <span key={i}>{tag} </span>
                                 ))}
-                            </p>
+                            </p> */}
                             <div className="flex items-center gap-2">
                                 <span className="text-[#1C3A2C] font-semibold">Share :</span>
                                 <Share2

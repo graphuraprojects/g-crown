@@ -183,9 +183,9 @@ export default function FindStore() {
 
                 {/* Actions */}
                 <div className="pt-2 flex gap-3">
-                  <button className="flex-1 bg-[#1C4A3C] py-2.5 text-xs font-bold text-white uppercase transition hover:bg-[#08221B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08221B]">
+                  {/* <button className="flex-1 bg-[#1C4A3C] py-2.5 text-xs font-bold text-white uppercase transition hover:bg-[#08221B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08221B]">
                     See Designs
-                  </button>
+                  </button> */}
 
                   <button className="flex-1 border border-[#08221B] py-2.5 text-xs font-bold text-[#08221B] uppercase flex items-center justify-center gap-2 transition hover:bg-[#08221B] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08221B]"
                     onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.name + " " + (item.city || ""))}`)}>

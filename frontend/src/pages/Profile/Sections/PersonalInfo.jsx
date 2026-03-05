@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Navigation ke liye
 import ProfilePic from "../../../assets/NewArrivalAssets/logos/ProfilePic.jpg";
 import { useEffect } from "react";
 import { axiosPutService, axiosGetService } from "../../../services/axios";
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 const PersonalInfo = () => {
   const navigate = useNavigate();
@@ -74,6 +74,15 @@ const PersonalInfo = () => {
   };
 
   useEffect(() => {
+
+
+    const access = localStorage.getItem("access");
+
+    if (!access) {
+      console.log("Check")
+      navigate("/signin");
+    }
+
     (async () => {
       let apiResponse = await axiosGetService("/customer/auth/myProfile");
 
@@ -105,7 +114,7 @@ const PersonalInfo = () => {
         setImage(profileData.profileImage);
       }
     })();
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto font-sans relative ">
@@ -216,11 +225,10 @@ const PersonalInfo = () => {
         <button
           onClick={handleUpdate}
           disabled={isUpdating}
-          className={`px-12 py-4 text-sm font-medium tracking-wide transition-all duration-300 rounded-sm ${
-            showSuccess
+          className={`px-12 py-4 text-sm font-medium tracking-wide transition-all duration-300 rounded-sm ${showSuccess
               ? "bg-green-600 text-white"
               : "bg-[#1B3022] text-white hover:bg-[#2a4532]"
-          } shadow-lg active:scale-95`}
+            } shadow-lg active:scale-95`}
         >
           {isUpdating
             ? "Updating..."

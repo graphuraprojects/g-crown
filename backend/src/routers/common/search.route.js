@@ -1,13 +1,9 @@
 import express from "express";
-import { searchProducts } from "../../controllers/common/search.controller.js";
+import { searchProducts, searchSuggestions} from "../../controllers/common/search.controller.js";
 
 const router = express.Router();
 
-/**
- * @route   GET /api/common/search
- * @desc    Search products
- * @access  Public
- */
 router.get("/search", searchProducts);
+router.get("/suggestion", searchSuggestions);
 
 export default router;

@@ -9,7 +9,7 @@ const FOOTER_DATA = {
   shop: {
     title: "Shop",
     links: [
-      { name: "New Arrivals", path: "/new-arrivals" },
+      { name: "Coming Soon", path: "/new-arrivals" },
       { name: "Rings", path: "/rings" },
       { name: "Necklaces", path: "/necklaces" },
       { name: "Earrings", path: "/earrings" },
@@ -22,7 +22,7 @@ const FOOTER_DATA = {
     links: [
       { name: "About Us", path: "/about" },
       { name: "Our Stores", path: "/store" },
-      { name: "New Arrivals", path: "/new-arrivals" },
+      { name: "Coming Soon", path: "/new-arrivals" },
     ],
   },
   customerCare: {

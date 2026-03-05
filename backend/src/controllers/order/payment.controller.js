@@ -3,13 +3,14 @@ import crypto from "crypto";
 import razorpay from "../../configs/razorpay.js";
 import Order from "../../models/order/Order.js";
 import productModel from "../../models/common/product.models.js";
+import { sendOrderConfirmationMail } from "../../utils/confirmation.js";
 
 export const createOrder = async (req, res) => {
   try {
     const { amount } = req.body; // rupees
 
     const order = await razorpay.orders.create({
-      amount: amount * 100, // paise
+      amount: Math.round(amount * 100), // paise
       currency: "INR",
       receipt: "order_" + Date.now()
     });
@@ -17,6 +18,7 @@ export const createOrder = async (req, res) => {
     res.json(order);
   } catch (err) {
 
+    console.log(err)
 
     res.status(500).json({ error: err.message });
   }
@@ -193,6 +195,16 @@ export const verifyPayment = async (req, res) => {
 
       await product.save();
     }
+
+    await sendOrderConfirmationMail({
+  to: req.user.email,
+  userName: address.fullName,
+  orderId: customOrderId,
+  invoiceNo,
+  total: totalAmount,
+  products: orderData.products,
+  address,
+});
 
     return res.status(200).json({
       success: true,
