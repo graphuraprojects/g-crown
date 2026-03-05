@@ -25,6 +25,10 @@ import MenImg from "../../assets/homePage/Men.png";
 import KidImg from "../../assets/homePage/Kids.png";
 import Necklace from "../../assets/homePage/necklace.png";
 import { ProductContext } from "../../context/ProductContext.jsx";
+import user1 from "../../assets/images/user1.jpg";
+import user2 from "../../assets/images/user2.jpg";
+import user3 from "../../assets/images/user3.jpg";
+import user4 from "../../assets/images/user4.jpg";
 import video1 from "../../assets/videos/video1.mp4";
 import video2 from "../../assets/videos/video2.mp4";
 import video3 from "../../assets/videos/video3.mp4";
@@ -71,11 +75,35 @@ const CURATED = [
 ];
 
 const TESTIMONIALS = [
-  { quote: "The craftsmanship is unlike anything I've ever seen. My engagement ring from G-Crown is a daily reminder of elegance.", author: "Sarah J.", link: "/collections/engagement-rings", buttonText: "Shop Engagement Rings" },
-  { quote: "Our wedding bands were delivered exactly on time with perfect sizing. The craftsmanship feels premium and comfortable for daily wear.", author: "Arjun & Meera", link: "/collections/wedding-bands", buttonText: "Shop Wedding Bands" },
-  { quote: "I love how the classic solitaire I bought transitions from office wear to evening events. It's minimal, elegant, and very 'me'.", author: "Kavya Desai", link: "/collections/classic-solitaire", buttonText: "Shop Classic Solitaire" },
-  { quote: "The vintage band collection caught my eye immediately. Each piece tells a story, and the quality is exceptional. Highly recommended!", author: "Rohan Kapoor", link: "/collections/vintage-bands", buttonText: "Shop Vintage Bands" },
-];
+  {
+    quote: "The craftsmanship is unlike anything I've ever seen.",
+    author: "Sarah J.",
+    image: user1,
+    link: "/collections/engagement-rings",
+    buttonText: "Shop Engagement Rings"
+  },
+  {
+    quote: "Our wedding bands were delivered exactly on time.",
+    author: "Arjun & Meera",
+    image: user2,
+    link: "/collections/wedding-bands",
+    buttonText: "Shop Wedding Bands"
+  },
+  {
+    quote: "I love how the classic solitaire transitions from office wear.",
+    author: "Kavya Desai",
+    image: user3,
+    link: "/collections/classic-solitaire",
+    buttonText: "Shop Classic Solitaire"
+  },
+  {
+    quote: "The vintage band collection caught my eye immediately.",
+    author: "Rohan Kapoor",
+    image: user4,
+    link: "/collections/vintage-bands",
+    buttonText: "Shop Vintage Bands"
+  }
+];  
 
 const SectionHeader = ({ title, subtitle }) => (
   <div className="text-center mb-14">
@@ -156,7 +184,10 @@ export default function HomeMain() {
       <ToastContainer />
 
       {/* HERO SECTION */}
-      <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${gCrown})` }}>
+      <section
+  className="relative h-screen flex items-center justify-center bg-cover bg-center"
+  style={{ backgroundImage: `url(${gCrown})` }}
+>
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 backdrop-blur-[7.5px]" />
         <div className="noise-overlay" />
@@ -278,28 +309,73 @@ export default function HomeMain() {
         </div>
       </section>
 
-      {/* USER STORIES / TESTIMONIALS */}
-      <section className="py-24 bg-[#F9F6EE]">
-        <SectionHeader title="User Stories" subtitle="“Stories of elegance, confidence, and the shine Graphura brings to every occasion.”" />
-        <div className="relative mx-auto max-w-6xl h-[600px] flex items-center justify-center overflow-hidden md:overflow-visible" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
-          <button type="button" onClick={goToPrevious} className="absolute left-4 md:left-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group">
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
-          </button>
-          <button type="button" onClick={goToNext} className="absolute right-4 md:right-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group">
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
-          </button>
+     {/* USER STORIES / TESTIMONIALS */}
+<section className="py-24 bg-[#F9F6EE]">
+  <SectionHeader
+    title="User Stories"
+    subtitle="“Stories of elegance, confidence, and the shine Graphura brings to every occasion.”"
+  />
 
-          <div className="hidden lg:block absolute left-0 w-64 h-[400px] bg-[#F4F0E6] rounded-xl border border-gray-200 opacity-40 -rotate-6 z-0" />
-          <div className="hidden md:block absolute left-10 md:left-24 w-80 h-[500px] bg-[#F4F0E6] rounded-xl border border-gray-200 shadow-xl -rotate-3 z-10" />
+  <div
+    className="relative mx-auto max-w-6xl h-[600px] flex items-center justify-center overflow-hidden md:overflow-visible"
+    onMouseEnter={() => setIsPaused(true)}
+    onMouseLeave={() => setIsPaused(false)}
+  >
 
-          <div key={currentTestimonial} className="relative w-[350px] md:w-[450px] h-[600px] bg-white rounded-2xl shadow-2xl z-20 border border-[#CBA135]/20 p-8 flex flex-col justify-center text-center transition-opacity duration-500">
-            <div className="text-[#CBA135] text-4xl mb-4 font-serif">"</div>
-            <p className="text-[#08221B] text-lg italic mb-6">"{currentTestimonialData.quote}"</p>
-            <h4 className="font-bold text-[#08221B] font-cormorant text-2xl">— {currentTestimonialData.author}</h4>
-            <button type="button" onClick={() => { navigate(currentTestimonialData.link); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#08221B] text-white text-xs uppercase tracking-[0.25em] hover:bg-black transition-colors">
-              {currentTestimonialData.buttonText}
-            </button>
-          </div>
+    <button
+      type="button"
+      onClick={goToPrevious}
+      className="absolute left-4 md:left-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group"
+    >
+      <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
+    </button>
+
+    <button
+      type="button"
+      onClick={goToNext}
+      className="absolute right-4 md:right-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group"
+    >
+      <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
+    </button>
+
+    <div className="hidden lg:block absolute left-0 w-64 h-[400px] bg-[#F4F0E6] rounded-xl border border-gray-200 opacity-40 -rotate-6 z-0" />
+    <div className="hidden md:block absolute left-10 md:left-24 w-80 h-[500px] bg-[#F4F0E6] rounded-xl border border-gray-200 shadow-xl -rotate-3 z-10" />
+
+    {/* MAIN TESTIMONIAL CARD */}
+    <div
+      key={currentTestimonial}
+      className="relative w-[350px] md:w-[450px] h-[600px] bg-white rounded-2xl shadow-2xl z-20 border border-[#CBA135]/20 p-8 flex flex-col justify-center items-center text-center transition-opacity duration-500"
+    >
+
+      {/* USER IMAGE */}
+    <img
+  src={currentTestimonialData.image}
+  alt={currentTestimonialData.author}
+  className="w-52 h-52 rounded-full object-cover border-4 border-[#CBA135] mb-6 shadow-2xl"
+/>
+
+      <div className="text-[#CBA135] text-4xl mb-4 font-serif">"</div>
+
+      <p className="text-[#08221B] text-lg italic mb-6">
+        "{currentTestimonialData.quote}"
+      </p>
+
+      <h4 className="font-bold text-[#08221B] font-cormorant text-2xl">
+        — {currentTestimonialData.author}
+      </h4>
+
+      <button
+        type="button"
+        onClick={() => {
+          navigate(currentTestimonialData.link);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#08221B] text-white text-xs uppercase tracking-[0.25em] hover:bg-black transition-colors"
+      >
+        {currentTestimonialData.buttonText}
+      </button>
+
+    </div>
 
           <div className="hidden md:block absolute right-10 md:right-24 w-80 h-[500px] bg-[#F4F0E6] rounded-xl border border-gray-200 shadow-xl rotate-3 z-10" />
           <div className="hidden lg:block absolute right-0 w-64 h-[400px] bg-[#F4F0E6] rounded-xl border border-gray-200 opacity-40 rotate-6 z-0" />
@@ -311,6 +387,8 @@ export default function HomeMain() {
           </div>
         </div>
       </section>
+
+
   {/* CUSTOMER MOMENTS VIDEO SLIDER */}
 <section className="py-24 bg-[#FFF8E8]">
   <SectionHeader
