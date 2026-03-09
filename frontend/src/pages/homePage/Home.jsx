@@ -310,7 +310,7 @@ export default function HomeMain() {
       </section>
 
      {/* USER STORIES / TESTIMONIALS */}
-<section className="py-24 bg-[#F9F6EE]">
+<section className="bg-[#FFF8E8] py-10">
   <SectionHeader
     title="User Stories"
     subtitle="“Stories of elegance, confidence, and the shine Graphura brings to every occasion.”"
@@ -390,7 +390,7 @@ export default function HomeMain() {
 
 
   {/* CUSTOMER MOMENTS VIDEO SLIDER */}
-<section className="py-24 bg-[#FFF8E8]">
+<section className="bg-[#FFF8E8] py-6 mt-8">
   <SectionHeader
     title="Customer Moments"
     subtitle="Real stories and moments from our happy customers"
