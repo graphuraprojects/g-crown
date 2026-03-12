@@ -288,7 +288,7 @@ export default function HomeMain() {
         <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {featuredProducts.map((product) => <ProductCard key={product.id} product={product} />)}
         </div>
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <button onClick={() => { navigate("/collections"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="px-12 py-4 bg-[#08221B] text-white font-bold tracking-widest rounded shadow-xl hover:bg-[#0F3A30] transition-colors">
             VIEW ALL PRODUCTS
           </button>
@@ -296,7 +296,7 @@ export default function HomeMain() {
       </section>
 
       {/* CURATED FOR YOU */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
+      <section className="py-0 px-6 max-w-7xl mx-auto">
         <SectionHeader title="Curated For You" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {CURATED.map((cat, i) => (
