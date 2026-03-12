@@ -112,12 +112,12 @@ const Address = () => {
       <form onSubmit={(e) => { e.preventDefault(); handleAddAddress(); }} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 bg-white/50 p-6 border border-gray-100 rounded-lg">
         <div className="flex flex-col gap-2">
           <label className="text-xs font-semibold text-gray-700">First Name*</label>
-          <input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Bessie"
+          <input value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Enter First Name"
             className="p-3.5 border border-gray-100 bg-white outline-none focus:border-[#1B3022] text-sm shadow-sm" />
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-semibold text-gray-700">Last Name*</label>
-          <input value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Cooper"
+          <input value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Enter Last Name"
             className="p-3.5 border border-gray-100 bg-white outline-none focus:border-[#1B3022] text-sm shadow-sm" />
         </div>
         <div className="col-span-full flex flex-col gap-2">
