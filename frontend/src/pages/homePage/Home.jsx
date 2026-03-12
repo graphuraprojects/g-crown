@@ -142,7 +142,7 @@ export default function HomeMain() {
     if (searchParams.get("welcome") === "true") {
       toast("Welcome to G-Crown website", {
         autoClose: 5000,
-        position: "top-right",
+        position: "top-center",
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
