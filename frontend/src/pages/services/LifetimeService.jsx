@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Sparkles, Shield, Clock, Award, Heart, Wrench, Diamond, CheckCircle, Star } from "lucide-react";
+import { 
+  ArrowLeft, Sparkles, Shield, Clock, Award, Heart, Wrench, 
+  Diamond, CheckCircle, Star, Store, Receipt, Search, Zap,
+  RefreshCw, Package, CreditCard, MapPin 
+} from "lucide-react";
 
 const LifetimeService = () => {
   const navigate = useNavigate();
@@ -94,8 +98,8 @@ const LifetimeService = () => {
                 { icon: <Diamond size={18} />, text: "Complimentary polishing to restore shine", highlight: true },
                 { icon: <Shield size={18} />, text: "Prong tightening to secure stones", highlight: true },
                 { icon: <Award size={18} />, text: "Rhodium plating for white gold", highlight: true },
-                { icon: <Wrench size={18} />, text: "Size adjustment (one time free)", highlight: false },
-                { icon: <Star size={18} />, text: "Lifetime warranty against manufacturing defects", highlight: false },
+                { icon: <Wrench size={18} />, text: "Size adjustment (one time free)", highlight: true },
+                { icon: <Star size={18} />, text: "Lifetime warranty against manufacturing defects", highlight: true },
               ].map((item, i) => (
                 <div 
                   key={i} 
@@ -115,7 +119,7 @@ const LifetimeService = () => {
             </div>
           </div>
 
-          {/* How It Works Card */}
+          {/* How It Works Card - LIFETIME SERVICE VERSION (Screenshot 1) */}
           <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all border border-[#CBA135]/20 group">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#08221B] to-[#1a3a30] flex items-center justify-center text-[#CBA135] text-2xl shadow-lg group-hover:scale-110 transition-transform">
@@ -126,10 +130,34 @@ const LifetimeService = () => {
             
             <div className="space-y-6">
               {[
-                { step: "01", title: "Visit Any Store", desc: "Visit any G-Crown store with your jewelry", icon: "🏪", color: "from-[#CBA135]/20" },
-                { step: "02", title: "Show Receipt", desc: "Show your purchase receipt (digital or physical)", icon: "📄", color: "from-[#08221B]/20" },
-                { step: "03", title: "Expert Inspection", desc: "Our expert jeweler will inspect your piece", icon: "🔍", color: "from-[#CBA135]/20" },
-                { step: "04", title: "Quick Service", desc: "Service completed within 24-48 hours", icon: "⚡", color: "from-[#08221B]/20" },
+                { 
+                  step: "01", 
+                  title: "Visit Any Store", 
+                  desc: "Visit any G-Crown store with your jewelry", 
+                  icon: <Store size={20} />, 
+                  color: "from-[#CBA135]/20" 
+                },
+                { 
+                  step: "02", 
+                  title: "Show Receipt", 
+                  desc: "Show your purchase receipt (digital or physical)", 
+                  icon: <Receipt size={20} />, 
+                  color: "from-[#08221B]/20" 
+                },
+                { 
+                  step: "03", 
+                  title: "Expert Inspection", 
+                  desc: "Our expert jeweler will inspect your piece", 
+                  icon: <Search size={20} />, 
+                  color: "from-[#CBA135]/20" 
+                },
+                { 
+                  step: "04", 
+                  title: "Quick Service", 
+                  desc: "Service completed within 24-48 hours", 
+                  icon: <Zap size={20} />, 
+                  color: "from-[#08221B]/20" 
+                },
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4 group/item">
                   <div className="relative">
@@ -142,7 +170,7 @@ const LifetimeService = () => {
                   </div>
                   <div className="flex-1 pt-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-2xl">{item.icon}</span>
+                      <span className="text-[#CBA135]">{item.icon}</span>
                       <h3 className="font-bold text-[#08221B]">{item.title}</h3>
                     </div>
                     <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
