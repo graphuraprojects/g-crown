@@ -133,8 +133,8 @@ const SecureDelivery = () => {
                 { icon: <MapPin size={18} />, text: "Real-time tracking via SMS and email", highlight: true, badge: "24/7" },
                 { icon: <Lock size={18} />, text: "Discrete packaging with no branding", highlight: true, badge: "Private" },
                 { icon: <CheckCircle size={18} />, text: "Signature required upon delivery", highlight: true, badge: "Secure" },
-                { icon: <CreditCard size={18} />, text: "Free shipping on orders above ₹5000", highlight: false },
-                { icon: <Clock size={18} />, text: "Express delivery available (2-3 business days)", highlight: false },
+                { icon: <CreditCard size={18} />, text: "Free shipping on orders above ₹5000", highlight: true,badge: "Free Shipping" },
+                { icon: <Clock size={18} />, text: "Express delivery available (2-3 business days)", highlight: true,badge: "Speedy" },
               ].map((item, i) => (
                 <div 
                   key={i} 
@@ -234,19 +234,19 @@ const SecureDelivery = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center">
-          <button
-            onClick={() => navigate("/collections")}
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#08221B] to-[#1a3a30] text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all hover:scale-105 border border-[#CBA135]/30"
-          >
-            <span>Shop Now for Secure Delivery</span>
-            <Truck size={20} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-          <p className="text-sm text-gray-500 mt-4 flex items-center justify-center gap-2">
-            <Shield size={14} className="text-[#CBA135]" />
-            Your order is safe with us - 100% insured delivery
-          </p>
-        </div>
+<div className="text-center">
+  <button
+    onClick={() => navigate("/collections")}
+    className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#B49148] via-[#F8E48F] to-[#BB9344] text-[#08221B] px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all hover:scale-105 border border-[#CBA135]/30"
+  >
+    <span>Shop Now for Secure Delivery</span>
+    <Truck size={20} className="group-hover:translate-x-1 transition-transform" />
+  </button>
+  <p className="text-sm text-gray-500 mt-4 flex items-center justify-center gap-2">
+    <Shield size={14} className="text-[#CBA135]" />
+    Your order is safe with us - 100% insured delivery
+  </p>
+</div>
       </div>
     </div>
   );
