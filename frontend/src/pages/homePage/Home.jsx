@@ -156,7 +156,7 @@ export default function HomeMain() {
   useEffect(() => {
     if (location.state?.welcomeMessage) {
       toast.success(`Welcome to G-Crown, ${location.state.userName || 'User'}!`, {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
