@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Heart, Minus, Plus } from "lucide-react";
+import { toast } from "react-toastify"; // ✅ Import toast
 import { useCart } from "../../context/CartContext";
 import { useFavorites } from "../../context/FavoritesContext";
 
@@ -32,20 +33,109 @@ const ProductCard = ({ product, allproducts }) => {
 
   const quantity = cartItem?.quantity || 0;
 
+  // ===== ADD TO CART WITH NOTIFICATION =====
   const handleAddToCart = (e) => {
     e.stopPropagation();
     addToCart(product, 1, product.attributes.purity[0]);
+    
+    // Notification already in CartContext, but we can add extra if needed
+    toast.success(`✨ ${product.name} added to cart!`, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      icon: "🛒",
+      style: { 
+        backgroundColor: '#08221B', 
+        color: '#CBA135',
+        fontFamily: 'Cormorant Garamond, serif',
+        borderRadius: '10px'
+      },
+      progressStyle: { backgroundColor: '#CBA135' }
+    });
   };
 
+  // ===== INCREASE QUANTITY WITH NOTIFICATION =====
   const handleIncrease = (e) => {
     e.stopPropagation();
     updateQuantity(product._id, quantity + 1);
+    
+    toast.info(`📦 ${product.name} quantity updated`, {
+      position: "top-center",
+      autoClose: 2000,
+      theme: "colored",
+      icon: "📦",
+      style: { 
+        backgroundColor: '#08221B', 
+        color: '#CBA135',
+        fontFamily: 'Cormorant Garamond, serif',
+        borderRadius: '10px'
+      },
+      progressStyle: { backgroundColor: '#CBA135' }
+    });
   };
 
+  // ===== DECREASE QUANTITY WITH NOTIFICATION =====
   const handleDecrease = (e) => {
     e.stopPropagation();
-    if (quantity === 1) removeFromCart(product._id);
-    else updateQuantity(product._id, quantity - 1);
+    if (quantity === 1) {
+      removeFromCart(product._id);
+      toast.warn(`🗑️ ${product.name} removed from cart`, {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "colored",
+        icon: "🗑️",
+        style: { 
+          backgroundColor: '#08221B', 
+          color: '#CBA135',
+          fontFamily: 'Cormorant Garamond, serif',
+          borderRadius: '10px'
+        },
+        progressStyle: { backgroundColor: '#CBA135' }
+      });
+    } else {
+      updateQuantity(product._id, quantity - 1);
+      toast.info(`📦 ${product.name} quantity updated`, {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "colored",
+        icon: "📦",
+        style: { 
+          backgroundColor: '#08221B', 
+          color: '#CBA135',
+          fontFamily: 'Cormorant Garamond, serif',
+          borderRadius: '10px'
+        },
+        progressStyle: { backgroundColor: '#CBA135' }
+      });
+    }
+  };
+
+  // ===== FAVORITE TOGGLE WITH NOTIFICATION =====
+  const handleFavoriteToggle = (e) => {
+    e.stopPropagation();
+    toggleFavorite(product, product.attributes.purity[0]);
+    
+    toast.success(
+      favorited 
+        ? `💔 ${product.name} removed from wishlist` 
+        : `❤️ ${product.name} added to wishlist`,
+      {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "colored",
+        style: { 
+          backgroundColor: '#08221B', 
+          color: '#CBA135',
+          fontFamily: 'Cormorant Garamond, serif',
+          borderRadius: '10px'
+        },
+        progressStyle: { backgroundColor: '#CBA135' }
+      }
+    );
   };
 
   return (
@@ -57,10 +147,7 @@ const ProductCard = ({ product, allproducts }) => {
     >
       {/* Favorite */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleFavorite(product, product.attributes.purity[0]);
-        }}
+        onClick={handleFavoriteToggle}
         className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur p-2 rounded-full shadow hover:scale-110 transition"
         aria-label="Toggle favorite"
       >
