@@ -183,20 +183,20 @@ const EasyExchange = () => {
           </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center">
-          <button
-            onClick={() => navigate("/collections")}
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#08221B] to-[#1a3a30] text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all hover:scale-105 border border-[#CBA135]/30"
-          >
-            <span>Explore Collections for Exchange</span>
-            <RefreshCw size={20} className="group-hover:rotate-180 transition-transform duration-500" />
-          </button>
-          <p className="text-sm text-gray-500 mt-4 flex items-center justify-center gap-2">
-            <Shield size={14} className="text-[#CBA135]" />
-            Shop with confidence - 30-day exchange guarantee
-          </p>
-        </div>
+       {/* Call to Action */}
+<div className="text-center">
+  <button
+    onClick={() => navigate("/collections")}
+    className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#B49148] via-[#F8E48F] to-[#BB9344] text-[#08221B] px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all hover:scale-105 border border-[#CBA135]/30"
+  >
+    <span>Explore Collections for Exchange</span>
+    <RefreshCw size={20} className="group-hover:rotate-180 transition-transform duration-500" />
+  </button>
+  <p className="text-sm text-gray-500 mt-4 flex items-center justify-center gap-2">
+    <Shield size={14} className="text-[#CBA135]" />
+    Shop with confidence - 30-day exchange guarantee
+  </p>
+</div>
       </div>
     </div>
   );
