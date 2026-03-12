@@ -6,6 +6,8 @@ import {
   User,
   Menu,
   X,
+  Package,
+  Truck
 } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, NavLink as RouterNavLink, useLocation } from "react-router-dom";
@@ -271,11 +273,18 @@ export default function Navbar() {
                 badge={getCartCount()}
               />
               <div className="hidden lg:flex gap-3">
-                <IconButton
-                  Icon={MapPin}
-                  active={isActive("/track-order")}
+                {/* Track Order with different icon and style */}
+                <button
                   onClick={() => { navigate("/track-order"); window.scrollTo(0, 0); }}
-                />
+                  className={`relative flex h-10 w-10 items-center justify-center rounded-full transition-colors cursor-pointer
+                    ${isActive("/track-order")
+                      ? "bg-[#CBA135] text-[#08221B]" 
+                      : "bg-[#2A4538] text-[#E6C36A] border border-[#E6C36A]/40 hover:border-[#E6C36A]"
+                    }`}
+                >
+                  <Package size={18} />
+                  {/* Optional badge if needed */}
+                </button>
                 <IconButton
                   Icon={User}
                   active={isActive("/profile")}
