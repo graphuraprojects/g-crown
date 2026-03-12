@@ -174,24 +174,24 @@ export const Collections = () => {
 
   return (
     <div className="bg-[#FFF9E9] min-h-screen font-sans text-[#2D2D2D]">
+{/* BANNER SECTION - FULLY MOBILE RESPONSIVE */}
+<section className="w-full">
+  <div className="w-full h-[150px] xs:h-[180px] sm:h-[220px] md:h-[280px] lg:h-[350px] xl:h-[450px] 2xl:h-[500px]">
+    <img
+      src={bannerImage}
+      alt="Collections Banner"
+      className="w-full h-full object-cover"
+      loading="lazy"
+    />
+  </div>
+</section>
 
-      {/* BANNER */}
-      <section className="w-full">
-        <div className="w-full h-[220px] sm:h-[320px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
-          <img
-            src={bannerImage}
-            alt="Collections"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </section>
-
-      {/* HEADER */}
+      {/* HEADER - ONLY ONE HEADER (DUPLICATE HATAYA) */}
       <header className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 pt-10 pb-4 border-b border-gray-200">
         <h1 className="text-2xl sm:text-3xl font-serif text-[#B39055] uppercase">
           Collections
           <span className="text-gray-500 text-sm ml-3 lowercase">
-            {filteredProducts.length} Designs found
+            {filteredProducts.length} designs found
           </span>
         </h1>
       </header>
@@ -208,7 +208,7 @@ export const Collections = () => {
             <SlidersHorizontal size={16} /> Filters
           </button>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ml-auto">
             <span className="text-[#1C3A2C]">Sort by:</span>
             <div className="relative">
               <select
@@ -302,4 +302,4 @@ export const FeatureCard = ({ icon, title, description }) => (
   </div>
 );
 
-export default Collections;
+export default Collections; 
