@@ -145,11 +145,17 @@ const NewArrival = () => {
 
   return (
     <div className="min-h-screen bg-[#FFF9EA]">
-      <section className="w-full relative overflow-hidden">
-        <div className="w-full h-[220px] sm:h-[320px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
-          <img src={bannerImage} alt="New Arrivals" className="w-full h-full object-cover" loading="eager" />
-        </div>
-      </section>
+      {/* BANNER - MOBILE RESPONSIVE */}
+<section className="w-full">
+  <div className="w-full h-[150px] xs:h-[180px] sm:h-[220px] md:h-[280px] lg:h-[350px] xl:h-[450px] 2xl:h-[500px]">
+    <img
+      src={bannerImage}
+      alt="New Arrivals Banner"
+      className="w-full h-full object-cover"
+      loading="lazy"
+    />
+  </div>
+</section>
 
       <main className="bg-[#FFF9EA] shadow-[0_-4px_16px_rgba(0,0,0,0.08)]">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-6 lg:py-12">
