@@ -9,75 +9,52 @@ import {
   Package,
   AlertCircle,
   ArrowRight,
-  HelpCircle,
-  Clock,
-  CheckCircle,
-  Truck,
-  XCircle,
-  ShoppingBag
+  HelpCircle
 } from "lucide-react";
 
 const OrderTracking = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [orderId, setOrderId] = useState("");
+  const [orderData, setOrderData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch all orders when page loads
-  useEffect(() => {
-    const fetchOrders = async () => {
-      setIsLoading(true);
-      setError("");
-      
-      try {
-        // Get user token from localStorage/session
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        
-        if (!token) {
-          setError("Please login to view your orders");
-          setIsLoading(false);
-          return;
-        }
+  // Handler optimized to prevent unnecessary re-renders
+  const handleTrack = useCallback(async (e) => {
+    e.preventDefault();
+    const cleanId = orderId.trim();
 
-        const res = await axios.get('/api/v1/customer/orders', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        
-        setOrders(res.data.orders || []);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to fetch your orders. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
-
-  // Function to get status icon and color
-  const getStatusDetails = (status) => {
-    switch(status?.toLowerCase()) {
-      case 'delivered':
-        return { icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-100' };
-      case 'shipped':
-        return { icon: Truck, color: 'text-blue-600', bg: 'bg-blue-100' };
-      case 'processing':
-        return { icon: Clock, color: 'text-yellow-600', bg: 'bg-yellow-100' };
-      case 'cancelled':
-        return { icon: XCircle, color: 'text-red-600', bg: 'bg-red-100' };
-      default:
-        return { icon: Clock, color: 'text-gray-600', bg: 'bg-gray-100' };
+    if (!cleanId) {
+      setError("Please enter a valid Order ID");
+      return;
     }
-  };
 
-  // Format date
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
+    setIsLoading(true);
+    setError("");
+    setOrderData(null);
+
+
+    try {
+
+      const res = await axios.get(`/api/v1/customer/order/track-order/${encodeURIComponent(orderId)}`);
+      setOrderData(res.data);
+
+      // await new Promise((resolve) => setTimeout(resolve, 800));
+
+      // navigate(`/track-id`);
+
+      navigate(`/track-order/${encodeURIComponent(orderId)}`);
+
+
+    }
+    catch (err) {
+      console.error(err);
+      setError("Unable to find this order. Please check the ID and try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [orderId]);
+
 
   return (
     <main className="bg-[#FFF9E9] min-h-screen antialiased selection:bg-[#1C3A2C] selection:text-white">
@@ -97,145 +74,107 @@ const OrderTracking = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <span className="text-[#CBA135] uppercase tracking-[0.3em] text-xs font-semibold mb-4 block">
-              Your Orders
+              Logistics Portal
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-amber-50 tracking-tight leading-tight">
-              Track your <span className="italic font-serif">shipments</span>
+              Track your <span className="italic font-serif">shipment</span>
             </h1>
           </motion.div>
         </div>
       </header>
 
-      {/* Orders List Section */}
-      <section className="max-w-[1000px] mx-auto px-6 -mt-24 relative z-20 pb-20">
+      {/* Interactive Tracking Card */}
+      <section className="max-w-[800px] mx-auto px-6 -mt-24 relative z-20 pb-20">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="bg-white rounded-2xl shadow-2xl shadow-black/5 p-8 md:p-12 border border-[#E5DDCC]/50"
         >
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-10">
-            <div className="w-16 h-16 bg-[#FFF9E9] rounded-full flex items-center justify-center text-[#1C3A2C]">
+          <div className="flex flex-col items-center mb-10 text-center">
+            <div className="w-16 h-16 bg-[#FFF9E9] rounded-full flex items-center justify-center text-[#1C3A2C] mb-4">
               <Package size={32} strokeWidth={1.5} />
             </div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-serif text-[#08221B]">
-                Your Orders
-              </h2>
-              <p className="text-gray-500 mt-1 text-sm">
-                {orders.length} {orders.length === 1 ? 'order' : 'orders'} found
-              </p>
-            </div>
+            <h2 className="text-2xl md:text-3xl font-serif text-[#08221B]">
+              Enter Your Reference Number
+            </h2>
+            <p className="text-gray-500 mt-2 text-sm max-w-sm">
+              Check the status of your order using the unique ID sent to your email.
+            </p>
           </div>
 
-          {/* Loading State */}
-          {isLoading && (
-            <div className="flex flex-col items-center justify-center py-16">
-              <Loader2 className="animate-spin text-[#CBA135]" size={48} />
-              <p className="text-gray-500 mt-4">Fetching your orders...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && !isLoading && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 text-red-600 bg-red-50 p-6 rounded-lg border border-red-100 justify-center"
-            >
-              <AlertCircle size={24} />
-              <span className="text-lg font-medium">{error}</span>
-            </motion.div>
-          )}
-
-          {/* No Orders State */}
-          {!isLoading && !error && orders.length === 0 && (
-            <div className="text-center py-16">
-              <ShoppingBag size={64} className="mx-auto text-gray-300 mb-4" />
-              <h3 className="text-xl font-serif text-[#08221B] mb-2">No orders yet</h3>
-              <p className="text-gray-500 mb-6">Looks like you haven't placed any orders</p>
-              <button
-                onClick={() => navigate("/collections")}
-                className="bg-[#08221B] text-white px-8 py-3 rounded-xl font-bold hover:bg-black transition-colors"
+          <form onSubmit={handleTrack} className="space-y-5">
+            <div className="relative group">
+              <label
+                htmlFor="order-id"
+                className="text-[10px] uppercase tracking-widest font-bold text-[#1C3A2C] absolute -top-2.5 left-4 bg-white px-2 z-10"
               >
-                Start Shopping
-              </button>
+                Order Identity
+              </label>
+              <div className="relative flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#CBA135] transition-colors" size={18} />
+                  <input
+                    id="order-id"
+                    type="text"
+                    spellCheck="false"
+                    autoComplete="off"
+                    value={orderId}
+                    onChange={(e) => setOrderId(e.target.value.toUpperCase())}
+                    placeholder="e.g. ORD-77291"
+                    className="w-full border-2 border-[#1C3A2C]/10 rounded-xl pl-12 pr-4 py-4 text-lg outline-none focus:border-[#1C3A2C] transition-all bg-[#FBFBFB]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="bg-[#08221B] text-white px-8 py-4 rounded-xl font-bold tracking-widest hover:bg-black hover:shadow-lg active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center min-w-[180px]"
+                >
+                  {isLoading ? (
+                    <Loader2 className="animate-spin" size={20} />
+                  ) : (
+                    <>
+                      TRACK NOW <ArrowRight size={18} className="ml-2" />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
-          )}
 
-          {/* Orders List */}
-          {!isLoading && !error && orders.length > 0 && (
-            <div className="space-y-6">
-              {orders.map((order) => {
-                const StatusIcon = getStatusDetails(order.status).icon;
-                const statusColor = getStatusDetails(order.status).color;
-                const statusBg = getStatusDetails(order.status).bg;
+            <AnimatePresence mode="wait">
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center gap-2 text-red-600 bg-red-50 p-4 rounded-lg border border-red-100"
+                >
+                  <AlertCircle size={18} />
+                  <span className="text-sm font-medium">{error}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </form>
 
-                return (
-                  <motion.div
-                    key={order.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
-                  >
-                    {/* Order Header */}
-                    <div className="bg-gray-50 p-4 flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center gap-4">
-                        <div className={`p-2 rounded-full ${statusBg}`}>
-                          <StatusIcon size={20} className={statusColor} />
-                        </div>
-                        <div>
-                          <p className="text-sm text-gray-500">Order #{order.orderNumber}</p>
-                          <p className="font-semibold text-[#08221B]">Placed on {formatDate(order.orderDate)}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${statusBg} ${statusColor}`}>
-                          {order.status || 'Processing'}
-                        </span>
-                        <button
-                          onClick={() => navigate(`/track-order/${order.id}`)}
-                          className="flex items-center gap-2 text-[#CBA135] hover:text-[#B49148] transition-colors"
-                        >
-                          View Details <ArrowRight size={16} />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Order Items Preview */}
-                    <div className="p-4">
-                      <div className="flex gap-4 overflow-x-auto pb-2">
-                        {order.items?.slice(0, 3).map((item, idx) => (
-                          <div key={idx} className="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
-                            <img 
-                              src={item.image || '/placeholder.jpg'} 
-                              alt={item.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ))}
-                        {order.items?.length > 3 && (
-                          <div className="flex-shrink-0 w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500 text-sm">
-                            +{order.items.length - 3}
-                          </div>
-                        )}
-                      </div>
-                      <div className="mt-3 flex justify-between items-center">
-                        <p className="text-sm text-gray-600">
-                          {order.items?.length} {order.items?.length === 1 ? 'item' : 'items'}
-                        </p>
-                        <p className="font-bold text-[#08221B]">₹{order.total?.toLocaleString()}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
+          {/* Contextual Support */}
+          <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-400 hover:text-[#1C3A2C] cursor-help transition-colors">
+              <HelpCircle size={16} />
+              <span className="text-xs">Where can I find my ID?</span>
             </div>
-          )}
+            <div className="flex gap-4">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-[10px] uppercase tracking-tighter text-gray-400">Systems Operational</span>
+            </div>
+          </div>
         </motion.div>
       </section>
+
+      {/* Detailed Tracking View (Placeholder for visual context) */}
+      {/* In production, this would be a separate route showing a timeline */}
+
     </main>
   );
 };
- 
+
 export default OrderTracking;
