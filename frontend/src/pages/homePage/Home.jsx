@@ -465,7 +465,7 @@ export default function HomeMain() {
               Elevate Your Elegance <br /> with G-Crown Jewellers
             </h2>
             <button className="px-10 py-4 bg-gradient-to-r from-[#C9A14A] via-[#E6C36A] to-[#B8903D] text-[#08221B] font-bold text-xl rounded-lg hover:scale-105 transition-transform shadow-xl" onClick={() => { navigate("/target"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-              Contact Us
+              Browse Our Collections
             </button>
           </div>
           <img src={Necklace} alt="Luxury" className="absolute right-0 top-0 h-[110%] w-auto object-contain hidden lg:block opacity-90 translate-y-[-5%]" />
