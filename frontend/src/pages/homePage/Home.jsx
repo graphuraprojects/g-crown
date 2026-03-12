@@ -133,7 +133,6 @@ export default function HomeMain() {
     video9
   ];
 
-
   useEffect(() => { fetchProducts(1, ""); }, [fetchProducts]);
 
   const featuredProducts = products ? products.slice(0, 6) : [];
@@ -179,15 +178,30 @@ export default function HomeMain() {
   const goToPrevious = () => setCurrentTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
   const currentTestimonialData = TESTIMONIALS[currentTestimonial];
 
+  // Navigation helper for service cards
+  const handleServiceNavigation = (title) => {
+    const routes = {
+      "Lifetime Service": "/services/lifetime-service",
+      "Easy Exchange": "/services/easy-exchange",
+      "Certified Authentic": "/services/authenticity",
+      "Secure Delivery": "/services/secure-delivery"
+    };
+    
+    if (routes[title]) {
+      navigate(routes[title]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <main className="bg-[#FFF8E8] overflow-x-hidden">
       <ToastContainer />
 
       {/* HERO SECTION */}
       <section
-  className="relative h-screen flex items-center justify-center bg-cover bg-center"
-  style={{ backgroundImage: `url(${gCrown})` }}
->
+        className="relative h-screen flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: `url(${gCrown})` }}
+      >
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 backdrop-blur-[7.5px]" />
         <div className="noise-overlay" />
@@ -252,20 +266,31 @@ export default function HomeMain() {
         </div>
       </section>
 
-      {/* TRUST & FEATURES */}
+      {/* ===== TRUST & FEATURES - CLICKABLE CARDS (UPDATED) ===== */}
       <section className="bg-[#0F2D2A] py-20 border-y-8 border-[#CBA135]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {FEATURES.map((f, i) => (
-              <div key={i} className="bg-[#183B32] p-10 rounded-xl text-center flex flex-col items-center border border-white/5 hover:bg-[#1d463c] transition-colors">
-                <div className="w-16 h-16 mb-6 rounded-full bg-[#CBA135] flex items-center justify-center shadow-lg">
+              <div 
+                key={i} 
+                className="bg-[#183B32] p-10 rounded-xl text-center flex flex-col items-center border border-white/5 hover:bg-[#1d463c] transition-all cursor-pointer group"
+                onClick={() => handleServiceNavigation(f.title)}
+              >
+                <div className="w-16 h-16 mb-6 rounded-full bg-[#CBA135] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <img src={f.icon} alt={f.title} className="w-12 h-12 object-bottom-right" />
                 </div>
                 <h3 className="text-white font-cormorant text-xl mb-3 font-semibold">{f.title}</h3>
                 <p className="text-gray-300 text-sm leading-relaxed">{f.desc}</p>
+                
+                {/* Click indicator */}
+                <span className="text-[#CBA135] text-xs font-bold uppercase tracking-wider mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn More →
+                </span>
               </div>
             ))}
           </div>
+          
+          {/* Stats section - unchanged */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center pt-10 border-t border-white/10">
             {[
               ["25+", "Years in Business"],
@@ -309,73 +334,70 @@ export default function HomeMain() {
         </div>
       </section>
 
-     {/* USER STORIES / TESTIMONIALS */}
-<section className="bg-[#FFF8E8] py-10">
-  <SectionHeader
-    title="User Stories"
-    subtitle="“Stories of elegance, confidence, and the shine Graphura brings to every occasion.”"
-  />
+      {/* USER STORIES / TESTIMONIALS */}
+      <section className="bg-[#FFF8E8] py-10">
+        <SectionHeader
+          title="User Stories"
+          subtitle="“Stories of elegance, confidence, and the shine Graphura brings to every occasion.”"
+        />
 
-  <div
-    className="relative mx-auto max-w-6xl h-[600px] flex items-center justify-center overflow-hidden md:overflow-visible"
-    onMouseEnter={() => setIsPaused(true)}
-    onMouseLeave={() => setIsPaused(false)}
-  >
+        <div
+          className="relative mx-auto max-w-6xl h-[600px] flex items-center justify-center overflow-hidden md:overflow-visible"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <button
+            type="button"
+            onClick={goToPrevious}
+            className="absolute left-4 md:left-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
+          </button>
 
-    <button
-      type="button"
-      onClick={goToPrevious}
-      className="absolute left-4 md:left-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group"
-    >
-      <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
-    </button>
+          <button
+            type="button"
+            onClick={goToNext}
+            className="absolute right-4 md:right-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
+          </button>
 
-    <button
-      type="button"
-      onClick={goToNext}
-      className="absolute right-4 md:right-8 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-[#CBA135] hover:text-white transition-all group"
-    >
-      <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-[#08221B] group-hover:text-white transition-colors" />
-    </button>
+          <div className="hidden lg:block absolute left-0 w-64 h-[400px] bg-[#F4F0E6] rounded-xl border border-gray-200 opacity-40 -rotate-6 z-0" />
+          <div className="hidden md:block absolute left-10 md:left-24 w-80 h-[500px] bg-[#F4F0E6] rounded-xl border border-gray-200 shadow-xl -rotate-3 z-10" />
 
-    <div className="hidden lg:block absolute left-0 w-64 h-[400px] bg-[#F4F0E6] rounded-xl border border-gray-200 opacity-40 -rotate-6 z-0" />
-    <div className="hidden md:block absolute left-10 md:left-24 w-80 h-[500px] bg-[#F4F0E6] rounded-xl border border-gray-200 shadow-xl -rotate-3 z-10" />
+          {/* MAIN TESTIMONIAL CARD */}
+          <div
+            key={currentTestimonial}
+            className="relative w-[350px] md:w-[450px] h-[600px] bg-white rounded-2xl shadow-2xl z-20 border border-[#CBA135]/20 p-8 flex flex-col justify-center items-center text-center transition-opacity duration-500"
+          >
+            {/* USER IMAGE */}
+            <img
+              src={currentTestimonialData.image}
+              alt={currentTestimonialData.author}
+              className="w-52 h-52 rounded-full object-cover border-4 border-[#CBA135] mb-6 shadow-2xl"
+            />
 
-    {/* MAIN TESTIMONIAL CARD */}
-    <div
-      key={currentTestimonial}
-      className="relative w-[350px] md:w-[450px] h-[600px] bg-white rounded-2xl shadow-2xl z-20 border border-[#CBA135]/20 p-8 flex flex-col justify-center items-center text-center transition-opacity duration-500"
-    >
+            <div className="text-[#CBA135] text-4xl mb-4 font-serif">"</div>
 
-      {/* USER IMAGE */}
-    <img
-  src={currentTestimonialData.image}
-  alt={currentTestimonialData.author}
-  className="w-52 h-52 rounded-full object-cover border-4 border-[#CBA135] mb-6 shadow-2xl"
-/>
+            <p className="text-[#08221B] text-lg italic mb-6">
+              "{currentTestimonialData.quote}"
+            </p>
 
-      <div className="text-[#CBA135] text-4xl mb-4 font-serif">"</div>
+            <h4 className="font-bold text-[#08221B] font-cormorant text-2xl">
+              — {currentTestimonialData.author}
+            </h4>
 
-      <p className="text-[#08221B] text-lg italic mb-6">
-        "{currentTestimonialData.quote}"
-      </p>
-
-      <h4 className="font-bold text-[#08221B] font-cormorant text-2xl">
-        — {currentTestimonialData.author}
-      </h4>
-
-      <button
-        type="button"
-        onClick={() => {
-          navigate(currentTestimonialData.link);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#08221B] text-white text-xs uppercase tracking-[0.25em] hover:bg-black transition-colors"
-      >
-        {currentTestimonialData.buttonText}
-      </button>
-
-    </div>
+            <button
+              type="button"
+              onClick={() => {
+                navigate(currentTestimonialData.link);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#08221B] text-white text-xs uppercase tracking-[0.25em] hover:bg-black transition-colors"
+            >
+              {currentTestimonialData.buttonText}
+            </button>
+          </div>
 
           <div className="hidden md:block absolute right-10 md:right-24 w-80 h-[500px] bg-[#F4F0E6] rounded-xl border border-gray-200 shadow-xl rotate-3 z-10" />
           <div className="hidden lg:block absolute right-0 w-64 h-[400px] bg-[#F4F0E6] rounded-xl border border-gray-200 opacity-40 rotate-6 z-0" />
@@ -388,57 +410,52 @@ export default function HomeMain() {
         </div>
       </section>
 
+      {/* CUSTOMER MOMENTS VIDEO SLIDER */}
+      <section className="bg-[#FFF8E8] py-6 mt-8">
+        <SectionHeader
+          title="Customer Moments"
+          subtitle="Real stories and moments from our happy customers"
+        />
 
-  {/* CUSTOMER MOMENTS VIDEO SLIDER */}
-<section className="bg-[#FFF8E8] py-6 mt-8">
-  <SectionHeader
-    title="Customer Moments"
-    subtitle="Real stories and moments from our happy customers"
-  />
-
-  <div className="max-w-6xl mx-auto px-4">
-
-    <Swiper
-      effect={"coverflow"}
-      grabCursor={true}
-      centeredSlides={true}
-      slidesPerView={3}
-      loop={true}
-      coverflowEffect={{
-        rotate: 20,
-        stretch: 0,
-        depth: 200,
-        modifier: 1,
-        slideShadows: false,
-      }}
-      autoplay={{
-        delay: 3000,
-        disableOnInteraction: false,
-      }}
-      navigation={true}
-      modules={[EffectCoverflow, Autoplay, Navigation]}
-      className="w-full"
-    >
-
-      {allVideos.map((video, index) => (
-        <SwiperSlide key={index}>
-          <div className="rounded-xl overflow-hidden shadow-xl">
-            <video
-              src={video}
-              autoPlay
-              muted
-              loop
-              controls
-              className="w-full h-[400px] object-cover"
-            />
-          </div>
-        </SwiperSlide>
-      ))}
-
-    </Swiper>
-
-  </div>
-</section>
+        <div className="max-w-6xl mx-auto px-4">
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={3}
+            loop={true}
+            coverflowEffect={{
+              rotate: 20,
+              stretch: 0,
+              depth: 200,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            navigation={true}
+            modules={[EffectCoverflow, Autoplay, Navigation]}
+            className="w-full"
+          >
+            {allVideos.map((video, index) => (
+              <SwiperSlide key={index}>
+                <div className="rounded-xl overflow-hidden shadow-xl">
+                  <video
+                    src={video}
+                    autoPlay
+                    muted
+                    loop
+                    controls
+                    className="w-full h-[400px] object-cover"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </section>
 
       {/* CTA BANNER */}
       <section className="py-24 px-4 flex justify-center">

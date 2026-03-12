@@ -41,6 +41,12 @@ import Bracelets from "../pages/footerPages/Bracelets";
 import Necklace from "../pages/footerPages/Necklace";
 import Earring from "../pages/footerPages/Earring";
 
+// ===== SERVICE PAGES - YEH IMPORT KAREIN (NEW) =====
+import LifetimeService from "../pages/services/LifetimeService";
+import EasyExchange from "../pages/services/EasyExchange";
+import Authenticity from "../pages/services/Authenticity";
+import SecureDelivery from "../pages/services/SecureDelivery";
+
 // Admin Pages
 import AdminLogin from "../pages/auth/AdminLogin";
 import AdminLayout from "../pages/admin/AdminLayout";
@@ -96,7 +102,6 @@ export default function AppRoutes() {
         <Route path="/store" element={<Store />} />
         <Route path="/about" element={<AboutUs />} />
         
-
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
@@ -110,8 +115,6 @@ export default function AppRoutes() {
         <Route path="/track-order" element={<TrackingForm />} />
         <Route path="/track-order/:orderId" element={<TrackingOrder />} />
 
-        {/* <Route path="/track-id" element={<TrackingOrder />} /> */}
-
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/favourites" element={<Favorites />} />
@@ -122,6 +125,12 @@ export default function AppRoutes() {
         <Route path="/searchProduct" element={<SearchProducts />} />
         <Route path="/paymentmethod" element={<Payment />} />
         <Route path="/productId/:id" element={<ProductDetailsById />} />
+
+        {/* ================= SERVICE ROUTES - YEH ADD KAREIN (NEW) ================= */}
+        <Route path="/services/lifetime-service" element={<LifetimeService />} />
+        <Route path="/services/easy-exchange" element={<EasyExchange />} />
+        <Route path="/services/authenticity" element={<Authenticity />} />
+        <Route path="/services/secure-delivery" element={<SecureDelivery />} />
 
         {/* ================= ADMIN ROUTES ================= */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -139,7 +148,6 @@ export default function AppRoutes() {
           <Route path="users" element={<Users />} />
           <Route path="showroom" element={<Showrooms />} />
           <Route path="profile" element={<AdminProfile />} />
-
         </Route>
       </Routes>
 
