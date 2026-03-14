@@ -10,7 +10,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-   <GoogleOAuthProvider clientId="499348321855-fnedlnu6qk87hie9thu98q1b0q4a143t.apps.googleusercontent.com">
+   <GoogleOAuthProvider clientId="1066366266437-mlpv6vg244db3q1hdp7ehgjojt3rkjrs.apps.googleusercontent.com">
     <ToastProvider>
       <BrowserRouter>
         <App />
